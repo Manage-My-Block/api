@@ -1,0 +1,34 @@
+Roles:
+    _id
+    type: [admin, committee, user]
+
+Users:
+    _id
+    username: String (will be a special number created by Admin, users can't create their own accounts)
+    password: String (hashed)
+    apartment: Number
+    name: String
+    role: ref to Roles collection
+
+Tickets:
+    _id
+    author: user_id
+    title: String
+    message: String
+    isComplete: Boolean
+    createdAt: Date
+    needsVote: Boolean
+    vote: [{user: _id, ballot: boolean}]
+    comments: [{user: _id, comment: String, createdAt: Date}]
+    images: [Strings] (do we pop the image link in here?)
+    cost: Number
+
+Notices:
+    _id
+    author: user_id
+    title: String
+    message: String
+    comments: [{user: _id, comment: String, createdAt: Date}]
+    createdAt: Date
+    images: [Strings] (do we pop the image link in here?)
+

@@ -9,9 +9,9 @@ const User = require('../../models/User')
 const seedDatabase = async () => {
     try {
         // Create roles
-        const adminRole = await Role.create({ role: 'Admin' });
-        const committeeRole = await Role.create({ role: 'Committee' });
-        const userRole = await Role.create({ role: 'User' });
+        const adminRole = await Role.create({ role: 'admin' });
+        const committeeRole = await Role.create({ role: 'committee' });
+        const userRole = await Role.create({ role: 'user' });
 
         // Create users with different roles
         const users = [
