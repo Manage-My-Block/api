@@ -1,0 +1,13 @@
+GET http://localhost:3001/todos
+
+###
+
+POST http://localhost:3001/todos
+Content-Type: application/json
+
+{
+    "title": "Cleaning on level 2",
+        "description": "The level 2 bin room needs cleaning",
+        "dueDate": ,
+        "author":
+}
