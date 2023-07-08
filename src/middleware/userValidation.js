@@ -1,9 +1,8 @@
 const { validationResult, body } = require('express-validator');
 const User = require('../models/User');
 
-
 // Validate user input
-exports.validateUser = [
+const validateUser = [
     body('username')
         .notEmpty()
         .withMessage('Email is required')
@@ -46,3 +45,5 @@ exports.validateUser = [
         next();
     }
 ];
+
+module.exports = { validateUser }

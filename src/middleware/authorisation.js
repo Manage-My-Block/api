@@ -8,7 +8,7 @@ module.exports.authoriseAdmin = (req, res, next) => {
 };
 
 // Authorisation middleware for moderator role
-module.exports.authoriseModerator = (req, res, next) => {
+module.exports.authoriseCommittee = (req, res, next) => {
     if (req.user.role === 'moderator' || req.user.role === 'admin') {
         next();
     } else {

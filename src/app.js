@@ -5,7 +5,9 @@ const helmet = require('helmet');
 const cors = require('cors');
 const { dbConnector, dbDisconnector } = require('./database')
 
+// Routes imports
 const SeedRouter = require('./controllers/Seeding/seedController')
+const AuthRouter = require('./controllers/Authorisation/authRoutes')
 const RoleRouter = require('./controllers/Roles/rolesRoutes')
 const UserRouter = require('./controllers/Users/userRoutes')
 const TodoRouter = require('./controllers/Todos/todosRoutes')
@@ -93,6 +95,7 @@ app.get('/dbhealth', (req, res) => {
 
 // User routes
 app.use(SeedRouter)
+app.use(AuthRouter)
 app.use(RoleRouter)
 app.use(UserRouter)
 app.use(TodoRouter)

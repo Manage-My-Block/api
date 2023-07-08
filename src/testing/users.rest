@@ -1,4 +1,5 @@
 GET http://localhost:3001/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiVTJGc2RHVmtYMSs3bHRNa3F1VXpGNmVzNG45bmNiRlpsV0k5QWMyOHk1c3VoTEE1NWh4OFgrMURjdnVucWNFUSIsImlhdCI6MTY4ODgwNzE5NiwiZXhwIjoxNjg5NDExOTk2fQ.tZLDGDtOfbUxx9xqekX0Wsth0OLi0tKa6u8jD_nWwK0
 
 ###
 
