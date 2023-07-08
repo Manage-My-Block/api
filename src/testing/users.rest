@@ -1,5 +1,5 @@
 GET http://localhost:3001/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiVTJGc2RHVmtYMSs3bHRNa3F1VXpGNmVzNG45bmNiRlpsV0k5QWMyOHk1c3VoTEE1NWh4OFgrMURjdnVucWNFUSIsImlhdCI6MTY4ODgwNzE5NiwiZXhwIjoxNjg5NDExOTk2fQ.tZLDGDtOfbUxx9xqekX0Wsth0OLi0tKa6u8jD_nWwK0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiVTJGc2RHVmtYMS9McHg4c29NYkRZeWxSRW5ZazZUaE9OSFFtM21NZjkvakJ4UXd3L0NYS2E0WkN1UW05L2pMeCIsImlhdCI6MTY4ODgwODY0OSwiZXhwIjoxNjg5NDEzNDQ5fQ.jr8ACXH1LGCmXCIMbmJYPic0cNrfU40zy2RTnf3I-0M
 
 ###
 
@@ -10,6 +10,4 @@ Content-Type: application/json
     "username": "test@test.com",
     "password": "password1",
     "apartment": 482,
-    "name": "Matt Garrow",
-    "role": "64a8eebc6ff33b4ce1ec592c"
-}
+    "name": "Matt Garrow"}

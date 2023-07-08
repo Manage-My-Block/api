@@ -1,5 +1,6 @@
 const User = require('../../models/User');
 const jwt = require('jsonwebtoken');
+const { encrypt, decrypt } = require('../../utils/encryption')
 const dotenv = require('dotenv')
 dotenv.config()
 
@@ -11,7 +12,7 @@ const createUser = async (req, res) => {
         const newUser = await User.createUser(req.body);
 
         // Generate a JWT based on user ID
-        const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
+        const token = jwt.sign({ payload: encrypt(newUser._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
 
         // Return user info and JWT
         res.status(201).json({ newUser, token });
