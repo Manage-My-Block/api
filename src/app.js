@@ -8,6 +8,7 @@ const { dbConnector, dbDisconnector } = require('./database')
 const SeedRouter = require('./controllers/Seeding/seedController')
 const RoleRouter = require('./controllers/Roles/rolesRoutes')
 const UserRouter = require('./controllers/Users/userRoutes')
+const TodoRouter = require('./controllers/Todos/todosRoutes')
 
 // Express app instance
 const app = express()
@@ -94,6 +95,7 @@ app.get('/dbhealth', (req, res) => {
 app.use(SeedRouter)
 app.use(RoleRouter)
 app.use(UserRouter)
+app.use(TodoRouter)
 
 
 
