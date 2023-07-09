@@ -8,10 +8,10 @@ dotenv.config()
 let URL = ""
 switch (process.env.NODE_ENV) {
     case "production":
-        URL = process.env.DATABASE_URL
+        URL = process.env.PROD_URL
         break;
     case "development":
-        URL = "mongodb://localhost:27017/dev_db"
+        URL = process.env.DEV_URL
         break;
     case "test":
         URL = "mongodb://localhost:27017/test_db"
