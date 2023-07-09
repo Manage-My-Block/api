@@ -114,7 +114,6 @@ describe('Todos Route Tests', () => {
         COMMENTS = response2.body.comments
     });
 
-
     // Test case: Delete a comment from a todo
     it('should update a todo by ID', async () => {
         const response = await request(app)
@@ -145,7 +144,6 @@ describe('Todos Route Tests', () => {
             .set('Authorization', 'Bearer ' + JWT)
             .expect(404);
     });
-
 
     // Test case: Attempt to delete a todo with an invalid ID
     it('should return an error when deleting a todo with an invalid ID', async () => {

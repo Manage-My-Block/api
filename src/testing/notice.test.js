@@ -84,28 +84,55 @@ describe('Notices Route Tests', () => {
         expect(response.body.title).toBe(updatedNoticeData.title)
     });
 
-    // Test case: Add comments to a notice
-    it('should update a notice with comments', async () => {
-        const userData2 = await createUser(user2)
-        const userData3 = await createUser(user3)
+    // Test case: Add a comment to a notice
+    it('should update a notice by ID', async () => {
 
-        const comments = [
-            { user: userData2.USER._id, comment: "I love this idea!!" },
-            { user: userData3.USER._id, comment: "Sounds great, let's do it this weekend?" }
-        ]
+        const comment1 = { user: USER._id, comment: "Comment 1" }
+        const comment2 = { user: USER._id, comment: "Comment 2" }
 
-        updatedNoticeData.comments = comments
-
-        const response = await request(app)
-            .put(`/notices/${NOTICE._id}`)
+        const response1 = await request(app)
+            .patch(`/notices/${NOTICE._id}`)
             .set('Authorization', 'Bearer ' + JWT)
-            .send(updatedNoticeData)
+            .send(comment1)
+            .expect(200);
+
+        expect(response1.body).toBeDefined();
+        expect(response1.body.comments).length > 0 || expect(Array.isArray(response1.body.comments)).toBeTruthy();
+        expect(response1.body.comments[response1.body.comments.length - 1].comment).toBe("Comment 1")
+
+        const response2 = await request(app)
+            .patch(`/notices/${NOTICE._id}`)
+            .set('Authorization', 'Bearer ' + JWT)
+            .send(comment2)
+            .expect(200);
+
+        expect(response2.body).toBeDefined();
+        expect(response2.body.comments).length > 0 || expect(Array.isArray(response2.body.comments)).toBeTruthy();
+        expect(response2.body.comments[response2.body.comments.length - 1].comment).toBe("Comment 2")
+
+        COMMENTS = response2.body.comments
+    });
+
+    // Test case: Delete a comment from a notice
+    it('should update a notice by ID', async () => {
+        const response = await request(app)
+            .get(`/notices/${NOTICE._id}`)
+            .set('Authorization', 'Bearer ' + JWT)
             .expect(200);
 
         expect(response.body).toBeDefined();
-        expect(response.body.comments).length > 0 || expect(Array.isArray(response.body.comments)).toBeTruthy();
-        expect(response.body.comments[0].comment).toBe("I love this idea!!")
+        expect(response.body._id).toBe(NOTICE._id);
+
+        const response1 = await request(app)
+            .delete(`/notices/${NOTICE._id}/${response.body.comments[0]._id}`)
+            .set('Authorization', 'Bearer ' + JWT)
+            .expect(200);
+
+        expect(response1.body).toBeDefined();
+        expect(response1.body.comments).length === 1;
+        expect(response1.body.comments[0].comment).toBe("Comment 2")
     });
+
 
 
     // Test case: Attempt to get a notice with an invalid ID
