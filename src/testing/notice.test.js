@@ -133,8 +133,6 @@ describe('Notices Route Tests', () => {
         expect(response1.body.comments[0].comment).toBe("Comment 2")
     });
 
-
-
     // Test case: Attempt to get a notice with an invalid ID
     it('should return an error when getting a notice with an invalid ID', async () => {
         const invalidId = 'invalidId';
@@ -144,7 +142,6 @@ describe('Notices Route Tests', () => {
             .set('Authorization', 'Bearer ' + JWT)
             .expect(404);
     });
-
 
     // Test case: Attempt to delete a notice with an invalid ID
     it('should return an error when deleting a notice with an invalid ID', async () => {

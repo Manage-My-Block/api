@@ -41,26 +41,38 @@ const noticeSchema = new mongoose.Schema({
 // Create a new notice
 noticeSchema.statics.createNotice = async function (noticeData) {
     try {
+
         const notice = new this(noticeData);
+
         await notice.save();
+
         return notice;
+
     } catch (error) {
+
         throw new Error(error.message);
+
     }
 };
 
 // Read a notice by ID
 noticeSchema.statics.getNoticeById = async function (noticeId) {
     try {
+
         const notice = await this.findById(noticeId)
             .populate('author', 'name')
             .populate('comments.user', 'name');
+
         if (!notice) {
             throw new Error('notice not found');
         }
+
         return notice;
+
     } catch (error) {
+
         throw new Error(error.message);
+
     }
 };
 
@@ -150,13 +162,19 @@ noticeSchema.statics.removeComment = async function (noticeId, commentId, userId
 // Delete a notice by ID
 noticeSchema.statics.deleteNotice = async function (noticeId) {
     try {
+
         const notice = await this.findByIdAndDelete(noticeId);
+
         if (!notice) {
             throw new Error('notice not found');
         }
+
         return notice;
+
     } catch (error) {
+
         throw new Error(error.message);
+
     }
 };
 

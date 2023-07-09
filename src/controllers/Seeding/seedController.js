@@ -39,21 +39,21 @@ const seedDatabase = async () => {
     });
 
     // Create example todos
-    const todo1 = await Todo.createTodo({
+    await Todo.createTodo({
         title: 'Broken front door',
         description: 'The north building front door handle is broken',
         dueDate: new Date('2023-07-15'),
         author: user1._id,
     });
 
-    const todo2 = await Todo.createTodo({
+    await Todo.createTodo({
         title: 'Cleaning on level 2',
         description: 'The level 2 bin room needs cleaning',
         dueDate: new Date('2023-07-10'),
         author: user2._id,
     });
 
-    const todo3 = await Todo.createTodo({
+    await Todo.createTodo({
         title: 'Additional CCTV cameras',
         description: 'Can we discuss getting more security cameras',
         dueDate: new Date('2023-07-12'),
@@ -65,7 +65,7 @@ const seedDatabase = async () => {
         ]
     });
 
-    const todo4 = await Todo.createTodo({
+    await Todo.createTodo({
         title: 'External wall cleaning',
         description: 'Application to hire a cleaner to powerwash the exterior walls',
         dueDate: new Date('2023-07-12'),
