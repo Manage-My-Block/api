@@ -11,6 +11,7 @@ const AuthRouter = require('./controllers/Authorisation/authRoutes')
 const RoleRouter = require('./controllers/Roles/rolesRoutes')
 const UserRouter = require('./controllers/Users/userRoutes')
 const TodoRouter = require('./controllers/Todos/todosRoutes')
+const NoticeRouter = require('./controllers/Notices/noticesRoutes')
 
 // Express app instance
 const app = express()
@@ -59,6 +60,7 @@ app.use(AuthRouter)
 app.use(RoleRouter)
 app.use(UserRouter)
 app.use(TodoRouter)
+app.use(NoticeRouter)
 
 
 // Final route catch to trigger if no previous routes found
