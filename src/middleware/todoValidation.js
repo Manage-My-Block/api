@@ -30,10 +30,8 @@ exports.validateCreateTodo = [
         .withMessage('Vote must be an array'),
     body('vote.*.user')
         .optional()
-        .custom((value) => {
-            // Check if the user field in each object is a valid ObjectId
-            return mongoose.Types.ObjectId.isValid(value);
-        }).withMessage('User value in Vote array object must be valid Mongoose ObjectId'),
+        .isMongoId()
+        .withMessage('User value in Vote array object must be valid Mongoose ObjectId'),
     body('vote.*.ballot')
         .optional()
         .isBoolean()
@@ -44,10 +42,8 @@ exports.validateCreateTodo = [
         .withMessage('Comments must be an array'),
     body('comments.*.user')
         .optional()
-        .custom((value) => {
-            // Check if the user field in each object is a valid ObjectId
-            return mongoose.Types.ObjectId.isValid(value);
-        }).withMessage('User in Comments array objects must be valid Mongoose ObjectId'),
+        .isMongoId()
+        .withMessage('User in Comments array objects must be valid Mongoose ObjectId'),
     body('comments.*.comment')
         .optional()
         .trim()
@@ -113,10 +109,8 @@ exports.validateUpdateTodo = [
         .withMessage('Vote must be an array'),
     body('vote.*.user')
         .optional()
-        .custom((value) => {
-            // Check if the user field in each object is a valid ObjectId
-            return mongoose.Types.ObjectId.isValid(value);
-        }).withMessage('User value in Vote array object must be valid Mongoose ObjectId'),
+        .isMongoId()
+        .withMessage('User value in Vote array object must be valid Mongoose ObjectId'),
     body('vote.*.ballot')
         .optional()
         .isBoolean()
@@ -127,10 +121,8 @@ exports.validateUpdateTodo = [
         .withMessage('Comments must be an array'),
     body('comments.*.user')
         .optional()
-        .custom((value) => {
-            // Check if the user field in each object is a valid ObjectId
-            return mongoose.Types.ObjectId.isValid(value);
-        }).withMessage('User in Comments array objects must be valid Mongoose ObjectId'),
+        .isMongoId()
+        .withMessage('User in Comments array objects must be valid Mongoose ObjectId'),
     body('comments.*.comment')
         .optional()
         .trim()
@@ -157,3 +149,17 @@ exports.validateUpdateTodo = [
         next();
     },
 ];
+
+exports.validateComment = [
+    param('authorId')
+        .optional()
+        .isMongoId()
+        .withMessage('Invalid todo ID'),
+    body('user')
+        .isMongoId()
+        .withMessage('Comment user must be valid Mongoose ObjectId'),
+    body('comment')
+        .trim()
+        .notEmpty()
+        .withMessage('Comment is required, must not be empty string'),
+]

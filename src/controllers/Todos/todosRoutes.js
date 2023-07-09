@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { validateCreateTodo, validateUpdateTodo } = require('../../middleware/todoValidation')
+const { validateCreateTodo, validateUpdateTodo, validateComment } = require('../../middleware/todoValidation')
 const { authenticateUser } = require('../../middleware/authentication')
 const TodosController = require('./todosController');
 
@@ -15,6 +15,12 @@ router.post('/todos', authenticateUser, validateCreateTodo, TodosController.crea
 
 // Update a todo by ID
 router.put('/todos/:id', authenticateUser, validateUpdateTodo, TodosController.updateTodo);
+
+// Add a comment to a todo
+router.patch('/todos/:id/', authenticateUser, validateComment, TodosController.addCommentTodo);
+
+// Remove a comment from a todo
+router.delete('/todos/:id/:authorId', authenticateUser, validateComment, TodosController.removeCommentTodo);
 
 // Delete a todo by ID
 router.delete('/todos/:id', authenticateUser, TodosController.deleteTodo);

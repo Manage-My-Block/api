@@ -53,6 +53,43 @@ exports.updateTodo = async (req, res) => {
     }
 };
 
+// Add a comment to a todo
+exports.addCommentTodo = async (req, res) => {
+    try {
+
+        const updatedTodo = await Todo.addComment(req.params.id, req.body);
+
+        res.json(updatedTodo);
+
+    } catch (error) {
+
+        res.status(404).json({ error: error.message });
+    }
+};
+
+// Remove a comment from a todo
+exports.removeCommentTodo = async (req, res) => {
+    try {
+
+        const todo = Todo.findById(req.params.id)
+
+        // Users can only delete their own comments
+        const todoCommentId = todo.comments.find(comment => comment.user === req.body.user)
+
+        if (req.user._id !== todoCommentId) {
+            throw new Error('Can only delete your own comments');
+        }
+
+        const updatedTodo = await Todo.removeComment(req.params.id, req.params.authorId);
+
+        res.json(updatedTodo);
+
+    } catch (error) {
+
+        res.status(404).json({ error: error.message });
+    }
+};
+
 // Delete a todo by ID
 exports.deleteTodo = async (req, res) => {
     try {
