@@ -24,9 +24,9 @@ const userSchema = new mongoose.Schema({
     role: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Role',
-        // default: function () {
-        //     const defaultRole = Role.findOne({ name: 'User' }).exec();
-        //     return defaultRole.then((role) => role ? role._id : null);
+        // default: async function () {
+        //     const defaultRole = await Role.findOne({ name: 'User' }).exec();
+        //     return defaultRole ? defaultRole._id : null;
         // }
     }
 });
