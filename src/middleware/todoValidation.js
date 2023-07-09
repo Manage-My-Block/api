@@ -20,6 +20,10 @@ exports.validateCreateTodo = [
     body('isComplete')
         .isBoolean()
         .withMessage('Complete must be boolean'),
+    body('status')
+        .trim()
+        .notEmpty()
+        .withMessage('Status is required'),
     body('needsVote')
         .optional()
         .isBoolean()
@@ -84,12 +88,12 @@ exports.validateUpdateTodo = [
         .optional()
         .trim()
         .notEmpty()
-        .withMessage('Title is required'),
+        .withMessage('Title must not be empty'),
     body('description')
         .optional()
         .trim()
         .notEmpty()
-        .withMessage('Description is required'),
+        .withMessage('Description must not be empty'),
     body('dueDate')
         .optional()
         .isISO8601()
@@ -99,6 +103,10 @@ exports.validateUpdateTodo = [
         .optional()
         .isBoolean()
         .withMessage('Complete must be boolean'),
+    body('status')
+        .trim()
+        .notEmpty()
+        .withMessage('Status must not be empty'),
     body('needsVote')
         .optional()
         .isBoolean()
@@ -127,7 +135,7 @@ exports.validateUpdateTodo = [
         .optional()
         .trim()
         .notEmpty()
-        .withMessage('Comment is required'),
+        .withMessage('Comment must not be empty'),
     body('images')
         .optional()
         .isArray()
@@ -136,7 +144,7 @@ exports.validateUpdateTodo = [
         .optional()
         .trim()
         .notEmpty()
-        .withMessage('Image link is required'),
+        .withMessage('Image link must not be empty'),
     body('cost')
         .optional()
         .isNumeric()
