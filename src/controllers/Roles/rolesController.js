@@ -1,4 +1,3 @@
-const express = require('express');
 const Role = require('../../models/Role')
 
 exports.getRoles = async (req, res) => {
