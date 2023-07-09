@@ -8,6 +8,7 @@ const mongoose = require('mongoose')
 let JWT = ""
 let USER = ""
 let TODO = ""
+let COMMENTS = []
 
 beforeAll(async () => {
     await mongoose.connect(URL, {
@@ -87,22 +88,18 @@ describe('Todos Route Tests', () => {
     // Test case: Add a comment to a todo
     it('should update a todo by ID', async () => {
 
-        const userData2 = await createUser(user2)
-        const userData3 = await createUser(user3)
+        const comment1 = { user: USER._id, comment: "Comment 1" }
+        const comment2 = { user: USER._id, comment: "Comment 2" }
 
-        const comment1 = { user: userData2.USER._id, comment: "Comment 1" }
-
-        const comment2 = { user: userData3.USER._id, comment: "Comment 2" }
-
-        const response = await request(app)
+        const response1 = await request(app)
             .patch(`/todos/${TODO._id}`)
             .set('Authorization', 'Bearer ' + JWT)
             .send(comment1)
             .expect(200);
 
-        expect(response.body).toBeDefined();
-        expect(response.body.comments).length > 0 || expect(Array.isArray(response.body.comments)).toBeTruthy();
-        expect(response.body.comments[response.body.comments.length - 1].comment).toBe("Comment 1")
+        expect(response1.body).toBeDefined();
+        expect(response1.body.comments).length > 0 || expect(Array.isArray(response1.body.comments)).toBeTruthy();
+        expect(response1.body.comments[response1.body.comments.length - 1].comment).toBe("Comment 1")
 
         const response2 = await request(app)
             .patch(`/todos/${TODO._id}`)
@@ -113,6 +110,29 @@ describe('Todos Route Tests', () => {
         expect(response2.body).toBeDefined();
         expect(response2.body.comments).length > 0 || expect(Array.isArray(response2.body.comments)).toBeTruthy();
         expect(response2.body.comments[response2.body.comments.length - 1].comment).toBe("Comment 2")
+
+        COMMENTS = response2.body.comments
+    });
+
+
+    // Test case: Delete a comment from a todo
+    it('should update a todo by ID', async () => {
+        const response = await request(app)
+            .get(`/todos/${TODO._id}`)
+            .set('Authorization', 'Bearer ' + JWT)
+            .expect(200);
+
+        expect(response.body).toBeDefined();
+        expect(response.body._id).toBe(TODO._id);
+
+        const response1 = await request(app)
+            .delete(`/todos/${TODO._id}/${response.body.comments[0]._id}`)
+            .set('Authorization', 'Bearer ' + JWT)
+            .expect(200);
+
+        expect(response1.body).toBeDefined();
+        expect(response1.body.comments).length === 1;
+        expect(response1.body.comments[0].comment).toBe("Comment 2")
 
     });
 

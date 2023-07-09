@@ -128,7 +128,7 @@ todoSchema.statics.addComment = async function (todoId, newComment) {
 
         todo.comments = [...todo.comments, newComment]
 
-        console.log(todo.comments)
+        await todo.save()
 
         return todo;
 
@@ -140,17 +140,35 @@ todoSchema.statics.addComment = async function (todoId, newComment) {
 };
 
 // Remove a comment from a Todo
-todoSchema.statics.removeComment = async function (todoId, commentId) {
+todoSchema.statics.removeComment = async function (todoId, commentId, userId) {
     try {
 
+        // Find todo
         const todo = await this.findById(todoId)
 
-
+        // If not found throw error
         if (!todo) {
             throw new Error('todo not found');
         }
 
-        todo.comments = todo.comments.filter(comment => comment._id !== commentId)
+        // Find comment in todo, convert ObjectId to string to compare
+        const foundComment = todo.comments.find(comment => comment._id.toString() === commentId)
+
+        // If not found throw error
+        if (!foundComment) {
+            throw new Error('Comment not found');
+        }
+
+        // Users can only delete their own comments
+        if (foundComment.user._id.toString() !== userId.toString()) {
+            throw new Error('Can only delete your own comments');
+        }
+
+        // Filter the comment out
+        todo.comments = todo.comments.filter(comment => comment._id.toString() !== commentId)
+
+        // Save updated todo
+        await todo.save()
 
         return todo;
 

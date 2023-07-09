@@ -20,7 +20,7 @@ router.put('/todos/:id', authenticateUser, validateUpdateTodo, TodosController.u
 router.patch('/todos/:id/', authenticateUser, validateComment, TodosController.addCommentTodo);
 
 // Remove a comment from a todo
-router.delete('/todos/:id/:authorId', authenticateUser, validateComment, TodosController.removeCommentTodo);
+router.delete('/todos/:id/:commentId', authenticateUser, validateComment, TodosController.removeCommentTodo);
 
 // Delete a todo by ID
 router.delete('/todos/:id', authenticateUser, TodosController.deleteTodo);

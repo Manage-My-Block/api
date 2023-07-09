@@ -71,16 +71,7 @@ exports.addCommentTodo = async (req, res) => {
 exports.removeCommentTodo = async (req, res) => {
     try {
 
-        const todo = Todo.findById(req.params.id)
-
-        // Users can only delete their own comments
-        const todoCommentId = todo.comments.find(comment => comment.user === req.body.user)
-
-        if (req.user._id !== todoCommentId) {
-            throw new Error('Can only delete your own comments');
-        }
-
-        const updatedTodo = await Todo.removeComment(req.params.id, req.params.authorId);
+        const updatedTodo = await Todo.removeComment(req.params.id, req.params.commentId, req.user._id);
 
         res.json(updatedTodo);
 
