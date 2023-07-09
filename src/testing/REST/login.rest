@@ -7,3 +7,13 @@ Content-Type: application/json
 }
 
 ###
+
+// Bad login
+POST http://localhost:3001/login
+Content-Type: application/json
+
+{
+    "username": "john@email.com"
+}
+
+###

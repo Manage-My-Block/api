@@ -16,6 +16,7 @@ const createUser = async (req, res) => {
 
         // Return user info and JWT
         res.status(201).json({ newUser, token });
+
     } catch (error) {
 
         res.status(500).json({ error: error.message });
@@ -30,6 +31,7 @@ const getUsers = async (req, res) => {
 
         // Return list of Users
         res.status(200).json(users);
+
     } catch (error) {
 
         res.status(500).json({ error: error.message });
@@ -44,6 +46,7 @@ const getUserById = async (req, res) => {
 
         // Return User
         res.json(user);
+
     } catch (error) {
 
         res.status(404).json({ error: error.message });
@@ -58,6 +61,7 @@ const updateUser = async (req, res) => {
 
         // Return updated User
         res.json(updatedUser);
+
     } catch (error) {
 
         res.status(404).json({ error: error.message });
@@ -72,6 +76,7 @@ const deleteUser = async (req, res) => {
 
         // Return deleted user
         res.json(deletedUser);
+
     } catch (error) {
 
         res.status(404).json({ error: error.message });

@@ -20,7 +20,8 @@ const authenticateUser = async (req, res, next) => {
 
         // Check if the user exists
         if (!user) {
-            return res.status(401).json({ error: 'Unauthorised' });
+            throw new Error("Can't find user")
+            // return res.status(401).json({ error: 'Unauthorised' });
         }
 
         // Attach the user object to the request for further use
