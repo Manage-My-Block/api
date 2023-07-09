@@ -1,0 +1,26 @@
+GET http://localhost:3001/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiVTJGc2RHVmtYMStMVlQrR3BYVkhkdUpyUzZDb2UxSmJYTGpUajM5elN6QkZGd0p2K0M3WVVNbURFWERlQkRZbyIsImlhdCI6MTY4ODg1ODgzOSwiZXhwIjoxNjg5NDYzNjM5fQ.xrgFfPDTbO_dg_1ik-dhnq5YivtIHNJ937Jq8bF66uw
+
+###
+
+POST http://localhost:3001/users
+Content-Type: application/json
+
+{
+    "username": "test@test.com",
+    "password": "password1",
+    "apartment": 482,
+    "name": "Matt Garrow"
+}
+
+###
+
+PUT http://localhost:3001/users/64a9eef4b15c2a0cbbe8bc2a
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiVTJGc2RHVmtYMS96N1VjTVNiSGdERGczNXFjVWJTRWFWbGh2TnRMdHcxOW5hODFkaVk1TDlzSVVkWjlRSTRrbCIsImlhdCI6MTY4ODg1ODM1NiwiZXhwIjoxNjg5NDYzMTU2fQ.6hlKN-tzv_zrMWpMz6EmWnLjZsoC4hXzw5QVqWSIl0w
+
+{
+    "username": "newtest@test.com",
+    "password": "newpassword1",
+    "name": "Matt Barrow"
+}
