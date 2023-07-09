@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { validateCreateTodo, validateUpdateTodo, validateComment } = require('../../middleware/todoValidation')
+const { validateCreateTodo, validateUpdateTodo } = require('../../middleware/todoValidation')
+const { validateComment } = require('../../middleware/commentValidation')
 const { authenticateUser } = require('../../middleware/authentication')
 const TodosController = require('./todosController');
 

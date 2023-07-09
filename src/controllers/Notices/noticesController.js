@@ -52,6 +52,34 @@ exports.updateNotice = async (req, res) => {
     }
 };
 
+// Add a comment to a todo
+exports.addCommentNotice = async (req, res) => {
+    try {
+
+        const updatedNotice = await Notice.addComment(req.params.id, req.body);
+
+        res.json(updatedNotice);
+
+    } catch (error) {
+
+        res.status(404).json({ error: error.message });
+    }
+};
+
+// Remove a comment from a todo
+exports.removeCommentNotice = async (req, res) => {
+    try {
+
+        const updatedNotice = await Notice.removeComment(req.params.id, req.params.commentId, req.user._id);
+
+        res.json(updatedNotice);
+
+    } catch (error) {
+
+        res.status(404).json({ error: error.message });
+    }
+};
+
 // Delete a notice by ID
 exports.deleteNotice = async (req, res) => {
     try {
