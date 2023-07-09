@@ -1,6 +1,6 @@
 const { app } = require('../app');
-const { seedRoles, seedUsers, seedTodos } = require('../controllers/Seeding/seedController')
-const { URL, newUserData, incompleteUserData, updatedUserData } = require('./testData')
+const { seedRoles } = require('../controllers/Seeding/seedController')
+const { URL, newUserData } = require('./testData')
 const { createUser } = require('./testFunctions')
 const request = require('supertest');
 const mongoose = require('mongoose')
@@ -27,7 +27,7 @@ afterAll(async () => {
 describe('Login Route Tests', () => {
     // Test case for successful login
     it('should return a valid JWT token for a valid user', async () => {
-        await createUser()
+        await createUser(newUserData)
 
         const response = await request(app)
             .post('/login')

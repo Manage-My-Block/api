@@ -1,13 +1,13 @@
 const { app } = require('../app');
 const { seedRoles } = require('../controllers/Seeding/seedController')
-const { URL, newUserData, newTodoData, incompleteTodoData, updatedTodoData, user2, user3 } = require('./testData')
+const { URL, newUserData, newNoticeData, incompleteNoticeData, updatedNoticeData, user2, user3 } = require('./testData')
 const { createUser } = require('./testFunctions')
 const request = require('supertest');
 const mongoose = require('mongoose')
 
 let JWT = ""
 let USER = ""
-let TODO = ""
+let NOTICE = ""
 
 beforeAll(async () => {
     await mongoose.connect(URL, {
@@ -26,32 +26,32 @@ afterAll(async () => {
 });
 
 
-describe('Todos Route Tests', () => {
-    // Test case: Create a new todo
-    it('should create a new todo', async () => {
+describe('Notices Route Tests', () => {
+    // Test case: Create a new notice
+    it('should create a new notice', async () => {
         const userData = await createUser(newUserData)
 
         USER = userData.USER
         JWT = userData.JWT
 
-        newTodoData.author = USER._id
+        newNoticeData.author = USER._id
 
         const response = await request(app)
-            .post('/todos')
+            .post('/notices')
             .set('Authorization', 'Bearer ' + JWT)
-            .send(newTodoData)
+            .send(newNoticeData)
             .expect(201);
 
-        TODO = response.body
+        NOTICE = response.body
 
         expect(response.body).toBeDefined();
     });
 
-    // Test case: Get all todos
-    it('should get all todos', async () => {
+    // Test case: Get all notices
+    it('should get all notices', async () => {
 
         const response = await request(app)
-            .get('/todos')
+            .get('/notices')
             .set('Authorization', 'Bearer ' + JWT)
             .expect(200);
 
@@ -59,106 +59,97 @@ describe('Todos Route Tests', () => {
         expect(response.body).length > 0 || expect(Array.isArray(response.body)).toBeTruthy();
     });
 
-    // Test case: Get a specific todo by ID
-    it('should get a specific todo by ID', async () => {
+    // Test case: Get a specific notice by ID
+    it('should get a specific notice by ID', async () => {
 
         const response = await request(app)
-            .get(`/todos/${TODO._id}`)
+            .get(`/notices/${NOTICE._id}`)
             .set('Authorization', 'Bearer ' + JWT)
             .expect(200);
 
         expect(response.body).toBeDefined();
-        expect(response.body._id).toBe(TODO._id);
+        expect(response.body._id).toBe(NOTICE._id);
     });
 
-    // Test case: Update a todo by ID
-    it('should update a todo by ID', async () => {
+    // Test case: Update a notice by ID
+    it('should update a notice by ID', async () => {
 
         const response = await request(app)
-            .put(`/todos/${TODO._id}`)
+            .put(`/notices/${NOTICE._id}`)
             .set('Authorization', 'Bearer ' + JWT)
-            .send(updatedTodoData)
+            .send(updatedNoticeData)
             .expect(200);
 
         expect(response.body).toBeDefined();
-        expect(response.body.title).toBe(updatedTodoData.title)
+        expect(response.body.title).toBe(updatedNoticeData.title)
     });
 
-    // Test case: Add a comment to a todo
-    it('should update a todo by ID', async () => {
-
+    // Test case: Add comments to a notice
+    it('should update a notice with comments', async () => {
         const userData2 = await createUser(user2)
         const userData3 = await createUser(user3)
 
-        const comment1 = { user: userData2.USER._id, comment: "Comment 1" }
+        const comments = [
+            { user: userData2.USER._id, comment: "I love this idea!!" },
+            { user: userData3.USER._id, comment: "Sounds great, let's do it this weekend?" }
+        ]
 
-        const comment2 = { user: userData3.USER._id, comment: "Comment 2" }
+        updatedNoticeData.comments = comments
 
         const response = await request(app)
-            .patch(`/todos/${TODO._id}`)
+            .put(`/notices/${NOTICE._id}`)
             .set('Authorization', 'Bearer ' + JWT)
-            .send(comment1)
+            .send(updatedNoticeData)
             .expect(200);
 
         expect(response.body).toBeDefined();
         expect(response.body.comments).length > 0 || expect(Array.isArray(response.body.comments)).toBeTruthy();
-        expect(response.body.comments[response.body.comments.length - 1].comment).toBe("Comment 1")
-
-        const response2 = await request(app)
-            .patch(`/todos/${TODO._id}`)
-            .set('Authorization', 'Bearer ' + JWT)
-            .send(comment2)
-            .expect(200);
-
-        expect(response2.body).toBeDefined();
-        expect(response2.body.comments).length > 0 || expect(Array.isArray(response2.body.comments)).toBeTruthy();
-        expect(response2.body.comments[response2.body.comments.length - 1].comment).toBe("Comment 2")
-
+        expect(response.body.comments[0].comment).toBe("I love this idea!!")
     });
 
-    // Test case: Attempt to get a todo with an invalid ID
-    it('should return an error when getting a todo with an invalid ID', async () => {
+
+    // Test case: Attempt to get a notice with an invalid ID
+    it('should return an error when getting a notice with an invalid ID', async () => {
         const invalidId = 'invalidId';
 
         await request(app)
-            .get(`/todos/${invalidId}`)
+            .get(`/notices/${invalidId}`)
             .set('Authorization', 'Bearer ' + JWT)
             .expect(404);
     });
 
 
-    // Test case: Attempt to delete a todo with an invalid ID
-    it('should return an error when deleting a todo with an invalid ID', async () => {
+    // Test case: Attempt to delete a notice with an invalid ID
+    it('should return an error when deleting a notice with an invalid ID', async () => {
         const invalidId = 'invalidId';
 
         await request(app)
-            .delete(`/todos/${invalidId}`)
+            .delete(`/notices/${invalidId}`)
             .set('Authorization', 'Bearer ' + JWT)
             .expect(404);
     });
 
-    // Test case: Attempt to create a todo with incomplete data
-    it('should return an error when creating a todo with incomplete data', async () => {
-        const incompleteData = { /* Provide incomplete todo data */ };
+    // Test case: Attempt to create a notice with incomplete data
+    it('should return an error when creating a notice with incomplete data', async () => {
 
         const response = await request(app)
-            .post('/todos')
+            .post('/notices')
             .set('Authorization', 'Bearer ' + JWT)
-            .send(incompleteTodoData)
+            .send(incompleteNoticeData)
             .expect(400);
 
         expect(response.body.errors).toBeDefined();
         expect(Array.isArray(response.body.errors)).toBeTruthy();
     });
 
-    // Test case: Delete a todo by ID
-    it('should delete a todo by ID', async () => {
+    // Test case: Delete a notice by ID
+    it('should delete a notice by ID', async () => {
 
         const response = await request(app)
-            .delete(`/todos/${TODO._id}`)
+            .delete(`/notices/${NOTICE._id}`)
             .set('Authorization', 'Bearer ' + JWT)
             .expect(200);
 
-        expect(response.body._id).toBe(TODO._id);
+        expect(response.body._id).toBe(NOTICE._id);
     });
 });
