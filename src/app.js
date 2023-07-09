@@ -3,10 +3,10 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const helmet = require('helmet');
 const cors = require('cors');
-const { dbConnector, dbDisconnector } = require('./database')
+// const { dbConnector, dbDisconnector } = require('./database')
 
 // Routes imports
-const SeedRouter = require('./controllers/Seeding/seedController')
+const { SeedRouter } = require('./controllers/Seeding/seedController')
 const AuthRouter = require('./controllers/Authorisation/authRoutes')
 const RoleRouter = require('./controllers/Roles/rolesRoutes')
 const UserRouter = require('./controllers/Users/userRoutes')
@@ -19,20 +19,7 @@ const app = express()
 dotenv.config()
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 3000;
-let URL = ""
-switch (process.env.NODE_ENV) {
-    case "production":
-        URL = process.env.DATABASE_URL
-        break;
-    case "development":
-        URL = "mongodb://localhost:27017/dev_db"
-        break;
-    case "test":
-        URL = "mongodb://localhost:27017/test_db"
-        break;
-    default:
-        console.log("Missing db URL")
-}
+
 
 // Config helmet for headers security
 app.use(helmet());
@@ -50,37 +37,10 @@ app.use(cors({
     optionsSuccessStatus: 200
 }));
 
-// Config for shutdown
-const cleanup = () => {
-    dbDisconnector()
-    console.log(`\nServer is shutting down. Database disconnected`)
-
-    // Exit the process
-    process.exit(0);
-};
-
-// Listen for the SIGINT signal (Ctrl+C)
-process.on('SIGINT', cleanup);
-
-// Listen for the SIGTERM signal (kill command or Heroku shutdown)
-process.on('SIGTERM', cleanup);
-
-// Handle server close event
-app.on('close', () => {
-    console.log('Server is shutting down.');
-});
 
 // Config request data formatting.
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-
-// Connect database
-dbConnector(URL).then(() => { console.log("Connected to database") }).catch(error => { console.log("Error connecting to db: " + error) })
-
-
-// Middleware
-
 
 
 // Routes
@@ -99,9 +59,6 @@ app.use(AuthRouter)
 app.use(RoleRouter)
 app.use(UserRouter)
 app.use(TodoRouter)
-
-
-
 
 
 // Final route catch to trigger if no previous routes found
