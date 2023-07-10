@@ -31,17 +31,23 @@ const validateNewUser = [
         .withMessage('Apartment number is required')
         .isNumeric()
         .custom(async (value) => {
+
             const user = await User.findOne({ apartment: value });
+
             if (user) {
                 throw new Error('Apartment is already registered');
             }
+
             return true;
         }),
     (req, res, next) => {
+
         const errors = validationResult(req);
+
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
+
         next();
     }
 ];

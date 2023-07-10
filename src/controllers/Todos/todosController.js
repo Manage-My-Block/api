@@ -17,7 +17,8 @@ exports.createTodo = async (req, res) => {
 exports.getAllTodos = async (req, res) => {
     try {
 
-        const todos = await Todo.find();
+        const todos = await Todo.find()
+
         res.json(todos);
 
     } catch (error) {

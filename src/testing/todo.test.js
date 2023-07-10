@@ -157,8 +157,6 @@ describe('Todos Route Tests', () => {
 
     // Test case: Attempt to create a todo with incomplete data
     it('should return an error when creating a todo with incomplete data', async () => {
-        const incompleteData = { /* Provide incomplete todo data */ };
-
         const response = await request(app)
             .post('/todos')
             .set('Authorization', 'Bearer ' + JWT)

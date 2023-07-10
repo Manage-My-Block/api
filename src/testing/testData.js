@@ -31,7 +31,6 @@ const updatedUserData = {
 }
 
 
-
 const newTodoData = {
     title: 'Broken front door',
     description: 'The north building front door handle is broken',
@@ -40,11 +39,13 @@ const newTodoData = {
 }
 
 const incompleteTodoData = {
+    title: '   ',
 }
 
 const updatedTodoData = {
     title: 'Broken back door',
-    description: 'The south building front door handle is broken'
+    description: 'The south building front door handle is broken',
+    status: "started"
 }
 
 

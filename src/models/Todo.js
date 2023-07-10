@@ -70,7 +70,6 @@ const todoSchema = new mongoose.Schema({
     },
 });
 
-
 // Create a new todo
 todoSchema.statics.createTodo = async function (todoData) {
     try {
