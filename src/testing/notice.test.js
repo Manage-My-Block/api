@@ -8,6 +8,7 @@ const mongoose = require('mongoose')
 let JWT = ""
 let USER = ""
 let NOTICE = ""
+const validId = '64abe47f0085854062708833';
 
 beforeAll(async () => {
     await mongoose.connect(URL, {
@@ -85,7 +86,7 @@ describe('Notices Route Tests', () => {
     });
 
     // Test case: Add a comment to a notice
-    it('should update a notice by ID', async () => {
+    it('should add a comment to a notice', async () => {
 
         const comment1 = { user: USER._id, comment: "Comment 1" }
         const comment2 = { user: USER._id, comment: "Comment 2" }
@@ -114,7 +115,7 @@ describe('Notices Route Tests', () => {
     });
 
     // Test case: Delete a comment from a notice
-    it('should update a notice by ID', async () => {
+    it('should delete a comment from a notice', async () => {
         const response = await request(app)
             .get(`/notices/${NOTICE._id}`)
             .set('Authorization', 'Bearer ' + JWT)
@@ -164,6 +165,24 @@ describe('Notices Route Tests', () => {
 
         expect(response.body.errors).toBeDefined();
         expect(Array.isArray(response.body.errors)).toBeTruthy();
+    });
+
+    // Test case: Attempt to get a notice that doesn't exist
+    it('should return an error when getting a notice that doesn\'t exist', async () => {
+
+        await request(app)
+            .get(`/notices/${validId}`)
+            .set('Authorization', 'Bearer ' + JWT)
+            .expect(404);
+    });
+
+    // Test case: Attempt to delete a notice that doesn't exist
+    it('should return an error when deleting a notice that doesn\'t exist', async () => {
+
+        await request(app)
+            .delete(`/notices/${validId}`)
+            .set('Authorization', 'Bearer ' + JWT)
+            .expect(404);
     });
 
     // Test case: Delete a notice by ID
