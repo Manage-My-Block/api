@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const helmet = require('helmet');
 const cors = require('cors');
-// const { dbConnector, dbDisconnector } = require('./database')
 
 // Routes imports
 const { SeedRouter } = require('./controllers/Seeding/seedController')
@@ -34,7 +33,7 @@ app.use(helmet.contentSecurityPolicy({
 
 // Config CORS to prevent external access to API
 app.use(cors({
-    origin: ["http://localhost:" + PORT, "https://deployedApp.com"],
+    origin: ["http://localhost:" + PORT, HOST],
     optionsSuccessStatus: 200
 }));
 
