@@ -7,15 +7,15 @@ const ContactsController = require('./contactController');
 const { validateId } = require('../../middleware/validateID')
 
 // Get all contacts
-router.get('/contacts', authenticateUser, ContactsController.getUsers);
+router.get('/contacts', authenticateUser, ContactsController.getContacts);
 
 // Create a new contact
-router.post('/contacts', authenticateUser, validateNewContact, ContactsController.createUser);
+router.post('/contacts', authenticateUser, validateNewContact, ContactsController.createContact);
 
 // Update a contact by ID
-router.put('/contacts/:id', authenticateUser, validateUpdateContact, ContactsController.updateUser);
+router.put('/contacts/:id', authenticateUser, validateUpdateContact, ContactsController.updateContact);
 
 // Delete a contact by ID
-router.delete('/contacts/:id', authenticateUser, validateId, ContactsController.deleteUser);
+router.delete('/contacts/:id', authenticateUser, validateId, ContactsController.deleteContact);
 
 module.exports = router;

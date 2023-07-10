@@ -6,7 +6,7 @@ const contactSchema = mongoose.Schema({
         required: true
     },
     phoneNumber: {
-        type: Number,
+        type: String,
         required: true
     },
     email: {
@@ -70,7 +70,7 @@ contactSchema.statics.updateContact = async function (contactId, contactData) {
         }
 
         // Save the updated contact
-        const updatedContact = await this.findByIdAndUpdate(todoId, contactData, { new: true })
+        const updatedContact = await this.findByIdAndUpdate(contactId, contactData, { new: true })
 
         return updatedContact;
 

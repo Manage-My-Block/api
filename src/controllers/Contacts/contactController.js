@@ -13,6 +13,21 @@ const getContacts = async (req, res) => {
 
         res.status(500).json({ error: error.message });
     }
+
+};
+
+// Create new contact
+const createContact = async (req, res) => {
+    try {
+        // Create contact
+        const newContact = await Contact.createContact(req.body);
+
+        res.status(201).json(newContact);
+
+    } catch (error) {
+
+        res.status(500).json({ error: error.message });
+    }
 };
 
 // Update a contact by ID
@@ -46,6 +61,7 @@ const deleteContact = async (req, res) => {
 };
 
 module.exports = {
+    createContact,
     getContacts,
     updateContact,
     deleteContact

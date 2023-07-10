@@ -7,10 +7,9 @@ const validateNewContact = [
         .isEmail()
         .withMessage('Invalid email format'),
     body('phoneNumber')
+        .trim()
         .notEmpty()
-        .withMessage('Phone number is required')
-        .isNumeric()
-        .withMessage('Phone number must be numeric'),
+        .withMessage('Phone number is required'),
     body('name')
         .trim()
         .notEmpty()
@@ -43,9 +42,9 @@ const validateUpdateContact = [
         .withMessage('Invalid email format'),
     body('phoneNumber')
         .optional()
-        .withMessage('Phone number is required')
-        .isNumeric()
-        .withMessage('Phone number must be numeric'),
+        .trim()
+        .notEmpty()
+        .withMessage('Phone number is required'),
     body('name')
         .optional()
         .trim()

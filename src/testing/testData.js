@@ -83,6 +83,29 @@ const updatedNoticeData = {
 }
 
 
+const newContactData = {
+    name: "John's Plumbing",
+    phoneNumber: "03 9873 1567",
+    email: 'john@email.com',
+}
+
+const incompleteContactData = {
+    name: "Freds's Plumbing",
+}
+
+const badContactData = {
+    name: "   ",
+    phoneNumber: 2,
+    email: 1,
+}
+
+const updatedContactData = {
+    name: "Freds's Plumbing",
+    phoneNumber: "03 9261 1567",
+    email: 'fredn@email.com',
+}
+
+
 let URL = ""
 switch (process.env.NODE_ENV) {
     case "production":
@@ -114,6 +137,8 @@ module.exports = {
     badNoticeData,
     incompleteNoticeData,
     updatedNoticeData,
-    user2,
-    user3
+    newContactData,
+    incompleteContactData,
+    badContactData,
+    updatedContactData
 }
