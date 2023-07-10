@@ -51,7 +51,6 @@ budgetSchema.statics.getBudgetById = async function (budgetId) {
     try {
         // Find the record, populate the references fields
         const budget = await this.findById(budgetId)
-            .populate('transactions.ticketNumber', 'title')
 
         // if no budget found throw error
         if (!budget) {
@@ -71,7 +70,7 @@ budgetSchema.statics.getBudgetById = async function (budgetId) {
 budgetSchema.statics.updateBudget = async function (budgetId, newTransaction) {
     try {
 
-        // Find the budget record
+        // Find the budget
         const budget = await this.findById(budgetId)
 
         // if no budget found throw error
@@ -83,10 +82,10 @@ budgetSchema.statics.updateBudget = async function (budgetId, newTransaction) {
         budget.balance -= newTransaction.amount
         budget.transactions.push(newTransaction)
 
-        // Save the updated record
-        await record.save();
+        // Save the updated budget
+        const updatedBudget = await this.findByIdAndUpdate(todoId, budget, { new: true }).populate('transactions.ticketNumber', 'title')
 
-        return budget;
+        return updatedBudget;
 
     } catch (error) {
 
