@@ -82,9 +82,9 @@ const seedDatabase = async () => {
 // Seed the database
 const seedRoles = async () => {
     // Create roles
-    const adminRole = await Role.create({ role: 'admin' });
-    const committeeRole = await Role.create({ role: 'committee' });
-    const userRole = await Role.create({ role: 'user' });
+    await Role.create({ role: 'admin' });
+    await Role.create({ role: 'committee' });
+    await Role.create({ role: 'user' });
 };
 
 const seedUsers = async () => {
@@ -193,6 +193,8 @@ SeedRouter.get('/wipe', async (req, res) => {
     try {
         // Remove all documents from the 'Role' collection
         await deleteAllDocuments();
+
+        await seedRoles()
 
         res.status(200).json({ message: "Database wiped" });
 
