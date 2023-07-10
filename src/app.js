@@ -21,7 +21,6 @@ const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 3000;
 const CLIENT_PORT = process.env.CLIENT_PORT || 5173 // 5173 is default Vite dev port
 
-
 // Config helmet for headers security
 app.use(helmet());
 app.use(helmet.permittedCrossDomainPolicies());
