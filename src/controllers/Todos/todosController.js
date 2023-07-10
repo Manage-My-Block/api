@@ -5,6 +5,7 @@ const createTodo = async (req, res) => {
     try {
 
         const newTodo = await Todo.createTodo(req.body);
+
         res.status(201).json(newTodo);
 
     } catch (error) {
@@ -32,6 +33,7 @@ const getTodoById = async (req, res) => {
     try {
 
         const todo = await Todo.getTodoById(req.params.id);
+
         res.json(todo);
 
     } catch (error) {
@@ -45,6 +47,7 @@ const updateTodo = async (req, res) => {
     try {
 
         const updatedTodo = await Todo.updateTodo(req.params.id, req.body);
+
         res.json(updatedTodo);
 
     } catch (error) {
@@ -100,6 +103,7 @@ const deleteTodo = async (req, res) => {
     try {
 
         const deletedTodo = await Todo.deleteTodo(req.params.id);
+
         res.json(deletedTodo);
 
     } catch (error) {
