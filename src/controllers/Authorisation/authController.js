@@ -1,3 +1,4 @@
+const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { encrypt } = require('../../utils/encryption')
@@ -7,7 +8,8 @@ const dotenv = require('dotenv')
 // Configure environment
 dotenv.config()
 
-exports.login = async (req, res) => {
+// Login route
+const login = async (req, res) => {
     const { username, password } = req.body;
 
     try {
@@ -37,9 +39,9 @@ exports.login = async (req, res) => {
 
         res.status(500).json({ error: error.message });
     }
-};
+}
 
-exports.register = async (req, res) => {
+const register = async (req, res) => {
     try {
         // Create a new user
         const newUser = await User.createUser(req.body);
@@ -55,3 +57,5 @@ exports.register = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+module.exports = { login, register }

@@ -57,6 +57,7 @@ describe('User Routes Tests', () => {
             .set("Authorization", `Bearer ${JWT}`)
             .expect(200);
 
+
         expect(response.body._id).toBe(USER._id);
     });
 
@@ -72,7 +73,6 @@ describe('User Routes Tests', () => {
         expect(response.body).toBeDefined();
         expect(response.body.username).toBe("new@email.com");
     });
-
 
     // Test case: Attempt to get a user with an invalid ID
     it('should return an error when getting a user with an invalid ID', async () => {
