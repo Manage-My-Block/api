@@ -3,9 +3,14 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+const dotenv = require('dotenv').config()
+
 // Authentication middleware
 const authenticateUser = async (req, res, next) => {
-    try {
+    if (process.env.NO_AUTH) {
+        next()
+    } else {
+        try {
         // Extract the token from the Authorisation header
         const token = req.headers.authorization.split(' ')[1];
 
@@ -32,6 +37,10 @@ const authenticateUser = async (req, res, next) => {
     } catch (error) {
         res.status(401).json({ error: 'Unauthorised' });
     }
+    }
+
+
+    
 };
 
 module.exports = { authenticateUser }
