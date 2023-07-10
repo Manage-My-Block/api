@@ -33,7 +33,7 @@ app.use(helmet.contentSecurityPolicy({
 
 // Config CORS to prevent external access to API
 app.use(cors({
-    origin: ["http://localhost:" + CLIENT_PORT, "https://deployedApp.com"],
+    origin: ["http://localhost:" + PORT, "http://localhost:" + CLIENT_PORT, HOST],
     optionsSuccessStatus: 200
 }));
 
