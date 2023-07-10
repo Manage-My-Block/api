@@ -21,6 +21,7 @@ exports.validateCreateTodo = [
         .isBoolean()
         .withMessage('Complete must be boolean'),
     body('status')
+        .optional()
         .trim()
         .notEmpty()
         .withMessage('Status is required'),
@@ -104,6 +105,7 @@ exports.validateUpdateTodo = [
         .isBoolean()
         .withMessage('Complete must be boolean'),
     body('status')
+        .optional()
         .trim()
         .notEmpty()
         .withMessage('Status must not be empty'),
@@ -150,10 +152,13 @@ exports.validateUpdateTodo = [
         .isNumeric()
         .withMessage('Cost must be a number'),
     (req, res, next) => {
+
         const errors = validationResult(req);
+
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array().map((error) => error.msg) });
         }
+
         next();
     },
 ];
