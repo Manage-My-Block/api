@@ -20,6 +20,11 @@ exports.validateCreateTodo = [
     body('isComplete')
         .isBoolean()
         .withMessage('Complete must be boolean'),
+    body('status')
+        .optional()
+        .trim()
+        .notEmpty()
+        .withMessage('Status is required'),
     body('needsVote')
         .optional()
         .isBoolean()
@@ -30,10 +35,8 @@ exports.validateCreateTodo = [
         .withMessage('Vote must be an array'),
     body('vote.*.user')
         .optional()
-        .custom((value) => {
-            // Check if the user field in each object is a valid ObjectId
-            return mongoose.Types.ObjectId.isValid(value);
-        }).withMessage('User value in Vote array object must be valid Mongoose ObjectId'),
+        .isMongoId()
+        .withMessage('User value in Vote array object must be valid Mongoose ObjectId'),
     body('vote.*.ballot')
         .optional()
         .isBoolean()
@@ -44,10 +47,8 @@ exports.validateCreateTodo = [
         .withMessage('Comments must be an array'),
     body('comments.*.user')
         .optional()
-        .custom((value) => {
-            // Check if the user field in each object is a valid ObjectId
-            return mongoose.Types.ObjectId.isValid(value);
-        }).withMessage('User in Comments array objects must be valid Mongoose ObjectId'),
+        .isMongoId()
+        .withMessage('User in Comments array objects must be valid Mongoose ObjectId'),
     body('comments.*.comment')
         .optional()
         .trim()
@@ -88,12 +89,12 @@ exports.validateUpdateTodo = [
         .optional()
         .trim()
         .notEmpty()
-        .withMessage('Title is required'),
+        .withMessage('Title must not be empty'),
     body('description')
         .optional()
         .trim()
         .notEmpty()
-        .withMessage('Description is required'),
+        .withMessage('Description must not be empty'),
     body('dueDate')
         .optional()
         .isISO8601()
@@ -103,6 +104,11 @@ exports.validateUpdateTodo = [
         .optional()
         .isBoolean()
         .withMessage('Complete must be boolean'),
+    body('status')
+        .optional()
+        .trim()
+        .notEmpty()
+        .withMessage('Status must not be empty'),
     body('needsVote')
         .optional()
         .isBoolean()
@@ -113,10 +119,8 @@ exports.validateUpdateTodo = [
         .withMessage('Vote must be an array'),
     body('vote.*.user')
         .optional()
-        .custom((value) => {
-            // Check if the user field in each object is a valid ObjectId
-            return mongoose.Types.ObjectId.isValid(value);
-        }).withMessage('User value in Vote array object must be valid Mongoose ObjectId'),
+        .isMongoId()
+        .withMessage('User value in Vote array object must be valid Mongoose ObjectId'),
     body('vote.*.ballot')
         .optional()
         .isBoolean()
@@ -127,15 +131,13 @@ exports.validateUpdateTodo = [
         .withMessage('Comments must be an array'),
     body('comments.*.user')
         .optional()
-        .custom((value) => {
-            // Check if the user field in each object is a valid ObjectId
-            return mongoose.Types.ObjectId.isValid(value);
-        }).withMessage('User in Comments array objects must be valid Mongoose ObjectId'),
+        .isMongoId()
+        .withMessage('User in Comments array objects must be valid Mongoose ObjectId'),
     body('comments.*.comment')
         .optional()
         .trim()
         .notEmpty()
-        .withMessage('Comment is required'),
+        .withMessage('Comment must not be empty'),
     body('images')
         .optional()
         .isArray()
@@ -144,16 +146,19 @@ exports.validateUpdateTodo = [
         .optional()
         .trim()
         .notEmpty()
-        .withMessage('Image link is required'),
+        .withMessage('Image link must not be empty'),
     body('cost')
         .optional()
         .isNumeric()
         .withMessage('Cost must be a number'),
     (req, res, next) => {
+
         const errors = validationResult(req);
+
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array().map((error) => error.msg) });
         }
+
         next();
     },
 ];

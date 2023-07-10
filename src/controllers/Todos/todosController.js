@@ -1,4 +1,3 @@
-const express = require('express');
 const Todo = require('../../models/Todo')
 
 // Create a todo
@@ -18,7 +17,8 @@ exports.createTodo = async (req, res) => {
 exports.getAllTodos = async (req, res) => {
     try {
 
-        const todos = await Todo.find();
+        const todos = await Todo.find()
+
         res.json(todos);
 
     } catch (error) {
@@ -45,6 +45,34 @@ exports.updateTodo = async (req, res) => {
     try {
 
         const updatedTodo = await Todo.updateTodo(req.params.id, req.body);
+        res.json(updatedTodo);
+
+    } catch (error) {
+
+        res.status(404).json({ error: error.message });
+    }
+};
+
+// Add a comment to a todo
+exports.addCommentTodo = async (req, res) => {
+    try {
+
+        const updatedTodo = await Todo.addComment(req.params.id, req.body);
+
+        res.json(updatedTodo);
+
+    } catch (error) {
+
+        res.status(404).json({ error: error.message });
+    }
+};
+
+// Remove a comment from a todo
+exports.removeCommentTodo = async (req, res) => {
+    try {
+
+        const updatedTodo = await Todo.removeComment(req.params.id, req.params.commentId, req.user._id);
+
         res.json(updatedTodo);
 
     } catch (error) {

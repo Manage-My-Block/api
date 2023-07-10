@@ -1,5 +1,5 @@
 const { app } = require('../app');
-const { seedRoles, seedUsers, seedTodos } = require('../controllers/Seeding/seedController')
+const { seedRoles } = require('../controllers/Seeding/seedController')
 const { URL, newUserData, incompleteUserData, updatedUserData } = require('./testData')
 const request = require('supertest');
 const mongoose = require('mongoose')

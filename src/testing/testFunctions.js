@@ -1,14 +1,10 @@
 const { app } = require('../app');
-const { JWT, USER, URL, newUserData, incompleteUserData, updatedUserData } = require('./testData')
 const request = require('supertest');
 
-const createUser = async () => {
+const createUser = async (data) => {
     const response = await request(app)
         .post('/users')
-        .send(newUserData)
-
-    // JWT = response.body.token
-    // USER = response.body.newUser
+        .send(data)
 
     return { USER: response.body.newUser, JWT: response.body.token }
 }

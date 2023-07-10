@@ -18,6 +18,10 @@ const todoSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    status: {
+        type: String,
+        default: 'pending',
+    },
     createdAt: {
         type: Date,
         default: Date.now,
@@ -66,58 +70,142 @@ const todoSchema = new mongoose.Schema({
     },
 });
 
-// Define CRUD methods
-
 // Create a new todo
 todoSchema.statics.createTodo = async function (todoData) {
     try {
-        const todo = new this(todoData);
-        await todo.save();
-        return todo;
+
+        const todo = new this(todoData)
+
+        await todo.save()
+
+        return todo
+
     } catch (error) {
-        throw new Error(error.message);
+
+        throw new Error(error.message)
+
     }
-};
+}
 
 // Read a todo by ID
 todoSchema.statics.getTodoById = async function (todoId) {
     try {
+
         const todo = await this.findById(todoId)
             .populate('author', 'name')
             .populate('vote.user', 'name')
-            .populate('comments.user', 'name');
+            .populate('comments.user', 'name')
+
         if (!todo) {
-            throw new Error('todo not found');
+            throw new Error('todo not found')
         }
-        return todo;
+
+        return todo
+
     } catch (error) {
-        throw new Error(error.message);
+
+        throw new Error(error.message)
+
     }
-};
+}
 
 // Update a todo by ID
 todoSchema.statics.updateTodo = async function (todoId, updateData) {
     try {
-        const todo = await this.findByIdAndUpdate(todoId, updateData, { new: true });
+        const todo = await this.findByIdAndUpdate(todoId, updateData, { new: true })
+
+        if (!todo) {
+            throw new Error('todo not found')
+        }
+
+        return todo
+
+    } catch (error) {
+
+        throw new Error(error.message)
+
+    }
+}
+
+// Add a comment to a Todo
+todoSchema.statics.addComment = async function (todoId, newComment) {
+    try {
+
+        const todo = await this.findById(todoId).populate('comments.user', 'name')
+
+        if (!todo) {
+            throw new Error('todo not found')
+        }
+
+        todo.comments = [...todo.comments, newComment]
+
+        const updatedTodo = await this.findByIdAndUpdate(todoId, todo, { new: true }).populate('comments.user', 'name')
+
+        return updatedTodo;
+
+    } catch (error) {
+
+        throw new Error(error.message);
+
+    }
+};
+
+// Remove a comment from a Todo
+todoSchema.statics.removeComment = async function (todoId, commentId, userId) {
+    try {
+
+        // Find todo
+        const todo = await this.findById(todoId)
+
+        // If not found throw error
         if (!todo) {
             throw new Error('todo not found');
         }
-        return todo;
+
+        // Find comment in todo, convert ObjectId to string to compare
+        const foundComment = todo.comments.find(comment => comment._id.toString() === commentId)
+
+        // If not found throw error
+        if (!foundComment) {
+            throw new Error('Comment not found');
+        }
+
+        // Users can only delete their own comments
+        if (foundComment.user._id.toString() !== userId.toString()) {
+            throw new Error('Can only delete your own comments');
+        }
+
+        // Filter the comment out
+        todo.comments = todo.comments.filter(comment => comment._id.toString() !== commentId)
+
+        // Save updated todo
+        const updatedTodo = await this.findByIdAndUpdate(todoId, todo, { new: true }).populate('comments.user', 'name')
+
+        return updatedTodo;
+
     } catch (error) {
+
         throw new Error(error.message);
+
     }
 };
 
 // Delete a todo by ID
 todoSchema.statics.deleteTodo = async function (todoId) {
     try {
+
         const todo = await this.findByIdAndDelete(todoId);
+
         if (!todo) {
             throw new Error('todo not found');
         }
+
         return todo;
+
     } catch (error) {
+
         throw new Error(error.message);
+
     }
 };
 
