@@ -1,28 +1,13 @@
 const Contact = require('../../models/Contact');
 
-// Create a new user
-const createUser = async (req, res) => {
-    try {
-        // Create a new user
-        const newContact = await Contact.createContact(req.body);
-
-        // Return user info and JWT
-        res.status(201).json(newContact);
-
-    } catch (error) {
-
-        res.status(500).json({ error: error.message });
-    }
-};
-
-// Get all users
+// Get all contacts
 const getContacts = async (req, res) => {
     try {
         // Get all Contacts
-        const users = await Contact.find();
+        const contacts = await Contact.find();
 
         // Return list of Contacts
-        res.status(200).json(users);
+        res.status(200).json(contacts);
 
     } catch (error) {
 
@@ -30,25 +15,10 @@ const getContacts = async (req, res) => {
     }
 };
 
-// Get a specific user by ID
-const getContactById = async (req, res) => {
-    try {
-        // Get a Contact by ID
-        const user = await Contact.getContactById(req.params.id);
-
-        // Return Contact
-        res.json(user);
-
-    } catch (error) {
-
-        res.status(404).json({ error: error.message });
-    }
-};
-
-// Update a user by ID
+// Update a contact by ID
 const updateContact = async (req, res) => {
     try {
-        // Update user
+        // Update contact
         const updatedContact = await Contact.updateContact(req.params.id, req.body);
 
         // Return updated Contact
@@ -60,13 +30,13 @@ const updateContact = async (req, res) => {
     }
 };
 
-// Delete a user by ID
+// Delete a contact by ID
 const deleteContact = async (req, res) => {
     try {
         // Delete Contact
         const deletedContact = await Contact.deleteContact(req.params.id);
 
-        // Return deleted user
+        // Return deleted contact
         res.json(deletedContact);
 
     } catch (error) {
@@ -76,5 +46,7 @@ const deleteContact = async (req, res) => {
 };
 
 module.exports = {
-    createContact, getContacts, getContactById, updateContact, deleteContact
+    getContacts,
+    updateContact,
+    deleteContact
 }

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { validateCreateTodo, validateUpdateTodo } = require('../../middleware/todoValidation')
+const { validateCreateTodo, validateUpdateTodo, validateVoteTodo } = require('../../middleware/todoValidation')
 const { validateComment } = require('../../middleware/commentValidation')
 const { validateId } = require('../../middleware/validateID')
 const { authenticateUser } = require('../../middleware/authentication')
@@ -17,6 +17,9 @@ router.post('/todos', authenticateUser, validateCreateTodo, TodosController.crea
 
 // Update a todo by ID
 router.put('/todos/:id', authenticateUser, validateUpdateTodo, TodosController.updateTodo);
+
+// Case a vote in a todo by ID
+router.put('/todos/:id/vote', authenticateUser, validateVoteTodo, TodosController.castVoteTodo);
 
 // Add a comment to a todo
 router.put('/todos/:id/comment', authenticateUser, validateComment, TodosController.addCommentTodo);

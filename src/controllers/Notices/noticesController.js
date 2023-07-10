@@ -1,7 +1,7 @@
 const Notice = require('../../models/Notice')
 
 // Create a notice
-exports.createNotice = async (req, res) => {
+const createNotice = async (req, res) => {
     try {
 
         const newNotice = await Notice.createNotice(req.body);
@@ -15,7 +15,7 @@ exports.createNotice = async (req, res) => {
 };
 
 // Get all notices
-exports.getAllNotices = async (req, res) => {
+const getAllNotices = async (req, res) => {
     try {
 
         const notices = await Notice.find();
@@ -28,7 +28,7 @@ exports.getAllNotices = async (req, res) => {
 };
 
 // Get a notice by ID
-exports.getNoticeById = async (req, res) => {
+const getNoticeById = async (req, res) => {
     try {
 
         const notice = await Notice.getNoticeById(req.params.id);
@@ -41,7 +41,7 @@ exports.getNoticeById = async (req, res) => {
 };
 
 // Update a notice by ID
-exports.updateNotice = async (req, res) => {
+const updateNotice = async (req, res) => {
     try {
 
         const updatedNotice = await Notice.updateNotice(req.params.id, req.body);
@@ -54,7 +54,7 @@ exports.updateNotice = async (req, res) => {
 };
 
 // Add a comment to a todo
-exports.addCommentNotice = async (req, res) => {
+const addCommentNotice = async (req, res) => {
     try {
 
         const updatedNotice = await Notice.addComment(req.params.id, req.body);
@@ -68,7 +68,7 @@ exports.addCommentNotice = async (req, res) => {
 };
 
 // Remove a comment from a todo
-exports.removeCommentNotice = async (req, res) => {
+const removeCommentNotice = async (req, res) => {
     try {
 
         const updatedNotice = await Notice.removeComment(req.params.id, req.params.commentId, req.user._id);
@@ -82,7 +82,7 @@ exports.removeCommentNotice = async (req, res) => {
 };
 
 // Delete a notice by ID
-exports.deleteNotice = async (req, res) => {
+const deleteNotice = async (req, res) => {
     try {
 
         const deletedNotice = await Notice.deleteNotice(req.params.id);
@@ -93,3 +93,13 @@ exports.deleteNotice = async (req, res) => {
         res.status(404).json({ error: error.message });
     }
 };
+
+module.exports = {
+    createNotice,
+    getAllNotices,
+    getNoticeById,
+    updateNotice,
+    addCommentNotice,
+    removeCommentNotice,
+    deleteNotice
+}

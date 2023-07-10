@@ -1,6 +1,6 @@
 const { app } = require('../app');
 const { seedRoles } = require('../controllers/Seeding/seedController')
-const { URL, newUserData, newTodoData, incompleteTodoData, updatedTodoData } = require('./testData')
+const { URL, newUserData, newTodoData, badTodoData, incompleteTodoData, updatedTodoData } = require('./testData')
 const { createUser } = require('./testFunctions')
 const request = require('supertest');
 const mongoose = require('mongoose')
@@ -85,6 +85,19 @@ describe('Todos Route Tests', () => {
         expect(response.body.title).toBe(updatedTodoData.title)
     });
 
+    // Test case: Attempt to update a todo by ID with bad datya
+    it('should update a todo by ID', async () => {
+
+        const response = await request(app)
+            .put(`/todos/${TODO._id}`)
+            .set('Authorization', 'Bearer ' + JWT)
+            .send(badTodoData)
+            .expect(400);
+
+        expect(response.body).toBeDefined();
+        expect(Array.isArray(response.body.errors)).toBeTruthy();
+    });
+
     // Test case: Add a comment to a todo
     it('should add a comment to a todo by ID', async () => {
 
@@ -112,6 +125,34 @@ describe('Todos Route Tests', () => {
         expect(response2.body.comments[response2.body.comments.length - 1].comment).toBe("Comment 2")
 
         COMMENTS = response2.body.comments
+    });
+
+    // Test case: Cast a vote to a todo
+    it('should add a vote to a todo by ID', async () => {
+
+        const vote1 = { user: USER._id, ballot: true }
+        const vote2 = { user: USER._id, ballot: false }
+
+        const response1 = await request(app)
+            .put(`/todos/${TODO._id}/vote`)
+            .set('Authorization', 'Bearer ' + JWT)
+            .send(vote1)
+            .expect(200);
+
+        expect(response1.body).toBeDefined();
+        expect(response1.body.votes).toHaveLength(1)
+        expect(response1.body.votes.find(vote => vote.user._id === USER._id).ballot).toBe(true)
+
+        const response2 = await request(app)
+            .put(`/todos/${TODO._id}/vote`)
+            .set('Authorization', 'Bearer ' + JWT)
+            .send(vote2)
+            .expect(200);
+
+
+        expect(response2.body).toBeDefined();
+        expect(response2.body.votes).toHaveLength(1)
+        expect(response2.body.votes.find(vote => vote.user._id === USER._id).ballot).toBe(false)
     });
 
     // Test case: Delete a comment from a todo
@@ -161,6 +202,19 @@ describe('Todos Route Tests', () => {
             .post('/todos')
             .set('Authorization', 'Bearer ' + JWT)
             .send(incompleteTodoData)
+            .expect(400);
+
+        expect(response.body.errors).toBeDefined();
+        expect(Array.isArray(response.body.errors)).toBeTruthy();
+    });
+
+    // Test case: Attempt to create a todo with bad data
+    it('should return an error when creating a todo with bad data', async () => {
+
+        const response = await request(app)
+            .post('/todos')
+            .set('Authorization', 'Bearer ' + JWT)
+            .send(badTodoData)
             .expect(400);
 
         expect(response.body.errors).toBeDefined();

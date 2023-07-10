@@ -1,7 +1,7 @@
 const { check, body, param, validationResult } = require('express-validator');
 
 // Validation middleware for creating a todo
-exports.validateCreateTodo = [
+const validateCreateTodo = [
     body('title')
         .trim()
         .notEmpty()
@@ -29,15 +29,15 @@ exports.validateCreateTodo = [
         .optional()
         .isBoolean()
         .withMessage('needsVote must be boolean'),
-    body('vote')
+    body('votes')
         .optional()
         .isArray()
         .withMessage('Vote must be an array'),
-    body('vote.*.user')
+    body('votes.*.user')
         .optional()
         .isMongoId()
         .withMessage('User value in Vote array object must be valid Mongoose ObjectId'),
-    body('vote.*.ballot')
+    body('votes.*.ballot')
         .optional()
         .isBoolean()
         .withMessage('Ballot value in Vote array object must be a boolean'),
@@ -78,7 +78,7 @@ exports.validateCreateTodo = [
 ];
 
 // Validation middleware for updating a todo
-exports.validateUpdateTodo = [
+const validateUpdateTodo = [
     check('*')
         .notEmpty()
         .withMessage('Must update at least one field'),
@@ -113,15 +113,15 @@ exports.validateUpdateTodo = [
         .optional()
         .isBoolean()
         .withMessage('needsVote must be boolean'),
-    body('vote')
+    body('votes')
         .optional()
         .isArray()
         .withMessage('Vote must be an array'),
-    body('vote.*.user')
+    body('votes.*.user')
         .optional()
         .isMongoId()
         .withMessage('User value in Vote array object must be valid Mongoose ObjectId'),
-    body('vote.*.ballot')
+    body('votes.*.ballot')
         .optional()
         .isBoolean()
         .withMessage('Ballot value in Vote array object must be a boolean'),
@@ -162,3 +162,33 @@ exports.validateUpdateTodo = [
         next();
     },
 ];
+
+// Validation middleware for updating a todo
+const validateVoteTodo = [
+    param('id')
+        .isMongoId()
+        .withMessage('Invalid todo ID'),
+    body('user')
+        .isMongoId()
+        .withMessage('Invalid user ID'),
+    body('ballot')
+        .optional()
+        .isBoolean()
+        .withMessage('Ballot must be a boolean'),
+    (req, res, next) => {
+
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array().map((error) => error.msg) });
+        }
+
+        next();
+    },
+];
+
+module.exports = {
+    validateCreateTodo,
+    validateUpdateTodo,
+    validateVoteTodo
+}

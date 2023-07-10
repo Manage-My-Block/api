@@ -24,6 +24,13 @@ const incompleteUserData = {
     name: 'John Doe'
 }
 
+const badUserData = {
+    username: 'john',
+    password: '  ',
+    apartment: "123",
+    name: '   '
+}
+
 const updatedUserData = {
     username: 'new@email.com',
     password: 'newpass123',
@@ -38,8 +45,15 @@ const newTodoData = {
     isComplete: false
 }
 
-const incompleteTodoData = {
+const badTodoData = {
     title: '   ',
+    description: 1,
+    dueDate: "new date",
+    isComplete: 10
+}
+
+const incompleteTodoData = {
+    title: 'Broken front door',
 }
 
 const updatedTodoData = {
@@ -56,6 +70,11 @@ const newNoticeData = {
 }
 
 const incompleteNoticeData = {
+}
+
+const badNoticeData = {
+    title: '   ',
+    description: '   '
 }
 
 const updatedNoticeData = {
@@ -82,5 +101,19 @@ switch (process.env.NODE_ENV) {
 
 
 module.exports = {
-    URL, newUserData, incompleteUserData, updatedUserData, newTodoData, incompleteTodoData, updatedTodoData, newNoticeData, incompleteNoticeData, updatedNoticeData, user2, user3
+    URL,
+    newUserData,
+    incompleteUserData,
+    badUserData,
+    updatedUserData,
+    newTodoData,
+    badTodoData,
+    incompleteTodoData,
+    updatedTodoData,
+    newNoticeData,
+    badNoticeData,
+    incompleteNoticeData,
+    updatedNoticeData,
+    user2,
+    user3
 }
