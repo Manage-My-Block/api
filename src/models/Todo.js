@@ -5,6 +5,7 @@ const todoSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
+        autopopulate: { select: 'name' }
     },
     title: {
         type: String,
@@ -39,6 +40,7 @@ const todoSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'User',
                 required: true,
+                autopopulate: { select: 'name' }
             },
             ballot: {
                 type: Boolean,
@@ -52,6 +54,7 @@ const todoSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'User',
                 required: true,
+                autopopulate: { select: 'name' }
             },
             comment: {
                 type: String,
@@ -69,6 +72,8 @@ const todoSchema = new mongoose.Schema({
         default: 0,
     },
 });
+
+todoSchema.plugin(require('mongoose-autopopulate'));
 
 // Create a new todo
 todoSchema.statics.createTodo = async function (todoData) {
@@ -92,9 +97,6 @@ todoSchema.statics.getTodoById = async function (todoId) {
     try {
 
         const todo = await this.findById(todoId)
-            .populate('author', 'name')
-            .populate('vote.user', 'name')
-            .populate('comments.user', 'name')
 
         if (!todo) {
             throw new Error('todo not found')
@@ -131,7 +133,7 @@ todoSchema.statics.updateTodo = async function (todoId, updateData) {
 todoSchema.statics.addComment = async function (todoId, newComment) {
     try {
 
-        const todo = await this.findById(todoId).populate('comments.user', 'name')
+        const todo = await this.findById(todoId)
 
         if (!todo) {
             throw new Error('todo not found')
@@ -139,7 +141,7 @@ todoSchema.statics.addComment = async function (todoId, newComment) {
 
         todo.comments = [...todo.comments, newComment]
 
-        const updatedTodo = await this.findByIdAndUpdate(todoId, todo, { new: true }).populate('comments.user', 'name')
+        const updatedTodo = await this.findByIdAndUpdate(todoId, todo, { new: true })
 
         return updatedTodo;
 
@@ -179,7 +181,8 @@ todoSchema.statics.removeComment = async function (todoId, commentId, userId) {
         todo.comments = todo.comments.filter(comment => comment._id.toString() !== commentId)
 
         // Save updated todo
-        const updatedTodo = await this.findByIdAndUpdate(todoId, todo, { new: true }).populate('comments.user', 'name')
+        const updatedTodo = await this.findByIdAndUpdate(todoId, todo, { new: true })
+        // .populate('comments.user', 'name')
 
         return updatedTodo;
 

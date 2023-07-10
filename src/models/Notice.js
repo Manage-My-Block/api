@@ -5,6 +5,7 @@ const noticeSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
+        autopopulate: { select: 'name' }
     },
     title: {
         type: String,
@@ -24,6 +25,7 @@ const noticeSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'User',
                 required: true,
+                autopopulate: { select: 'name' }
             },
             comment: {
                 type: String,
@@ -37,6 +39,10 @@ const noticeSchema = new mongoose.Schema({
     ],
     images: [String]
 });
+
+
+noticeSchema.plugin(require('mongoose-autopopulate'));
+
 
 // Create a new notice
 noticeSchema.statics.createNotice = async function (noticeData) {
@@ -60,8 +66,6 @@ noticeSchema.statics.getNoticeById = async function (noticeId) {
     try {
 
         const notice = await this.findById(noticeId)
-            .populate('author', 'name')
-            .populate('comments.user', 'name');
 
         if (!notice) {
             throw new Error('notice not found');
@@ -108,7 +112,7 @@ noticeSchema.statics.addComment = async function (noticeId, newComment) {
         notice.comments = [...notice.comments, newComment]
 
         // Save updated notice
-        const updatedNotice = await this.findByIdAndUpdate(noticeId, notice, { new: true }).populate('comments.user', 'name')
+        const updatedNotice = await this.findByIdAndUpdate(noticeId, notice, { new: true })
 
         return updatedNotice;
 
@@ -148,7 +152,7 @@ noticeSchema.statics.removeComment = async function (noticeId, commentId, userId
         notice.comments = notice.comments.filter(comment => comment._id.toString() !== commentId)
 
         // Save updated notice
-        const updatedNotice = await this.findByIdAndUpdate(noticeId, notice, { new: true }).populate('comments.user', 'name')
+        const updatedNotice = await this.findByIdAndUpdate(noticeId, notice, { new: true })
 
         return updatedNotice;
 
