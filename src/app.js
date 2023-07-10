@@ -19,6 +19,7 @@ const app = express()
 dotenv.config()
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 3000;
+const CLIENT_PORT = process.env.CLIENT_PORT || 5173 // 5173 is default Vite dev port
 
 
 // Config helmet for headers security
@@ -33,7 +34,7 @@ app.use(helmet.contentSecurityPolicy({
 
 // Config CORS to prevent external access to API
 app.use(cors({
-    origin: ["http://localhost:" + PORT, HOST],
+    origin: ["http://localhost:" + PORT, "http://localhost:" + CLIENT_PORT, HOST],
     optionsSuccessStatus: 200
 }));
 
