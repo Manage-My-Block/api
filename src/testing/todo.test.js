@@ -1,6 +1,6 @@
 const { app } = require('../app');
 const { seedRoles } = require('../controllers/Seeding/seedController')
-const { URL, newUserData, newTodoData, incompleteTodoData, updatedTodoData, user2, user3 } = require('./testData')
+const { URL, newUserData, newTodoData, incompleteTodoData, updatedTodoData } = require('./testData')
 const { createUser } = require('./testFunctions')
 const request = require('supertest');
 const mongoose = require('mongoose')
@@ -86,13 +86,13 @@ describe('Todos Route Tests', () => {
     });
 
     // Test case: Add a comment to a todo
-    it('should update a todo by ID', async () => {
+    it('should add a comment to a todo by ID', async () => {
 
         const comment1 = { user: USER._id, comment: "Comment 1" }
         const comment2 = { user: USER._id, comment: "Comment 2" }
 
         const response1 = await request(app)
-            .patch(`/todos/${TODO._id}`)
+            .put(`/todos/${TODO._id}/comment`)
             .set('Authorization', 'Bearer ' + JWT)
             .send(comment1)
             .expect(200);
@@ -102,7 +102,7 @@ describe('Todos Route Tests', () => {
         expect(response1.body.comments[response1.body.comments.length - 1].comment).toBe("Comment 1")
 
         const response2 = await request(app)
-            .patch(`/todos/${TODO._id}`)
+            .put(`/todos/${TODO._id}/comment`)
             .set('Authorization', 'Bearer ' + JWT)
             .send(comment2)
             .expect(200);
@@ -125,7 +125,7 @@ describe('Todos Route Tests', () => {
         expect(response.body._id).toBe(TODO._id);
 
         const response1 = await request(app)
-            .delete(`/todos/${TODO._id}/${response.body.comments[0]._id}`)
+            .put(`/todos/${TODO._id}/comment/${response.body.comments[0]._id}`)
             .set('Authorization', 'Bearer ' + JWT)
             .expect(200);
 

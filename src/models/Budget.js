@@ -8,10 +8,6 @@ const budgetSchema = mongoose.Schema({
                 required: true,
             },
             description: {
-                type: String,
-                required: true,
-            },
-            ticketNumber: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Todo',
                 required: true,
@@ -50,7 +46,7 @@ budgetSchema.statics.createBudget = async function (budgetData) {
 budgetSchema.statics.getBudgetById = async function (budgetId) {
     try {
         // Find the record, populate the references fields
-        const budget = await this.findById(budgetId)
+        const budget = await this.findById(budgetId).populat('transactions.description', 'title')
 
         // if no budget found throw error
         if (!budget) {
@@ -83,7 +79,7 @@ budgetSchema.statics.updateBudget = async function (budgetId, newTransaction) {
         budget.transactions.push(newTransaction)
 
         // Save the updated budget
-        const updatedBudget = await this.findByIdAndUpdate(todoId, budget, { new: true }).populate('transactions.ticketNumber', 'title')
+        const updatedBudget = await this.findByIdAndUpdate(todoId, budget, { new: true }).populate('transactions.description', 'title')
 
         return updatedBudget;
 

@@ -91,7 +91,7 @@ describe('Notices Route Tests', () => {
         const comment2 = { user: USER._id, comment: "Comment 2" }
 
         const response1 = await request(app)
-            .patch(`/notices/${NOTICE._id}`)
+            .put(`/notices/${NOTICE._id}/comment`)
             .set('Authorization', 'Bearer ' + JWT)
             .send(comment1)
             .expect(200);
@@ -101,7 +101,7 @@ describe('Notices Route Tests', () => {
         expect(response1.body.comments[response1.body.comments.length - 1].comment).toBe("Comment 1")
 
         const response2 = await request(app)
-            .patch(`/notices/${NOTICE._id}`)
+            .put(`/notices/${NOTICE._id}/comment`)
             .set('Authorization', 'Bearer ' + JWT)
             .send(comment2)
             .expect(200);
@@ -124,7 +124,7 @@ describe('Notices Route Tests', () => {
         expect(response.body._id).toBe(NOTICE._id);
 
         const response1 = await request(app)
-            .delete(`/notices/${NOTICE._id}/${response.body.comments[0]._id}`)
+            .put(`/notices/${NOTICE._id}/comment/${response.body.comments[0]._id}`)
             .set('Authorization', 'Bearer ' + JWT)
             .expect(200);
 

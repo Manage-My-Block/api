@@ -5,24 +5,6 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 
-// Create a new user
-const createUser = async (req, res) => {
-    try {
-        // Create a new user
-        const newUser = await User.createUser(req.body);
-
-        // Generate a JWT based on user ID
-        const token = jwt.sign({ payload: encrypt(newUser._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
-
-        // Return user info and JWT
-        res.status(201).json({ newUser, token });
-
-    } catch (error) {
-
-        res.status(500).json({ error: error.message });
-    }
-};
-
 // Get all users
 const getUsers = async (req, res) => {
     try {
@@ -84,5 +66,5 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
-    createUser, getUsers, getUserById, updateUser, deleteUser
+    getUsers, getUserById, updateUser, deleteUser
 }

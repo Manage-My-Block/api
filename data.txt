@@ -17,10 +17,11 @@ Tickets:
     message: String
     isComplete: Boolean
     createdAt: Date
+    status: String
     needsVote: Boolean
     vote: [{user: _id, ballot: boolean}]
     comments: [{user: _id, comment: String, createdAt: Date}]
-    images: [Strings] (do we pop the image link in here?)
+    images: [Strings]
     cost: Number
 
 Notices:
@@ -30,5 +31,12 @@ Notices:
     message: String
     comments: [{user: _id, comment: String, createdAt: Date}]
     createdAt: Date
-    images: [Strings] (do we pop the image link in here?)
+    images: [Strings]
+
+Contacts:
+    _id
+    name: String
+    phoneNumber: Number
+    email: String
+    createdAt: Date
 
