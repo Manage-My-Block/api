@@ -53,6 +53,20 @@ const updateTodo = async (req, res) => {
     }
 };
 
+// Cast a vote on a todo
+const castVoteTodo = async (req, res) => {
+    try {
+
+        const updatedTodo = await Todo.castVote(req.params.id, req.body);
+
+        res.json(updatedTodo);
+
+    } catch (error) {
+
+        res.status(404).json({ error: error.message });
+    }
+};
+
 // Add a comment to a todo
 const addCommentTodo = async (req, res) => {
     try {
@@ -99,6 +113,7 @@ module.exports = {
     getAllTodos,
     getTodoById,
     updateTodo,
+    castVoteTodo,
     addCommentTodo,
     removeCommentTodo,
     deleteTodo

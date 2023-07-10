@@ -34,7 +34,7 @@ const todoSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    vote: [
+    votes: [
         {
             user: {
                 type: mongoose.Schema.Types.ObjectId,
@@ -128,6 +128,46 @@ todoSchema.statics.updateTodo = async function (todoId, updateData) {
 
     }
 }
+
+// Cast a vote for a Todo
+todoSchema.statics.castVote = async function (todoId, voteData) {
+    try {
+
+        const todo = await this.findById(todoId)
+
+        if (!todo) {
+            throw new Error('todo not found')
+        }
+
+        const foundVote = todo.votes.find(vote => vote.user._id.toString() === voteData.user.toString())
+
+
+        if (foundVote) {
+            foundVote.ballot = voteData.ballot
+
+            todo.votes = todo.votes.map(vote => {
+                if (vote.user._id.toString() === voteData.user.toString()) {
+                    return foundVote
+                } else {
+                    return vote
+                }
+            })
+
+        } else {
+            todo.votes.push(voteData)
+        }
+
+        const updatedTodo = await this.findByIdAndUpdate(todoId, todo, { new: true })
+
+        return updatedTodo;
+
+    } catch (error) {
+
+        throw new Error(error.message);
+
+    }
+};
+
 
 // Add a comment to a Todo
 todoSchema.statics.addComment = async function (todoId, newComment) {
