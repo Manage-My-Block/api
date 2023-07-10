@@ -1,10 +1,14 @@
 const { body, param } = require('express-validator');
 
 exports.validateComment = [
-    param('commentId')
+    param('id')
         .optional()
         .isMongoId()
         .withMessage('Invalid todo ID'),
+    param('commentId')
+        .optional()
+        .isMongoId()
+        .withMessage('Invalid comment ID'),
     body('user')
         .optional()
         .isMongoId()

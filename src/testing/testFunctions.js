@@ -3,7 +3,7 @@ const request = require('supertest');
 
 const createUser = async (data) => {
     const response = await request(app)
-        .post('/users')
+        .post('/register')
         .send(data)
 
     return { USER: response.body.newUser, JWT: response.body.token }

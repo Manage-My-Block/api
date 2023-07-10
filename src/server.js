@@ -1,7 +1,7 @@
 const { app, PORT, HOST } = require('./app')
 const dotenv = require('dotenv')
 const { dbConnector, dbDisconnector } = require('./database')
-
+const { seedRoles } = require('./utils/seedFunctions')
 
 // Config environment variables
 dotenv.config()
@@ -15,6 +15,9 @@ switch (process.env.NODE_ENV) {
         break;
     case "test":
         URL = "mongodb://localhost:27017/test_db"
+        break;
+    case "local":
+        URL = "mongodb://localhost:27017/dev_db"
         break;
     default:
         console.log("Missing db URL")
@@ -44,6 +47,8 @@ app.on('close', () => {
 // Connect database
 dbConnector(URL)
     .then(() => { console.log("Connected to database") })
+    .then(() => seedRoles())
+    .then(() => { console.log("Roles seeded") })
     .catch(error => { console.log("Error connecting to db: " + error) })
 
 app.listen(PORT, HOST, () => {

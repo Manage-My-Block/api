@@ -1,3 +1,4 @@
+const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { encrypt } = require('../../utils/encryption')
@@ -7,7 +8,8 @@ const dotenv = require('dotenv')
 // Configure environment
 dotenv.config()
 
-exports.login = async (req, res) => {
+// Login route
+const login = async (req, res) => {
     const { username, password } = req.body;
 
     try {
@@ -32,8 +34,28 @@ exports.login = async (req, res) => {
 
         // Return the token as a response
         res.json({ token });
+
     } catch (error) {
-        console.error('Error logging in:', error);
-        res.status(500).json({ error: 'Internal server error' });
+
+        res.status(500).json({ error: error.message });
+    }
+}
+
+const register = async (req, res) => {
+    try {
+        // Create a new user
+        const newUser = await User.createUser(req.body);
+
+        // Generate a JWT based on user ID
+        const token = jwt.sign({ payload: encrypt(newUser._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
+
+        // Return user info and JWT
+        res.status(201).json({ newUser, token });
+
+    } catch (error) {
+
+        res.status(500).json({ error: error.message });
     }
 };
+
+module.exports = { login, register }

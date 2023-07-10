@@ -28,7 +28,7 @@ describe('User Routes Tests', () => {
     // Test case: Create a new user
     it('should create a new user', async () => {
         const response = await request(app)
-            .post('/users')
+            .post('/register')
             .send(newUserData)
             .expect(201);
 
@@ -57,6 +57,7 @@ describe('User Routes Tests', () => {
             .set("Authorization", `Bearer ${JWT}`)
             .expect(200);
 
+
         expect(response.body._id).toBe(USER._id);
     });
 
@@ -72,7 +73,6 @@ describe('User Routes Tests', () => {
         expect(response.body).toBeDefined();
         expect(response.body.username).toBe("new@email.com");
     });
-
 
     // Test case: Attempt to get a user with an invalid ID
     it('should return an error when getting a user with an invalid ID', async () => {
@@ -106,14 +106,14 @@ describe('User Routes Tests', () => {
             .set("Authorization", `Bearer ${JWT}`)
             .expect(404);
 
-        expect(response.body.errors).toStrictEqual(["Invalid user ID"]);
+        expect(response.body.errors).toStrictEqual(["Invalid ID"]);
 
     });
 
     // Test case: Attempt to create a user with incomplete data
     it('should return an error when creating a user with incomplete data', async () => {
         const response = await request(app)
-            .post('/users')
+            .post('/register')
             .send(incompleteUserData)
             .expect(400);
 

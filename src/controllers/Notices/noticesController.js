@@ -5,6 +5,7 @@ exports.createNotice = async (req, res) => {
     try {
 
         const newNotice = await Notice.createNotice(req.body);
+
         res.status(201).json(newNotice);
 
     } catch (error) {

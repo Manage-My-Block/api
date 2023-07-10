@@ -1,23 +1,11 @@
 GET http://localhost:3001/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiVTJGc2RHVmtYMStMVlQrR3BYVkhkdUpyUzZDb2UxSmJYTGpUajM5elN6QkZGd0p2K0M3WVVNbURFWERlQkRZbyIsImlhdCI6MTY4ODg1ODgzOSwiZXhwIjoxNjg5NDYzNjM5fQ.xrgFfPDTbO_dg_1ik-dhnq5YivtIHNJ937Jq8bF66uw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiVTJGc2RHVmtYMThKdGtXQzVVZkF3WjBLd05VT08xbGc3b3d3L2dQejZkcHFzQ1FXR1Z2dUNzSDdseitmR2kybyIsImlhdCI6MTY4ODk2NzEwNSwiZXhwIjoxNjg5NTcxOTA1fQ.X8wIlfdb38H7AnbUkAZCEINYCUXc5h34t8AuVirxD2M
 
 ###
 
-POST http://localhost:3001/users
+PUT http://localhost:3001/users/64ab9792f91aa1629e60748a
 Content-Type: application/json
-
-{
-    "username": "test@test.com",
-    "password": "password1",
-    "apartment": 482,
-    "name": "Matt Garrow"
-}
-
-###
-
-PUT http://localhost:3001/users/64a9eef4b15c2a0cbbe8bc2a
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiVTJGc2RHVmtYMS96N1VjTVNiSGdERGczNXFjVWJTRWFWbGh2TnRMdHcxOW5hODFkaVk1TDlzSVVkWjlRSTRrbCIsImlhdCI6MTY4ODg1ODM1NiwiZXhwIjoxNjg5NDYzMTU2fQ.6hlKN-tzv_zrMWpMz6EmWnLjZsoC4hXzw5QVqWSIl0w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiVTJGc2RHVmtYMThKdGtXQzVVZkF3WjBLd05VT08xbGc3b3d3L2dQejZkcHFzQ1FXR1Z2dUNzSDdseitmR2kybyIsImlhdCI6MTY4ODk2NzEwNSwiZXhwIjoxNjg5NTcxOTA1fQ.X8wIlfdb38H7AnbUkAZCEINYCUXc5h34t8AuVirxD2M
 
 {
     "username": "newtest@test.com",
