@@ -1,20 +1,5 @@
 const Contact = require('../../models/Contact');
 
-// Create a new user
-const createUser = async (req, res) => {
-    try {
-        // Create a new user
-        const newContact = await Contact.createContact(req.body);
-
-        // Return user info and JWT
-        res.status(201).json(newContact);
-
-    } catch (error) {
-
-        res.status(500).json({ error: error.message });
-    }
-};
-
 // Get all users
 const getContacts = async (req, res) => {
     try {
@@ -76,5 +61,8 @@ const deleteContact = async (req, res) => {
 };
 
 module.exports = {
-    createContact, getContacts, getContactById, updateContact, deleteContact
+    getContacts,
+    getContactById,
+    updateContact,
+    deleteContact
 }

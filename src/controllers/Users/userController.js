@@ -1,9 +1,4 @@
 const User = require('../../models/User');
-const jwt = require('jsonwebtoken');
-const { encrypt, decrypt } = require('../../utils/encryption')
-const dotenv = require('dotenv')
-dotenv.config()
-
 
 // Get all users
 const getUsers = async (req, res) => {
@@ -66,5 +61,8 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
-    getUsers, getUserById, updateUser, deleteUser
+    getUsers,
+    getUserById,
+    updateUser,
+    deleteUser
 }

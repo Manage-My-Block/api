@@ -203,4 +203,10 @@ SeedRouter.get('/wipe', async (req, res) => {
     }
 })
 
-module.exports = { SeedRouter, seedDatabase, seedRoles, seedUsers, seedTodos }
+module.exports = {
+    SeedRouter,
+    seedDatabase,
+    seedRoles,
+    seedUsers,
+    seedTodos
+}
