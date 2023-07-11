@@ -22,9 +22,7 @@ const seedRolesAndAdmin = async () => {
         if (roles.length > 0 || foundAdmin) {
             const token = jwt.sign({ payload: encrypt(foundAdmin._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
 
-            console.log(token)
-
-            return
+            return token
         }
 
         // Create roles
@@ -35,7 +33,7 @@ const seedRolesAndAdmin = async () => {
         // Create admin user
         const adminUser = await User.createUser({
             email: 'admin@admin.com',
-            password: '1234',
+            password: '123456',
             apartment: 0,
             name: 'Admin',
             role: adminRole._id,
@@ -44,8 +42,7 @@ const seedRolesAndAdmin = async () => {
         // Generate a JWT token
         const token = jwt.sign({ payload: encrypt(adminUser._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
 
-        // Print token
-        console.log(token)
+        return token
 
     } catch (error) {
         console.log("Error: " + error.message)
