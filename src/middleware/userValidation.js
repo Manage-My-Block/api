@@ -9,7 +9,7 @@ const validateUpdateUser = [
     check('*')
         .notEmpty()
         .withMessage('Must update at least one field'),
-    body('username')
+    body('email')
         .optional()
         .notEmpty()
         .withMessage('Email is required')

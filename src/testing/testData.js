@@ -1,22 +1,8 @@
 const newUserData = {
-    username: 'john@email.com',
+    email: 'john@email.com',
     password: 'password123',
     apartment: 123,
     name: 'John Doe'
-}
-
-const user2 = {
-    username: 'jane@email.com',
-    password: 'password456',
-    apartment: 456,
-    name: 'Jane Smith',
-}
-
-const user3 = {
-    username: 'beth@email.com',
-    password: 'password789',
-    apartment: 789,
-    name: 'Beth June',
 }
 
 const incompleteUserData = {
@@ -25,14 +11,14 @@ const incompleteUserData = {
 }
 
 const badUserData = {
-    username: 'john',
+    email: 'john',
     password: '  ',
     apartment: "123",
     name: '   '
 }
 
 const updatedUserData = {
-    username: 'new@email.com',
+    email: 'new@email.com',
     password: 'newpass123',
     name: 'Jane Doe'
 }

@@ -34,7 +34,7 @@ const seedRolesAndAdmin = async () => {
 
         // Create admin user
         const adminUser = await User.createUser({
-            username: 'admin@admin.com',
+            email: 'admin@admin.com',
             password: '1234',
             apartment: 0,
             name: 'Admin',
@@ -63,7 +63,7 @@ const seedDatabase = async () => {
 
 
         const user1 = await User.createUser({
-            username: 'john@email.com',
+            email: 'john@email.com',
             password: 'password123',
             apartment: 123,
             name: 'John Doe',
@@ -71,7 +71,7 @@ const seedDatabase = async () => {
         });
 
         const user2 = await User.createUser({
-            username: 'jane@email.com',
+            email: 'jane@email.com',
             password: 'password456',
             apartment: 456,
             name: 'Jane Smith',
@@ -79,7 +79,7 @@ const seedDatabase = async () => {
         });
 
         const user3 = await User.createUser({
-            username: 'beth@email.com',
+            email: 'beth@email.com',
             password: 'password789',
             apartment: 789,
             name: 'Beth June',

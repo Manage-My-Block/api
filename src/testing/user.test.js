@@ -1,5 +1,5 @@
 const { app } = require('../app');
-const { seedRoles } = require('../controllers/Seeding/seedController')
+const { seedRolesAndAdmin } = require('../utils/seedFunctions')
 const { URL, newUserData, incompleteUserData, updatedUserData } = require('./testData')
 const request = require('supertest');
 const mongoose = require('mongoose')
@@ -12,7 +12,7 @@ beforeAll(async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
-    await seedRoles()
+    await seedRolesAndAdmin()
 });
 
 afterAll(async () => {
@@ -71,7 +71,7 @@ describe('User Routes Tests', () => {
             .expect(200);
 
         expect(response.body).toBeDefined();
-        expect(response.body.username).toBe("new@email.com");
+        expect(response.body.email).toBe("new@email.com");
     });
 
     // Test case: Attempt to get a user with an invalid ID
@@ -86,7 +86,7 @@ describe('User Routes Tests', () => {
 
     // Test case: Attempt to update a user with an invalid ID
     it('should return an error when updating a user with an invalid ID', async () => {
-        const invalidId = 'invalidId';
+        const invalidId = 'a';
 
         const response = await request(app)
             .put(`/users/${invalidId}`)
@@ -94,7 +94,7 @@ describe('User Routes Tests', () => {
             .send(updatedUserData)
             .expect(400);
 
-        expect(response.body.errors).toStrictEqual(["Invalid user ID"]);
+        expect(response.body.errors).toStrictEqual(['Invalid user ID', 'Email is already registered']);
     });
 
     // Test case: Attempt to delete a user with an invalid ID
