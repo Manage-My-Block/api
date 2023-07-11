@@ -40,3 +40,14 @@ Contacts:
     email: String
     createdAt: Date
 
+Meetings:
+    _id
+    name: String
+    date: Date
+    description: String
+    link: String
+
+Budgets:
+    _id
+    transactions: [{amount: Number, description: Notice._id, date: Date}]
+    balance: Number
