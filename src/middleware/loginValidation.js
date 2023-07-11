@@ -3,13 +3,13 @@ const User = require('../models/User');
 
 // Login validation middleware
 const loginValidator = [
-    // Validate username
-    body('username')
+    // Validate email
+    body('email')
         .trim()
         .notEmpty()
-        .withMessage('Username is required')
+        .withMessage('Email is required')
         .isEmail()
-        .withMessage('Username must be an email'),
+        .withMessage('Email must be an email'),
     // Validate password
     body('password')
         .notEmpty()
@@ -29,7 +29,7 @@ const loginValidator = [
 
 // Register validation middleware
 const registerValidator = [
-    body('username')
+    body('email')
         .notEmpty()
         .withMessage('Email is required')
         .isEmail()

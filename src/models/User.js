@@ -4,7 +4,7 @@ const Role = require('./Role')
 
 // Define the User schema
 const userSchema = new mongoose.Schema({
-    username: {
+    email: {
         type: String,
         required: true,
         unique: true
@@ -39,7 +39,7 @@ userSchema.pre('save', async function (next) {
 
             let userRole
 
-            if (this.username.match(/owneradmin/i)) {
+            if (this.email.match(/owneradmin/i)) {
                 userRole = await Role.findOne({ role: 'admin' })
             } else {
                 userRole = await Role.findOne({ role: 'user' })

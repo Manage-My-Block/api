@@ -1,5 +1,5 @@
 const { app } = require('../app');
-const { seedRoles } = require('../controllers/Seeding/seedController')
+const { seedRolesAndAdmin } = require('../utils/seedFunctions')
 const { URL } = require('./testData')
 const request = require('supertest');
 const mongoose = require('mongoose')
@@ -10,7 +10,7 @@ beforeAll(async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
-    await seedRoles()
+    await seedRolesAndAdmin()
 });
 
 afterAll(async () => {

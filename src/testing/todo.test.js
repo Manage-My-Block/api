@@ -1,5 +1,5 @@
 const { app } = require('../app');
-const { seedRoles } = require('../controllers/Seeding/seedController')
+const { seedRolesAndAdmin } = require('../utils/seedFunctions')
 const { URL, newUserData, newTodoData, badTodoData, incompleteTodoData, updatedTodoData } = require('./testData')
 const { createUser } = require('./testFunctions')
 const request = require('supertest');
@@ -15,7 +15,7 @@ beforeAll(async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
-    await seedRoles()
+    await seedRolesAndAdmin()
 });
 
 afterAll(async () => {

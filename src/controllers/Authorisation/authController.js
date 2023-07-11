@@ -9,15 +9,15 @@ dotenv.config()
 
 // Login route
 const login = async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     try {
-        // Find the user by username
-        const user = await User.findOne({ username });
+        // Find the user by email
+        const user = await User.findOne({ email });
 
         // If the user doesn't exist, return an error
         if (!user) {
-            return res.status(404).json({ error: 'Invalid username or password' });
+            return res.status(404).json({ error: 'Invalid email or password' });
         }
 
         // Compare the provided password with the stored hashed password
@@ -25,7 +25,7 @@ const login = async (req, res) => {
 
         // If the password is invalid, return an error
         if (!isPasswordValid) {
-            return res.status(401).json({ error: 'Invalid username or password' });
+            return res.status(401).json({ error: 'Invalid email or password' });
         }
 
         // Generate a JWT token
@@ -52,7 +52,7 @@ const register = async (req, res) => {
         res.status(201).json({ newUser, token });
 
     } catch (error) {
-
+        console.log(error.message)
         res.status(500).json({ error: error.message });
     }
 };
