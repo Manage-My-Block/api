@@ -14,7 +14,7 @@ const loginAdmin = async () => {
         .post('/login')
         .send({
             email: 'admin@admin.com',
-            password: '1234',
+            password: '123456',
         })
 
     return { USER: response.body.user, JWT: response.body.token }
