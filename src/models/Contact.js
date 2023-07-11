@@ -6,7 +6,7 @@ const contactSchema = mongoose.Schema({
         required: true
     },
     phoneNumber: {
-        type: Number,
+        type: String,
         required: true
     },
     email: {
@@ -37,26 +37,6 @@ contactSchema.statics.createContact = async function (contactData) {
     }
 };
 
-// Read a contact by ID
-contactSchema.statics.getContactById = async function (contactId) {
-    try {
-        // Find the contact
-        const contact = await this.findById(contactId)
-
-        // if no contact found throw error
-        if (!contact) {
-            throw new Error('contact not found');
-        }
-
-        return contact;
-
-    } catch (error) {
-
-        throw new Error(error.message);
-
-    }
-};
-
 // Update a contact by ID
 contactSchema.statics.updateContact = async function (contactId, contactData) {
     try {
@@ -70,7 +50,7 @@ contactSchema.statics.updateContact = async function (contactId, contactData) {
         }
 
         // Save the updated contact
-        const updatedContact = await this.findByIdAndUpdate(todoId, contactData, { new: true })
+        const updatedContact = await this.findByIdAndUpdate(contactId, contactData, { new: true })
 
         return updatedContact;
 

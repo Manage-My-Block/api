@@ -1,7 +1,7 @@
 const { app, PORT, HOST } = require('./app')
 const dotenv = require('dotenv')
 const { dbConnector, dbDisconnector } = require('./database')
-const { seedRoles } = require('./utils/seedFunctions')
+const { seedRolesAndAdmin } = require('./utils/seedFunctions')
 
 // Config environment variables
 dotenv.config()
@@ -47,8 +47,8 @@ app.on('close', () => {
 // Connect database
 dbConnector(URL)
     .then(() => { console.log("Connected to database") })
-    .then(() => seedRoles())
-    .then(() => { console.log("Roles seeded") })
+    .then(() => seedRolesAndAdmin())
+    .then(() => { console.log("Roles seeded and admin created") })
     .catch(error => { console.log("Error connecting to db: " + error) })
 
 app.listen(PORT, HOST, () => {

@@ -1,4 +1,3 @@
-const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { encrypt } = require('../../utils/encryption')
@@ -33,7 +32,7 @@ const login = async (req, res) => {
         const token = jwt.sign({ payload: encrypt(user._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
 
         // Return the token as a response
-        res.json({ token });
+        res.json({ user, token });
 
     } catch (error) {
 
