@@ -1,26 +1,22 @@
 // Authorisation middleware for admin role
-module.exports.authoriseAdmin = (req, res, next) => {
-    if (req.user.role === 'admin') {
-        next();
+const authoriseAdminUsers = (req, res, next) => {
+    // Check if admin, or check if user owns the id
+    if (req.user.role.role !== 'admin' && req.user._id.toString() !== req.params.id) {
+        res.status(401).json({ error: 'Unauthorized' });
     } else {
-        res.status(403).json({ error: 'Forbidden' });
+        next();
     }
 };
 
-// Authorisation middleware for moderator role
-module.exports.authoriseCommittee = (req, res, next) => {
-    if (req.user.role === 'moderator' || req.user.role === 'admin') {
-        next();
+// Authorisation middleware for admin role
+const authoriseCommittee = (req, res, next) => {
+    // Check for committee or admin roles
+    if (req.user.role.role !== 'committee' && req.user.role.role !== 'admin') {
+        res.status(401).json({ error: 'Unauthorized' });
     } else {
-        res.status(403).json({ error: 'Forbidden' });
+        next();
     }
 };
 
-// Authorisation middleware for regular user role
-module.exports.authoriseUser = (req, res, next) => {
-    if (req.user.role === 'user' || req.user.role === 'moderator' || req.user.role === 'admin') {
-        next();
-    } else {
-        res.status(403).json({ error: 'Forbidden' });
-    }
-};
+
+module.exports = { authoriseAdminUsers, authoriseCommittee, }

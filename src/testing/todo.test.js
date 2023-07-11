@@ -1,7 +1,7 @@
 const { app } = require('../app');
 const { seedRolesAndAdmin } = require('../utils/seedFunctions')
-const { URL, newUserData, newTodoData, badTodoData, incompleteTodoData, updatedTodoData } = require('./testData')
-const { createUser } = require('./testFunctions')
+const { URL, newTodoData, badTodoData, incompleteTodoData, updatedTodoData } = require('./testData')
+const { loginAdmin } = require('./testFunctions')
 const request = require('supertest');
 const mongoose = require('mongoose')
 
@@ -30,7 +30,7 @@ afterAll(async () => {
 describe('Todos Route Tests', () => {
     // Test case: Create a new todo
     it('should create a new todo', async () => {
-        const userData = await createUser(newUserData)
+        const userData = await loginAdmin()
 
         USER = userData.USER
         JWT = userData.JWT
