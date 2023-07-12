@@ -1,7 +1,7 @@
 const { app } = require('../app');
 const { seedRolesAndAdmin } = require('../utils/seedFunctions')
 const { URL, newUserData, newContactData, incompleteContactData, badContactData, updatedContactData } = require('./testData')
-const { createUser } = require('./testFunctions')
+const { loginAdmin } = require('./testFunctions')
 const request = require('supertest');
 const mongoose = require('mongoose')
 
@@ -29,7 +29,7 @@ afterAll(async () => {
 describe('Contacts Route Tests', () => {
     // Test case: Create a new contact
     it('should create a new contact', async () => {
-        const userData = await createUser(newUserData)
+        const userData = await loginAdmin()
 
         USER = userData.USER
         JWT = userData.JWT
