@@ -4,7 +4,7 @@ const { validateCreateTodo, validateUpdateTodo, validateVoteTodo } = require('..
 const { validateComment } = require('../../middleware/commentValidation')
 const { validateId } = require('../../middleware/validateID')
 const { authenticateUser } = require('../../middleware/authentication')
-const { authoriseCommitteeAdmin } = require('../../middleware/authorisation')
+const { authoriseCommitteeAdmin, authoriseCommittee } = require('../../middleware/authorisation')
 const TodosController = require('./todosController');
 
 // Get all todos
@@ -23,7 +23,7 @@ router.put('/todos/:id', authenticateUser, authoriseCommitteeAdmin, validateUpda
 router.put('/todos/:id/callvote', authenticateUser, authoriseCommitteeAdmin, TodosController.callVoteTodo);
 
 // Cast a vote in a todo by ID
-router.put('/todos/:id/vote', authenticateUser, authoriseCommitteeAdmin, validateVoteTodo, TodosController.castVoteTodo);
+router.put('/todos/:id/vote', authenticateUser, authoriseCommittee, validateVoteTodo, TodosController.castVoteTodo);
 
 // Add a comment to a todo
 router.put('/todos/:id/comment', authenticateUser, authoriseCommitteeAdmin, validateComment, TodosController.addCommentTodo);
