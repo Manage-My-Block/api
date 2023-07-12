@@ -8,7 +8,7 @@ const authoriseAdminUsers = (req, res, next) => {
     }
 }
 
-// Authorisation middleware for admin role
+// Authorisation middleware for admin and committee roles
 const authoriseCommitteeAdmin = (req, res, next) => {
     // Check for committee or admin roles
     if (req.user.role.role !== 'committee' && req.user.role.role !== 'admin') {
@@ -18,5 +18,15 @@ const authoriseCommitteeAdmin = (req, res, next) => {
     }
 }
 
+// Authorisation middleware for committee role
+const authoriseCommittee = (req, res, next) => {
+    // Check for committee role
+    if (req.user.role.role !== 'committee') {
+        res.status(401).json({ error: 'Unauthorized' })
+    } else {
+        next()
+    }
+}
 
-module.exports = { authoriseAdminUsers, authoriseCommitteeAdmin, }
+
+module.exports = { authoriseAdminUsers, authoriseCommitteeAdmin, authoriseCommittee }
