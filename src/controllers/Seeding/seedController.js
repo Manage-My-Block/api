@@ -8,12 +8,8 @@ SeedRouter.get('/wipeandseed', async (req, res) => {
         // Remove all documents
         await deleteAllDocuments()
 
-        console.log('All documents deleted successfully')
-
         // Seed db with roles, users, todos and notices
         await seedDatabase()
-
-        console.log("Database seeded")
 
         res.status(200).json({ message: "Database seeded successfully" })
 
@@ -27,12 +23,8 @@ SeedRouter.get('/wipe', async (req, res) => {
         // Remove all documents from the 'Role' collection
         await deleteAllDocuments()
 
-        console.log('All documents deleted successfully')
-
         // Seed db with roles and admin
         await seedRolesAndAdmin()
-
-        console.log("Database roles and admin seeded")
 
         res.status(200).json({ message: "Database wiped, roles and admin seeded" })
 
@@ -46,12 +38,8 @@ SeedRouter.get('/drop', async (req, res) => {
         // Remove all documents from the 'Role' collection
         await dropDatabase()
 
-        console.log('Database dropped successfully')
-
         // Seed db with roles and admin
         await seedRolesAndAdmin()
-
-        console.log("Database roles and admin seeded")
 
         res.status(200).json({ message: "Database dropped and rebuilt, roles and admin seeded" })
 
