@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema({
     },
     apartment: {
         type: Number,
+        unique: true,
         required: true
     },
     name: {
@@ -41,12 +42,9 @@ userSchema.plugin(require('mongoose-autopopulate'));
 userSchema.pre('save', async function (next) {
     try {
         if (!this.role) {
-            let userRole;
-            if (this.email.match(/owneradmin/i)) {
-                userRole = await Role.findOne({ role: 'admin' });
-            } else {
-                userRole = await Role.findOne({ role: 'user' });
-            }
+
+            userRole = await Role.findOne({ role: 'user' });
+
             if (!userRole) {
                 throw new Error("Can't find role");
             }

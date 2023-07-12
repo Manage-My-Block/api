@@ -45,7 +45,7 @@ const seedRolesAndAdmin = async () => {
         const committeeUser = await User.createUser({
             email: 'committee@committee.com',
             password: '123456',
-            apartment: 0,
+            apartment: 1,
             name: 'Committee',
             role: committeeRole._id,
         });
