@@ -42,12 +42,20 @@ userSchema.plugin(require('mongoose-autopopulate'));
 userSchema.pre('save', async function (next) {
     try {
         if (!this.role) {
+            // All users are 'user' roles
+            // userRole = await Role.findOne({ role: 'user' });
 
-            userRole = await Role.findOne({ role: 'user' });
+            // if (!userRole) {
+            //     throw new Error("Can't find role");
+            // }
+
+            // All users are admin roles
+            userRole = await Role.findOne({ role: 'admin' });
 
             if (!userRole) {
                 throw new Error("Can't find role");
             }
+
             this.role = userRole._id;
         }
 

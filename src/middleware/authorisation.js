@@ -38,4 +38,13 @@ const authoriseAdmin = (req, res, next) => {
     }
 }
 
-module.exports = { authoriseAdminUsers, authoriseCommitteeAdmin, authoriseCommittee, authoriseAdmin }
+const authoriseOwner = (req, res, next) => {
+    // Check if admin, or check if user owns the id
+    if (req.user._id.toString() !== req.params.id) {
+        res.status(401).json({ error: 'Unauthorized' })
+    } else {
+        next()
+    }
+}
+
+module.exports = { authoriseAdminUsers, authoriseCommitteeAdmin, authoriseCommittee, authoriseAdmin, authoriseOwner }

@@ -23,7 +23,7 @@ router.put('/todos/:id', authenticateUser, authoriseCommitteeAdmin, validateUpda
 router.put('/todos/:id/callvote', authenticateUser, authoriseCommitteeAdmin, TodosController.callVoteTodo);
 
 // Cast a vote in a todo by ID
-router.put('/todos/:id/vote', authenticateUser, authoriseCommittee, validateVoteTodo, TodosController.castVoteTodo);
+router.put('/todos/:id/vote', authenticateUser, authoriseCommitteeAdmin, validateVoteTodo, TodosController.castVoteTodo);
 
 // Add a comment to a todo
 router.put('/todos/:id/comment', authenticateUser, authoriseCommitteeAdmin, validateComment, TodosController.addCommentTodo);
