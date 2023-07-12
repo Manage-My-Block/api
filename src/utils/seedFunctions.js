@@ -18,11 +18,13 @@ const seedRolesAndAdmin = async () => {
 
         // Check if admin was already created
         const foundAdmin = (await User.find()).find(user => user.role.role === 'admin')
+        const foundCommittee = (await User.find()).find(user => user.role.role === 'committee')
 
-        if (roles.length > 0 || foundAdmin) {
-            const token = jwt.sign({ payload: encrypt(foundAdmin._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
+        if (roles.length > 0 || foundAdmin || foundCommittee) {
+            const adminToken = jwt.sign({ payload: encrypt(foundAdmin._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
+            const committeeToken = jwt.sign({ payload: encrypt(foundCommittee._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
 
-            return token
+            return { adminToken, committeeToken }
         }
 
         // Create roles
@@ -47,6 +49,8 @@ const seedRolesAndAdmin = async () => {
             name: 'Committee',
             role: committeeRole._id,
         });
+
+        console.log(adminUser._id, committeeUser._id)
 
         // Generate a JWT token
         const adminToken = jwt.sign({ payload: encrypt(adminUser._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
