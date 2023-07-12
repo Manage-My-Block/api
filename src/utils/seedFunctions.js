@@ -72,7 +72,7 @@ const seedRoles = async () => {
 // Seed the database
 const seedRolesBuildingUsersTodosNotices = async () => {
     try {
-        const buildingId = await seedBuilding()
+        const { buildingId } = await seedBuilding()
         const roles = await Role.find()
 
         const committeeRole = roles.find(role => role.role === 'committee')
