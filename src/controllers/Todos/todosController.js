@@ -3,7 +3,7 @@ const Todo = require('../../models/Todo')
 // Create a todo
 const createTodo = async (req, res) => {
     try {
-
+        // Create todo using Todo static method
         const newTodo = await Todo.createTodo(req.body);
 
         res.status(201).json(newTodo);
@@ -17,7 +17,7 @@ const createTodo = async (req, res) => {
 // Get all todos
 const getAllTodos = async (req, res) => {
     try {
-
+        // Find all todos
         const todos = await Todo.find()
 
         res.json(todos);
@@ -31,7 +31,7 @@ const getAllTodos = async (req, res) => {
 // Get a todo by ID
 const getTodoById = async (req, res) => {
     try {
-
+        // Get a single using Todo static method
         const todo = await Todo.getTodoById(req.params.id);
 
         res.json(todo);
@@ -45,8 +45,22 @@ const getTodoById = async (req, res) => {
 // Update a todo by ID
 const updateTodo = async (req, res) => {
     try {
-
+        // Updated a todo using Todo static method
         const updatedTodo = await Todo.updateTodo(req.params.id, req.body);
+
+        res.json(updatedTodo);
+
+    } catch (error) {
+
+        res.status(404).json({ error: error.message });
+    }
+};
+
+// Call a vote on a todo
+const callVoteTodo = async (req, res) => {
+    try {
+        // Call vote on Todo using static method
+        const updatedTodo = await Todo.callVote(req.params.id, req.user.role.role);
 
         res.json(updatedTodo);
 
@@ -59,7 +73,7 @@ const updateTodo = async (req, res) => {
 // Cast a vote on a todo
 const castVoteTodo = async (req, res) => {
     try {
-
+        // Cast vote on Todo using static method
         const updatedTodo = await Todo.castVote(req.params.id, req.body);
 
         res.json(updatedTodo);
@@ -73,7 +87,7 @@ const castVoteTodo = async (req, res) => {
 // Add a comment to a todo
 const addCommentTodo = async (req, res) => {
     try {
-
+        // Add comment to Todo using static method
         const updatedTodo = await Todo.addComment(req.params.id, req.body);
 
         res.json(updatedTodo);
@@ -87,7 +101,7 @@ const addCommentTodo = async (req, res) => {
 // Remove a comment from a todo
 const removeCommentTodo = async (req, res) => {
     try {
-
+        // Remove comment from Todo using static method
         const updatedTodo = await Todo.removeComment(req.params.id, req.params.commentId, req.user._id);
 
         res.json(updatedTodo);
@@ -120,5 +134,6 @@ module.exports = {
     castVoteTodo,
     addCommentTodo,
     removeCommentTodo,
-    deleteTodo
+    deleteTodo,
+    callVoteTodo
 }
