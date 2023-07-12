@@ -146,4 +146,9 @@ const deleteAllDocuments = async () => {
     }
 };
 
-module.exports = { seedRolesAndAdmin, seedDatabase, deleteAllDocuments }
+// Delete documents and wipe database
+const dropDatabase = async () => {
+    await mongoose.connection.db.dropDatabase()
+};
+
+module.exports = { seedRolesAndAdmin, seedDatabase, deleteAllDocuments, dropDatabase }
