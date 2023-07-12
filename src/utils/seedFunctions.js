@@ -50,8 +50,6 @@ const seedRolesAndAdmin = async () => {
             role: committeeRole._id,
         });
 
-        console.log(adminUser._id, committeeUser._id)
-
         // Generate a JWT token
         const adminToken = jwt.sign({ payload: encrypt(adminUser._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
         const committeeToken = jwt.sign({ payload: encrypt(committeeUser._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
