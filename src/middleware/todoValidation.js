@@ -69,12 +69,18 @@ const validateCreateTodo = [
         .withMessage('Cost must be a number'),
 
     (req, res, next) => {
+
+        // Check for errors
         const errors = validationResult(req);
+
+        // If errors return an error response
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({ errors: errors.array().map((error) => error.msg) });
         }
+
+        // Call next middleware
         next();
-    },
+    }
 ];
 
 // Validation middleware for updating a todo
@@ -153,14 +159,17 @@ const validateUpdateTodo = [
         .withMessage('Cost must be a number'),
     (req, res, next) => {
 
+        // Check for errors
         const errors = validationResult(req);
 
+        // If errors return an error response
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array().map((error) => error.msg) });
         }
 
+        // Call next middleware
         next();
-    },
+    }
 ];
 
 // Validation middleware for updating a todo
@@ -177,14 +186,17 @@ const validateVoteTodo = [
         .withMessage('Ballot must be a boolean'),
     (req, res, next) => {
 
+        // Check for errors
         const errors = validationResult(req);
 
+        // If errors return an error response
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array().map((error) => error.msg) });
         }
 
+        // Call next middleware
         next();
-    },
+    }
 ];
 
 module.exports = {

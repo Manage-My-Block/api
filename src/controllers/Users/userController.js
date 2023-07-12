@@ -33,11 +33,6 @@ const getUserById = async (req, res) => {
 // Update a user by ID
 const updateUser = async (req, res) => {
     try {
-        // // Only admin can update any user, otherwise users can only update their own data
-        // if (req.user.role.role !== 'admin' && req.user._id.toString() !== req.params.id) {
-        //     throw new Error('Unauthorized');
-        // }
-
         // Update user
         const updatedUser = await User.updateUser(req.params.id, req.body);
 
@@ -53,11 +48,6 @@ const updateUser = async (req, res) => {
 // Delete a user by ID
 const deleteUser = async (req, res) => {
     try {
-        // // Only admin can delete any user, otherwise users can only delete their own data
-        // if (req.user.role.role !== 'admin' && req.user._id.toString() !== req.params.id) {
-        //     throw new Error('Unauthorized');
-        // }
-
         // Delete User
         const deletedUser = await User.deleteUser(req.params.id);
 

@@ -25,7 +25,7 @@ contactSchema.statics.createContact = async function (contactData) {
         // Create a new instance of a contact record
         const contact = new this(contactData);
 
-        // Save the record
+        // Save the contact record to database
         await contact.save();
 
         return contact;
@@ -64,9 +64,10 @@ contactSchema.statics.updateContact = async function (contactId, contactData) {
 // Delete a contact by ID
 contactSchema.statics.deleteContact = async function (contactId) {
     try {
-
+        // Find and delete contact
         const contact = await this.findByIdAndDelete(contactId);
 
+        // If contact not found throw error
         if (!contact) {
             throw new Error('contact not found');
         }

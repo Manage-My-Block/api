@@ -16,10 +16,14 @@ const validateUpdateUser = [
         .isEmail()
         .withMessage('Invalid email format')
         .custom(async (value) => {
+            // Search for user based on email field
             const user = await User.findOne({ email: value });
+
+            // If user exists then email is already is use
             if (user) {
                 throw new Error('Email is already registered');
             }
+
             return true;
         }),
     body('password')
@@ -36,10 +40,16 @@ const validateUpdateUser = [
         .matches(/^[^0-9]+$/)
         .withMessage('Name must not contain numbers'),
     (req, res, next) => {
+
+        // Check for errors
         const errors = validationResult(req);
+
+        // If errors return an error response
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array().map((error) => error.msg) });
         }
+
+        // Call next middleware
         next();
     }
 ];

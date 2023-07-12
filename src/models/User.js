@@ -34,8 +34,10 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+// Enable library plugin to automatically populate ref fields
 userSchema.plugin(require('mongoose-autopopulate'));
 
+// Pre-save hook to run before a User.save() call
 userSchema.pre('save', async function (next) {
     try {
         if (!this.role) {
@@ -62,15 +64,16 @@ userSchema.pre('save', async function (next) {
     }
 });
 
-
+// Modify how the toJSON function operates on User mongoose object
 userSchema.set('toJSON', {
     transform: function (doc, ret, options) {
+        // Remove the password and role fields to maintain security
         delete ret.password
         delete ret.role
+
         return ret
     }
 });
-
 
 // Instance methods for User schema
 userSchema.methods = {
@@ -85,9 +88,10 @@ userSchema.methods = {
             throw new Error(err);
         }
     },
+    // Method to create a JWT with user id payload
     createJWT: function () {
         try {
-            // Generate a JWT token
+            // Generate a JWT token using the user's id as payload
             const token = jwt.sign({ payload: encrypt(this._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
 
             return token
@@ -102,9 +106,10 @@ userSchema.methods = {
 // Static methods to keep CRUD functionality contained
 userSchema.statics.createUser = async function (userData) {
     try {
-
+        // Create a new user instance
         const user = new this(userData);
 
+        // Save user in database
         await user.save();
 
         return user
@@ -118,9 +123,10 @@ userSchema.statics.createUser = async function (userData) {
 
 userSchema.statics.getUserById = async function (userId) {
     try {
-
+        // Search for user
         const user = await this.findById(userId)
 
+        // If user not found throw error
         if (!user) {
             throw new Error('User not found');
         }
@@ -136,9 +142,10 @@ userSchema.statics.getUserById = async function (userId) {
 
 userSchema.statics.updateUser = async function (userId, updateData) {
     try {
-
+        // Search for user and update with data
         const user = await this.findByIdAndUpdate(userId, updateData, { new: true });
 
+        // If user not found throw error
         if (!user) {
             throw new Error('User not found');
         }
@@ -154,9 +161,10 @@ userSchema.statics.updateUser = async function (userId, updateData) {
 
 userSchema.statics.deleteUser = async function (userId) {
     try {
-
+        // Find and delete user
         const user = await this.findByIdAndDelete(userId);
 
+        // If user not found throw error
         if (!user) {
             throw new Error('User not found');
         }
