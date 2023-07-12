@@ -20,4 +20,15 @@ const loginAdmin = async () => {
     return { USER: response.body.user, JWT: response.body.token }
 }
 
-module.exports = { createUser, loginAdmin }
+const loginCommittee = async () => {
+    const response = await request(app)
+        .post('/login')
+        .send({
+            email: 'committee@committee.com',
+            password: '123456',
+        })
+
+    return { USER: response.body.user, JWT: response.body.token }
+}
+
+module.exports = { createUser, loginAdmin, loginCommittee }
