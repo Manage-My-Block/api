@@ -47,9 +47,10 @@ noticeSchema.plugin(require('mongoose-autopopulate'));
 // Create a new notice
 noticeSchema.statics.createNotice = async function (noticeData) {
     try {
-
+        // Create new Notice
         const notice = new this(noticeData);
 
+        // Save notice to db
         await notice.save();
 
         return notice;
@@ -64,9 +65,10 @@ noticeSchema.statics.createNotice = async function (noticeData) {
 // Read a notice by ID
 noticeSchema.statics.getNoticeById = async function (noticeId) {
     try {
-
+        // Search for notice
         const notice = await this.findById(noticeId)
 
+        // If notice not found throw error
         if (!notice) {
             throw new Error('notice not found');
         }
@@ -83,11 +85,12 @@ noticeSchema.statics.getNoticeById = async function (noticeId) {
 // Update a notice by ID
 noticeSchema.statics.updateNotice = async function (noticeId, updateData) {
     try {
-
+        // Search for notice and update
         const notice = await this.findByIdAndUpdate(noticeId, updateData, { new: true });
 
+        // If notice not found throw error
         if (!notice) {
-            throw new Error('notice not found');
+            throw new Error('Notice not found');
         }
 
         return notice;
@@ -102,14 +105,16 @@ noticeSchema.statics.updateNotice = async function (noticeId, updateData) {
 // Add a comment to a Notice
 noticeSchema.statics.addComment = async function (noticeId, newComment) {
     try {
-
+        // Search for notice
         const notice = await this.findById(noticeId)
 
+        // If notice not found throw error
         if (!notice) {
             throw new Error('notice not found');
         }
 
-        notice.comments = [...notice.comments, newComment]
+        // Add new comment to comments array
+        notice.comments.push(newComment)
 
         // Save updated notice
         const updatedNotice = await this.findByIdAndUpdate(noticeId, notice, { new: true })
@@ -167,10 +172,12 @@ noticeSchema.statics.removeComment = async function (noticeId, commentId, userId
 noticeSchema.statics.deleteNotice = async function (noticeId) {
     try {
 
+        // Delete notice
         const notice = await this.findByIdAndDelete(noticeId);
 
+        // If notice not found throw error
         if (!notice) {
-            throw new Error('notice not found');
+            throw new Error('Notice not found');
         }
 
         return notice;
