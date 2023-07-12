@@ -52,8 +52,9 @@ dbConnector(URL)
     })
     .then((data) => {
         console.log(`
-    Roles seeded and admin created
-    Admin token: ${data}\n`)
+    Roles seeded, admin created
+    Admin token: ${data.adminToken}
+    Committee token: ${data.committeeToken}\n`)
     })
     .catch(error => { console.log("Error connecting to db: " + error) })
 
