@@ -1,6 +1,6 @@
 const { body, param } = require('express-validator');
 
-exports.validateComment = [
+const validateComment = [
     param('id')
         .optional()
         .isMongoId()
@@ -19,3 +19,7 @@ exports.validateComment = [
         .notEmpty()
         .withMessage('Comment is required, must not be empty string'),
 ]
+
+module.exports = {
+    validateComment
+}

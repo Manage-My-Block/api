@@ -47,10 +47,16 @@ app.on('close', () => {
 // Connect database
 dbConnector(URL)
     .then(() => { console.log("Connected to database") })
-    .then(() => seedRolesAndAdmin())
-    .then(() => { console.log("Roles seeded and admin created") })
+    .then(() => {
+        return seedRolesAndAdmin()
+    })
+    .then((data) => {
+        console.log(`
+    Roles seeded and admin created
+    Admin token: ${data}\n`)
+    })
     .catch(error => { console.log("Error connecting to db: " + error) })
 
 app.listen(PORT, HOST, () => {
-    console.log("Server started, listening on port " + PORT)
+    console.log(`Server started, listening at http://${HOST}:${PORT}`)
 })

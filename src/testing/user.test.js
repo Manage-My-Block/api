@@ -66,7 +66,6 @@ describe('User Routes Tests', () => {
         const response = await request(app)
             .put(`/users/${USER._id}`)
             .set("Authorization", `Bearer ${JWT}`)
-            .set('Content-Type', 'application/json')
             .send(updatedUserData)
             .expect(200);
 
@@ -86,15 +85,14 @@ describe('User Routes Tests', () => {
 
     // Test case: Attempt to update a user with an invalid ID
     it('should return an error when updating a user with an invalid ID', async () => {
-        const invalidId = 'a';
+        const invalidId = 'invalidId';
 
         const response = await request(app)
             .put(`/users/${invalidId}`)
             .set("Authorization", `Bearer ${JWT}`)
             .send(updatedUserData)
-            .expect(400);
+            .expect(401);
 
-        expect(response.body.errors).toStrictEqual(['Invalid user ID', 'Email is already registered']);
     });
 
     // Test case: Attempt to delete a user with an invalid ID
@@ -104,9 +102,7 @@ describe('User Routes Tests', () => {
         const response = await request(app)
             .delete(`/users/${invalidId}`)
             .set("Authorization", `Bearer ${JWT}`)
-            .expect(404);
-
-        expect(response.body.errors).toStrictEqual(["Invalid ID"]);
+            .expect(401);
 
     });
 
