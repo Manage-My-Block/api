@@ -11,6 +11,7 @@ const budgetSchema = mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Todo',
                 required: true,
+                autopopulate: { select: 'title' }
             },
             date: {
                 type: Date,
@@ -23,6 +24,9 @@ const budgetSchema = mongoose.Schema({
         required: true
     },
 })
+
+// Enable library plugin to automatically populate ref fields
+userSchema.plugin(require('mongoose-autopopulate'));
 
 // Create a new budget
 budgetSchema.statics.createBudget = async function (budgetData) {
@@ -93,9 +97,10 @@ budgetSchema.statics.updateBudget = async function (budgetId, newTransaction) {
 // Delete a budget by ID
 budgetSchema.statics.deleteBudget = async function (budgetId) {
     try {
-
+        // Find and delete Budget
         const budget = await this.findByIdAndDelete(budgetId);
 
+        // If budget not found throw error
         if (!budget) {
             throw new Error('budget not found');
         }

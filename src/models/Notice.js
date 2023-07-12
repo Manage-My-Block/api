@@ -40,7 +40,7 @@ const noticeSchema = new mongoose.Schema({
     images: [String]
 });
 
-
+// Enable library plugin to automatically populate ref fields
 noticeSchema.plugin(require('mongoose-autopopulate'));
 
 

@@ -34,7 +34,7 @@ SeedRouter.get('/wipe', async (req, res) => {
 
         console.log("Database roles and admin seeded")
 
-        res.status(200).json({ message: "Database wiped" })
+        res.status(200).json({ message: "Database wiped, roles and admin seeded" })
 
     } catch (error) {
         res.status(500).json({ error: error.message })
@@ -53,7 +53,7 @@ SeedRouter.get('/drop', async (req, res) => {
 
         console.log("Database roles and admin seeded")
 
-        res.status(200).json({ message: "Database dropped" })
+        res.status(200).json({ message: "Database dropped and rebuilt, roles and admin seeded" })
 
     } catch (error) {
         res.status(500).json({ error: error.message })

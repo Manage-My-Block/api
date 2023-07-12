@@ -73,14 +73,16 @@ const todoSchema = new mongoose.Schema({
     },
 });
 
+// Enable library plugin to automatically populate ref fields
 todoSchema.plugin(require('mongoose-autopopulate'));
 
 // Create a new todo
 todoSchema.statics.createTodo = async function (todoData) {
     try {
-
+        // Create a new todo instance
         const todo = new this(todoData)
 
+        // Save todo in database
         await todo.save()
 
         return todo
@@ -95,11 +97,12 @@ todoSchema.statics.createTodo = async function (todoData) {
 // Read a todo by ID
 todoSchema.statics.getTodoById = async function (todoId) {
     try {
-
+        // Search for todo
         const todo = await this.findById(todoId)
 
+        // If todo not found throw error
         if (!todo) {
-            throw new Error('todo not found')
+            throw new Error('Todo not found')
         }
 
         return todo
@@ -114,10 +117,12 @@ todoSchema.statics.getTodoById = async function (todoId) {
 // Update a todo by ID
 todoSchema.statics.updateTodo = async function (todoId, updateData) {
     try {
+        // Search for todo and update with data
         const todo = await this.findByIdAndUpdate(todoId, updateData, { new: true })
 
+        // If todo not found throw error
         if (!todo) {
-            throw new Error('todo not found')
+            throw new Error('Todo not found')
         }
 
         return todo
@@ -129,34 +134,26 @@ todoSchema.statics.updateTodo = async function (todoId, updateData) {
     }
 }
 
-// Cast a vote for a Todo
-todoSchema.statics.castVote = async function (todoId, voteData) {
+// Call a vote for a Todo
+todoSchema.statics.callVote = async function (todoId, role) {
     try {
-
+        // Search for todo
         const todo = await this.findById(todoId)
 
+        // If todo not found throw error
         if (!todo) {
-            throw new Error('todo not found')
+            throw new Error('Todo not found')
         }
 
-        const foundVote = todo.votes.find(vote => vote.user._id.toString() === voteData.user.toString())
-
-
-        if (foundVote) {
-            foundVote.ballot = voteData.ballot
-
-            todo.votes = todo.votes.map(vote => {
-                if (vote.user._id.toString() === voteData.user.toString()) {
-                    return foundVote
-                } else {
-                    return vote
-                }
-            })
-
-        } else {
-            todo.votes.push(voteData)
+        // Check if needsVote is already true and return unchanged todo
+        if (todo.needsVote) {
+            return todo
         }
 
+        // Update the needsVote field to true
+        todo.needsVote = true
+
+        // Update todo record
         const updatedTodo = await this.findByIdAndUpdate(todoId, todo, { new: true })
 
         return updatedTodo;
@@ -168,19 +165,72 @@ todoSchema.statics.castVote = async function (todoId, voteData) {
     }
 };
 
+// Cast a vote for a Todo
+todoSchema.statics.castVote = async function (todoId, voteData) {
+    try {
+        // Search for todo
+        const todo = await this.findById(todoId)
+
+        // If todo not found throw error
+        if (!todo) {
+            throw new Error('Todo not found')
+        }
+
+        // Search for vote owned by user, convert ObjectId to string to compare
+        const foundVote = todo.votes.find(vote => vote.user._id.toString() === voteData.user.toString())
+
+        // If vote exists update the ballot
+        if (foundVote) {
+
+            // Loop over votes array
+            todo.votes = todo.votes.map(vote => {
+                // Find vote owned by user
+                if (vote.user._id.toString() === voteData.user.toString()) {
+                    // Update their ballot
+                    vote.ballot = voteData.ballot
+
+                    // Return updated ballot to votes array
+                    return vote
+                } else {
+
+                    // If not their ballot then don't change it
+                    return vote
+                }
+            })
+
+        } else {
+            // If user hasn't cast a vote then push their new vote to the votes array
+            todo.votes.push(voteData)
+        }
+
+        // Update the full todo with the new votes array data
+        const updatedTodo = await this.findByIdAndUpdate(todoId, todo, { new: true })
+
+        return updatedTodo;
+
+    } catch (error) {
+
+        throw new Error(error.message);
+
+    }
+};
 
 // Add a comment to a Todo
 todoSchema.statics.addComment = async function (todoId, newComment) {
     try {
-
+        // Search for todo
         const todo = await this.findById(todoId)
 
+        // If todo not found throw error
         if (!todo) {
-            throw new Error('todo not found')
+            throw new Error('Todo not found')
         }
 
-        todo.comments = [...todo.comments, newComment]
+        // Push the new comment to the comments array
+        // todo.comments = [...todo.comments, newComment]
+        todo.comments.push(newComment)
 
+        // Update full todo with new comments array
         const updatedTodo = await this.findByIdAndUpdate(todoId, todo, { new: true })
 
         return updatedTodo;
@@ -199,9 +249,9 @@ todoSchema.statics.removeComment = async function (todoId, commentId, userId) {
         // Find todo
         const todo = await this.findById(todoId)
 
-        // If not found throw error
+        // If todo not found throw error
         if (!todo) {
-            throw new Error('todo not found');
+            throw new Error('Todo not found');
         }
 
         // Find comment in todo, convert ObjectId to string to compare
@@ -212,7 +262,7 @@ todoSchema.statics.removeComment = async function (todoId, commentId, userId) {
             throw new Error('Comment not found');
         }
 
-        // Users can only delete their own comments
+        // Users can only delete their own todo comments
         if (foundComment.user._id.toString() !== userId.toString()) {
             throw new Error('Can only delete your own comments');
         }
@@ -220,9 +270,8 @@ todoSchema.statics.removeComment = async function (todoId, commentId, userId) {
         // Filter the comment out
         todo.comments = todo.comments.filter(comment => comment._id.toString() !== commentId)
 
-        // Save updated todo
+        // Save full updated todo with filtered comments array
         const updatedTodo = await this.findByIdAndUpdate(todoId, todo, { new: true })
-        // .populate('comments.user', 'name')
 
         return updatedTodo;
 
@@ -236,11 +285,12 @@ todoSchema.statics.removeComment = async function (todoId, commentId, userId) {
 // Delete a todo by ID
 todoSchema.statics.deleteTodo = async function (todoId) {
     try {
-
+        // Find and delete todo
         const todo = await this.findByIdAndDelete(todoId);
 
+        // If todo not found throw error
         if (!todo) {
-            throw new Error('todo not found');
+            throw new Error('Todo not found');
         }
 
         return todo;

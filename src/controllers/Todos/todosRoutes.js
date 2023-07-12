@@ -19,7 +19,10 @@ router.post('/todos', authenticateUser, authoriseCommitteeAdmin, validateCreateT
 // Update a todo by ID
 router.put('/todos/:id', authenticateUser, authoriseCommitteeAdmin, validateUpdateTodo, TodosController.updateTodo);
 
-// Case a vote in a todo by ID
+// Call a vote in a todo by ID
+router.put('/todos/:id/callvote', authenticateUser, authoriseCommitteeAdmin, TodosController.callVoteTodo);
+
+// Cast a vote in a todo by ID
 router.put('/todos/:id/vote', authenticateUser, authoriseCommitteeAdmin, validateVoteTodo, TodosController.castVoteTodo);
 
 // Add a comment to a todo
