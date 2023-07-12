@@ -14,7 +14,9 @@ const createBuilding = async (req, res) => {
         // Create an admin for the building
         const newAdmin = await User.createUser(req.body.userData)
 
-        res.status(201).json({ newBuilding, newAdmin });
+        const token = newAdmin.createJWT()
+
+        res.status(201).json({ newBuilding, newAdmin, token });
 
     } catch (error) {
 

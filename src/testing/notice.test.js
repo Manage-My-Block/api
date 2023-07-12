@@ -1,13 +1,14 @@
 const { app } = require('../app');
-const { seedRolesAndAdmin } = require('../utils/seedFunctions')
+const { seedRolesAndAdmin, seedRoles } = require('../utils/seedFunctions')
 const { URL, newUserData, newNoticeData, incompleteNoticeData, updatedNoticeData, user2, user3 } = require('./testData')
-const { createUser } = require('./testFunctions')
+const { createUser, createBuilding } = require('./testFunctions')
 const request = require('supertest');
 const mongoose = require('mongoose')
 
-let JWT = ""
-let USER = ""
-let NOTICE = ""
+let JWT
+let USER
+let NOTICE
+let BUILDING
 const validIdNoRecord = '64abe47f0085854062708833';
 
 beforeAll(async () => {
@@ -15,7 +16,10 @@ beforeAll(async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
-    await seedRolesAndAdmin()
+    // await seedRolesAndAdmin()
+    await seedRoles()
+    const newBuildingData = await createBuilding()
+    BUILDING = newBuildingData.BUILDING
 });
 
 afterAll(async () => {
@@ -30,12 +34,15 @@ afterAll(async () => {
 describe('Notices Route Tests', () => {
     // Test case: Create a new notice
     it('should create a new notice', async () => {
+        newUserData.building = BUILDING._id
+
         const userData = await createUser(newUserData)
 
         USER = userData.USER
         JWT = userData.JWT
 
         newNoticeData.author = USER._id
+        newNoticeData.building = BUILDING._id
 
         const response = await request(app)
             .post('/notices')

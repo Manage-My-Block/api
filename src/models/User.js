@@ -34,9 +34,15 @@ const userSchema = new mongoose.Schema({
         autopopulate: { select: 'role' }
     },
     building: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Building',
+        required: true,
+        autopopulate: { select: 'name' }
     },
+    // building: {
+    //     type: String,
+    //     required: true
+    // },
 });
 
 // Enable library plugin to automatically populate ref fields
@@ -47,11 +53,14 @@ userSchema.pre('save', async function (next) {
     try {
         if (!this.role) {
 
-            userRole = await Role.findOne({ role: 'user' });
+            // userRole = await Role.findOne({ role: 'user' });
+
+            userRole = await Role.findOne({ role: 'admin' });
 
             if (!userRole) {
                 throw new Error("Can't find role");
             }
+
             this.role = userRole._id;
         }
 

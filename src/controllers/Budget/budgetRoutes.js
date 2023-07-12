@@ -13,7 +13,7 @@ router.get('/budgets/:id', authenticateUser, validateId, BudgetsController.getBu
 // router.post('/budgets', authenticateUser, authoriseAdmin, validateBudget, BudgetsController.createBudget);
 
 // // Update a budget by ID
-router.put('/budgets/:id', authenticateUser, authoriseAdmin, validateId, BudgetsController.updateBudget);
+router.put('/budgets/:id', authenticateUser, validateId, BudgetsController.updateBudget);
 
 // Delete a budget by ID
 // router.delete('/budgets/:id', authenticateUser, authoriseAdmin, validateId, BudgetsController.deleteBudget);
