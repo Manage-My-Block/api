@@ -77,7 +77,8 @@ describe('Contacts Route Tests', () => {
         await request(app)
             .delete(`/contacts/${invalidId}`)
             .set('Authorization', 'Bearer ' + JWT)
-            .expect(404);
+            .expect(400);
+
     });
 
     // Test case: Attempt to create a contact with incomplete data

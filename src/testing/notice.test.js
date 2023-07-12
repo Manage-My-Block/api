@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 let JWT = ""
 let USER = ""
 let NOTICE = ""
-const validId = '64abe47f0085854062708833';
+const validIdNoRecord = '64abe47f0085854062708833';
 
 beforeAll(async () => {
     await mongoose.connect(URL, {
@@ -141,7 +141,7 @@ describe('Notices Route Tests', () => {
         await request(app)
             .get(`/notices/${invalidId}`)
             .set('Authorization', 'Bearer ' + JWT)
-            .expect(404);
+            .expect(400);
     });
 
     // Test case: Attempt to delete a notice with an invalid ID
@@ -151,7 +151,7 @@ describe('Notices Route Tests', () => {
         await request(app)
             .delete(`/notices/${invalidId}`)
             .set('Authorization', 'Bearer ' + JWT)
-            .expect(404);
+            .expect(400);
     });
 
     // Test case: Attempt to create a notice with incomplete data
@@ -171,7 +171,7 @@ describe('Notices Route Tests', () => {
     it('should return an error when getting a notice that doesn\'t exist', async () => {
 
         await request(app)
-            .get(`/notices/${validId}`)
+            .get(`/notices/${validIdNoRecord}`)
             .set('Authorization', 'Bearer ' + JWT)
             .expect(404);
     });
@@ -180,7 +180,7 @@ describe('Notices Route Tests', () => {
     it('should return an error when deleting a notice that doesn\'t exist', async () => {
 
         await request(app)
-            .delete(`/notices/${validId}`)
+            .delete(`/notices/${validIdNoRecord}`)
             .set('Authorization', 'Bearer ' + JWT)
             .expect(404);
     });
