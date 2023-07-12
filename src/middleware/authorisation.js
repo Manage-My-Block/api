@@ -9,7 +9,7 @@ const authoriseAdminUsers = (req, res, next) => {
 };
 
 // Authorisation middleware for admin role
-const authoriseCommittee = (req, res, next) => {
+const authoriseCommitteeAdmin = (req, res, next) => {
     // Check for committee or admin roles
     if (req.user.role.role !== 'committee' && req.user.role.role !== 'admin') {
         res.status(401).json({ error: 'Unauthorized' });
@@ -19,4 +19,4 @@ const authoriseCommittee = (req, res, next) => {
 };
 
 
-module.exports = { authoriseAdminUsers, authoriseCommittee, }
+module.exports = { authoriseAdminUsers, authoriseCommitteeAdmin, }
