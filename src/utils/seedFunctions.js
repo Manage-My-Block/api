@@ -2,13 +2,7 @@ const Role = require('../models/Role')
 const User = require('../models/User')
 const Todo = require('../models/Todo')
 const Notice = require('../models/Notice')
-const jwt = require('jsonwebtoken');
-const { encrypt } = require('../utils/encryption')
-const dotenv = require('dotenv')
 const mongoose = require('mongoose')
-
-// Configure environment
-dotenv.config()
 
 // Seed roles and admin
 const seedRolesAndAdmin = async () => {
@@ -21,8 +15,8 @@ const seedRolesAndAdmin = async () => {
         const foundCommittee = (await User.find()).find(user => user.role.role === 'committee')
 
         if (roles.length > 0 || foundAdmin || foundCommittee) {
-            const adminToken = jwt.sign({ payload: encrypt(foundAdmin._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
-            const committeeToken = jwt.sign({ payload: encrypt(foundCommittee._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
+            const adminToken = foundAdmin.createJWT()
+            const committeeToken = foundCommittee.createJWT()
 
             return { adminToken, committeeToken }
         }
@@ -51,8 +45,8 @@ const seedRolesAndAdmin = async () => {
         });
 
         // Generate a JWT token
-        const adminToken = jwt.sign({ payload: encrypt(adminUser._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
-        const committeeToken = jwt.sign({ payload: encrypt(committeeUser._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
+        const adminToken = adminUser.createJWT()
+        const committeeToken = committeeUser.createJWT()
 
         return { adminToken, committeeToken }
 

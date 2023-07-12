@@ -27,15 +27,19 @@ const updatedUserData = {
 const newTodoData = {
     title: 'Broken front door',
     description: 'The north building front door handle is broken',
-    dueDate: new Date('2023-07-15'),
-    isComplete: false
+    dueDate: new Date('2024-07-15'),
+    isComplete: false,
+    needsVote: false,
+    status: "pending",
+    cost: 0
 }
 
 const badTodoData = {
     title: '   ',
     description: 1,
     dueDate: "new date",
-    isComplete: 10
+    isComplete: 10,
+    cost: 0.1
 }
 
 const incompleteTodoData = {
@@ -45,7 +49,8 @@ const incompleteTodoData = {
 const updatedTodoData = {
     title: 'Broken back door',
     description: 'The south building front door handle is broken',
-    status: "started"
+    status: "started",
+    cost: 10
 }
 
 

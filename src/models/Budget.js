@@ -19,6 +19,12 @@ const budgetSchema = mongoose.Schema({
             },
         }
     ],
+    building: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Building',
+        required: true,
+        autopopulate: { select: 'name' }
+    },
     balance: {
         type: Number,
         required: true
@@ -26,7 +32,27 @@ const budgetSchema = mongoose.Schema({
 })
 
 // Enable library plugin to automatically populate ref fields
-userSchema.plugin(require('mongoose-autopopulate'));
+budgetSchema.plugin(require('mongoose-autopopulate'));
+
+// Instance methods for Budget schema
+budgetSchema.methods = {
+    // Method to add a new transaction to the budget and update the balance
+    addTransaction: async function (newTransaction) {
+        try {
+
+            this.balance -= newTransaction.amount
+            this.transactions.push(newTransaction)
+
+            // Save the updated budget
+            const updatedBudget = await this.constructor(this._id, this, { new: true })
+
+            return updatedBudget;
+
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
+};
 
 // Create a new budget
 budgetSchema.statics.createBudget = async function (budgetData) {
@@ -50,7 +76,7 @@ budgetSchema.statics.createBudget = async function (budgetData) {
 budgetSchema.statics.getBudgetById = async function (budgetId) {
     try {
         // Find the record, populate the references fields
-        const budget = await this.findById(budgetId).populat('transactions.description', 'title')
+        const budget = await this.findById(budgetId)
 
         // if no budget found throw error
         if (!budget) {
@@ -83,7 +109,7 @@ budgetSchema.statics.updateBudget = async function (budgetId, newTransaction) {
         budget.transactions.push(newTransaction)
 
         // Save the updated budget
-        const updatedBudget = await this.findByIdAndUpdate(todoId, budget, { new: true }).populate('transactions.description', 'title')
+        const updatedBudget = await this.findByIdAndUpdate(todoId, budget, { new: true })
 
         return updatedBudget;
 

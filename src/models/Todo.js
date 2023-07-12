@@ -69,7 +69,12 @@ const todoSchema = new mongoose.Schema({
     images: [String],
     cost: {
         type: Number,
+        min: [0, 'Cannot have negative numbers'],
         default: 0,
+        validate: {
+            validator: Number.isInteger,
+            message: 'Cost must be a whole number in cents.'
+        }
     },
 });
 

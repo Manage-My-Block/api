@@ -23,13 +23,16 @@ router.put('/todos/:id', authenticateUser, authoriseCommitteeAdmin, validateUpda
 router.put('/todos/:id/callvote', authenticateUser, authoriseCommitteeAdmin, TodosController.callVoteTodo);
 
 // Cast a vote in a todo by ID
-router.put('/todos/:id/vote', authenticateUser, authoriseCommittee, validateVoteTodo, TodosController.castVoteTodo);
+router.put('/todos/:id/vote', authenticateUser, authoriseCommitteeAdmin, validateVoteTodo, TodosController.castVoteTodo);
 
 // Add a comment to a todo
 router.put('/todos/:id/comment', authenticateUser, authoriseCommitteeAdmin, validateComment, TodosController.addCommentTodo);
 
 // Remove a comment from a todo
 router.put('/todos/:id/comment/:commentId', authenticateUser, authoriseCommitteeAdmin, validateComment, TodosController.removeCommentTodo);
+
+// Finalise a todo
+router.put('/todos/:id/finalise', authenticateUser, authoriseCommitteeAdmin, TodosController.finaliseTodo);
 
 // Delete a todo by ID
 router.delete('/todos/:id', authenticateUser, authoriseCommitteeAdmin, validateId, TodosController.deleteTodo);

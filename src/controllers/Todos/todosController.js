@@ -1,4 +1,5 @@
 const Todo = require('../../models/Todo')
+const Budget = require('../../models/Budget')
 
 // Create a todo
 const createTodo = async (req, res) => {
@@ -49,6 +50,34 @@ const updateTodo = async (req, res) => {
         const updatedTodo = await Todo.updateTodo(req.params.id, req.body);
 
         res.json(updatedTodo);
+
+    } catch (error) {
+
+        res.status(404).json({ error: error.message });
+    }
+};
+
+// Update a todo by ID
+const finaliseTodo = async (req, res) => {
+    try {
+        // Updated a todo using Todo static method
+        const updatedTodo = await Todo.updateTodo(req.params.id, req.body);
+
+        const newTransaction = {
+            amount: req.body.cost,
+            description: updatedTodo._id
+        }
+
+        const budget = await Budget.find({ building: req.body.building })
+
+        // If todo not found throw error
+        if (!budget) {
+            throw new Error('Budget not found');
+        }
+
+        const updatedBudget = await budget.addTransaction(newTransaction)
+
+        res.json(updatedBudget);
 
     } catch (error) {
 
@@ -135,5 +164,6 @@ module.exports = {
     addCommentTodo,
     removeCommentTodo,
     deleteTodo,
-    callVoteTodo
+    callVoteTodo,
+    finaliseTodo
 }
