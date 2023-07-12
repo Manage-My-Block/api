@@ -6,10 +6,13 @@
   "scripts": {
     "test": "NODE_ENV=test jest --detectOpenHandles",
     "test-cc": "NODE_ENV=test jest --coverage --detectOpenHandles",
+    "test-dev": "NODE_ENV=development jest --detectOpenHandles",
+    "test-prod": "NODE_ENV=production jest --detectOpenHandles",
+    "test-dev-cc": "NODE_ENV=development jest --coverage --detectOpenHandles",
     "dev": "NODE_ENV=development nodemon src/server.js",
     "dev-no-auth": "NODE_ENV=development NO_AUTH=true nodemon src/server.js",
     "local": "NODE_ENV=local nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "NODE_ENV=production node src/server.js"
   },
   "keywords": [],
   "author": "",
