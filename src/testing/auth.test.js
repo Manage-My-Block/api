@@ -1,7 +1,7 @@
 const { app } = require('../app');
 const { seedRolesAndAdmin } = require('../utils/seedFunctions')
 const { URL, newUserData } = require('./testData')
-const { createUser } = require('./testFunctions')
+const { createUser, loginAdmin } = require('./testFunctions')
 const request = require('supertest');
 const mongoose = require('mongoose')
 
@@ -36,6 +36,14 @@ describe('Login Route Tests', () => {
             .expect(200);
 
         expect(response.body.token).toBeDefined();
+    });
+
+    // Test case for logging in hard-coded admin
+    it('should return a valid JWT token for an admin user', async () => {
+        const response = await loginAdmin()
+
+        expect(response.JWT).toBeDefined();
+        expect(response.USER.email).toStrictEqual('admin@admin.com');
     });
 
     // Test case for invalid email
