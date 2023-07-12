@@ -45,6 +45,7 @@ const updateNotice = async (req, res) => {
     try {
 
         const updatedNotice = await Notice.updateNotice(req.params.id, req.body);
+
         res.json(updatedNotice);
 
     } catch (error) {

@@ -1,7 +1,7 @@
 const { check, body, param, validationResult } = require('express-validator');
 
 // Validation middleware for creating a Notice
-exports.validateCreateNotice = [
+const validateCreateNotice = [
     body('title')
         .trim()
         .notEmpty()
@@ -43,7 +43,7 @@ exports.validateCreateNotice = [
 ];
 
 // Validation middleware for updating a Notice
-exports.validateUpdateNotice = [
+const validateUpdateNotice = [
     check('*')
         .notEmpty()
         .withMessage('Must update at least one field'),
@@ -92,3 +92,8 @@ exports.validateUpdateNotice = [
         next();
     },
 ];
+
+module.exports = {
+    validateCreateNotice,
+    validateUpdateNotice
+}
