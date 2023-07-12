@@ -27,7 +27,7 @@ const seedRolesAndAdmin = async () => {
 
         // Create roles
         const adminRole = await Role.create({ role: 'admin' });
-        await Role.create({ role: 'committee' });
+        const committeeRole = await Role.create({ role: 'committee' });
         await Role.create({ role: 'user' });
 
         // Create admin user
@@ -39,10 +39,20 @@ const seedRolesAndAdmin = async () => {
             role: adminRole._id,
         });
 
-        // Generate a JWT token
-        const token = jwt.sign({ payload: encrypt(adminUser._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
+        // Create admin user
+        const committeeUser = await User.createUser({
+            email: 'committee@committee.com',
+            password: '123456',
+            apartment: 0,
+            name: 'Committee',
+            role: committeeRole._id,
+        });
 
-        return token
+        // Generate a JWT token
+        const adminToken = jwt.sign({ payload: encrypt(adminUser._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
+        const committeeToken = jwt.sign({ payload: encrypt(committeeUser._id) }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
+
+        return { adminToken, committeeToken }
 
     } catch (error) {
         console.log("Error: " + error.message)

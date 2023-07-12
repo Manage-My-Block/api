@@ -1,7 +1,7 @@
 const { app } = require('../app');
 const { seedRolesAndAdmin } = require('../utils/seedFunctions')
 const { URL, newTodoData, badTodoData, incompleteTodoData, updatedTodoData } = require('./testData')
-const { loginAdmin } = require('./testFunctions')
+const { loginAdmin, loginCommittee } = require('./testFunctions')
 const request = require('supertest');
 const mongoose = require('mongoose')
 
@@ -152,29 +152,31 @@ describe('Todos Route Tests', () => {
     // Test case: Cast a vote to a todo
     it('should add a vote to a todo by ID', async () => {
 
-        const vote1 = { user: USER._id, ballot: true }
-        const vote2 = { user: USER._id, ballot: false }
+        const committeeData = await loginCommittee()
+
+        const vote1 = { user: committeeData.USER._id, ballot: true }
+        const vote2 = { user: committeeData.USER._id, ballot: false }
 
         const response1 = await request(app)
             .put(`/todos/${TODO._id}/vote`)
-            .set('Authorization', 'Bearer ' + JWT)
+            .set('Authorization', 'Bearer ' + committeeData.JWT)
             .send(vote1)
             .expect(200);
 
         expect(response1.body).toBeDefined();
         expect(response1.body.votes).toHaveLength(1)
-        expect(response1.body.votes.find(vote => vote.user._id === USER._id).ballot).toBe(true)
+        expect(response1.body.votes.find(vote => vote.user._id === committeeData.USER._id).ballot).toBe(true)
 
         const response2 = await request(app)
             .put(`/todos/${TODO._id}/vote`)
-            .set('Authorization', 'Bearer ' + JWT)
+            .set('Authorization', 'Bearer ' + committeeData.JWT)
             .send(vote2)
             .expect(200);
 
 
         expect(response2.body).toBeDefined();
         expect(response2.body.votes).toHaveLength(1)
-        expect(response2.body.votes.find(vote => vote.user._id === USER._id).ballot).toBe(false)
+        expect(response2.body.votes.find(vote => vote.user._id === committeeData.USER._id).ballot).toBe(false)
     });
 
     // Test case: Attempt to update a todo by ID with bad data

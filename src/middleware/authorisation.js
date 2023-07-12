@@ -28,5 +28,4 @@ const authoriseCommittee = (req, res, next) => {
     }
 }
 
-
 module.exports = { authoriseAdminUsers, authoriseCommitteeAdmin, authoriseCommittee }
