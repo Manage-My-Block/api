@@ -85,17 +85,16 @@ describe('Todos Route Tests', () => {
         expect(response.body.title).toBe(updatedTodoData.title)
     });
 
-    // Test case: Attempt to update a todo by ID with bad datya
-    it('should update a todo by ID', async () => {
+    // Test case: Call a vote on a todo
+    it('should call a vote on a todo by ID', async () => {
 
         const response = await request(app)
-            .put(`/todos/${TODO._id}`)
+            .put(`/todos/${TODO._id}/callvote`)
             .set('Authorization', 'Bearer ' + JWT)
-            .send(badTodoData)
-            .expect(400);
+            .expect(200);
 
         expect(response.body).toBeDefined();
-        expect(Array.isArray(response.body.errors)).toBeTruthy();
+        expect(response.body.needsVote).toBe(true);
     });
 
     // Test case: Add a comment to a todo
@@ -127,6 +126,29 @@ describe('Todos Route Tests', () => {
         COMMENTS = response2.body.comments
     });
 
+    // Test case: Delete a comment from a todo
+    it('should delete a comment from a todo by ID', async () => {
+        // get todo by ID
+        const response = await request(app)
+            .get(`/todos/${TODO._id}`)
+            .set('Authorization', 'Bearer ' + JWT)
+            .expect(200);
+
+        expect(response.body).toBeDefined();
+        expect(response.body._id).toBe(TODO._id);
+
+        // Reference first comment id and remove it
+        const response1 = await request(app)
+            .put(`/todos/${TODO._id}/comment/${response.body.comments[0]._id}`)
+            .set('Authorization', 'Bearer ' + JWT)
+            .expect(200);
+
+        expect(response1.body).toBeDefined();
+        expect(response1.body.comments).length === 1;
+        expect(response1.body.comments[0].comment).toBe("Comment 2")
+
+    });
+
     // Test case: Cast a vote to a todo
     it('should add a vote to a todo by ID', async () => {
 
@@ -155,25 +177,17 @@ describe('Todos Route Tests', () => {
         expect(response2.body.votes.find(vote => vote.user._id === USER._id).ballot).toBe(false)
     });
 
-    // Test case: Delete a comment from a todo
-    it('should update a todo by ID', async () => {
+    // Test case: Attempt to update a todo by ID with bad data
+    it('should return error when updating a todo by ID with bad data', async () => {
+
         const response = await request(app)
-            .get(`/todos/${TODO._id}`)
+            .put(`/todos/${TODO._id}`)
             .set('Authorization', 'Bearer ' + JWT)
-            .expect(200);
+            .send(badTodoData)
+            .expect(400);
 
         expect(response.body).toBeDefined();
-        expect(response.body._id).toBe(TODO._id);
-
-        const response1 = await request(app)
-            .put(`/todos/${TODO._id}/comment/${response.body.comments[0]._id}`)
-            .set('Authorization', 'Bearer ' + JWT)
-            .expect(200);
-
-        expect(response1.body).toBeDefined();
-        expect(response1.body.comments).length === 1;
-        expect(response1.body.comments[0].comment).toBe("Comment 2")
-
+        expect(Array.isArray(response.body.errors)).toBeTruthy();
     });
 
     // Test case: Attempt to get a todo with an invalid ID
@@ -193,7 +207,7 @@ describe('Todos Route Tests', () => {
         await request(app)
             .delete(`/todos/${invalidId}`)
             .set('Authorization', 'Bearer ' + JWT)
-            .expect(404);
+            .expect(400);
     });
 
     // Test case: Attempt to create a todo with incomplete data
