@@ -1,7 +1,7 @@
 const { app, PORT, HOST } = require('./app')
 const dotenv = require('dotenv')
 const { dbConnector, dbDisconnector } = require('./database')
-const { seedRolesAndAdmin } = require('./utils/seedFunctions')
+const { seedRolesAndAdmin, seedRoles } = require('./utils/seedFunctions')
 
 // Config environment variables
 dotenv.config()
@@ -48,15 +48,26 @@ app.on('close', () => {
 dbConnector(URL)
     .then(() => { console.log("Connected to database") })
     .then(() => {
-        return seedRolesAndAdmin()
+        return seedRoles()
     })
-    .then((data) => {
+    .then(() => {
         console.log(`
-    Roles seeded, admin created
-    Admin token: ${data.adminToken}
-    Committee token: ${data.committeeToken}\n`)
+    Roles seeded`)
     })
     .catch(error => { console.log("Error connecting to db: " + error) })
+
+// dbConnector(URL)
+//     .then(() => { console.log("Connected to database") })
+//     .then(() => {
+//         return seedRolesAndAdmin()
+//     })
+//     .then((data) => {
+//         console.log(`
+//     Roles seeded, admin created
+//     Admin token: ${data.adminToken}
+//     Committee token: ${data.committeeToken}\n`)
+//     })
+//     .catch(error => { console.log("Error connecting to db: " + error) })
 
 app.listen(PORT, HOST, () => {
     console.log(`Server started, listening at http://${HOST}:${PORT}`)

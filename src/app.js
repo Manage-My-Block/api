@@ -8,6 +8,7 @@ const cors = require('cors')
 const { SeedRouter } = require('./controllers/Seeding/seedController')
 const AuthRouter = require('./controllers/Authorisation/authRoutes')
 const RoleRouter = require('./controllers/Roles/rolesRoutes')
+const BuildingRouter = require('./controllers/Building/buildingRoutes')
 const UserRouter = require('./controllers/Users/userRoutes')
 const TodoRouter = require('./controllers/Todos/todosRoutes')
 const NoticeRouter = require('./controllers/Notices/noticesRoutes')
@@ -49,6 +50,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(SeedRouter)     // Seeding route for wiping db and seeding new data
 app.use(AuthRouter)     // Login and register routes
 app.use(RoleRouter)     // Roles routes
+app.use(BuildingRouter) // Buildings routes
 app.use(UserRouter)     // User routes
 app.use(TodoRouter)     // Todo routes
 app.use(NoticeRouter)   // Notice routes

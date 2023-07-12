@@ -20,11 +20,15 @@ const budgetSchema = mongoose.Schema({
         }
     ],
     building: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Building',
-        required: true,
-        autopopulate: { select: 'name' }
+        type: String,
+        required: true
     },
+    // building: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Building',
+    //     required: true,
+    //     autopopulate: { select: 'name' }
+    // },
     balance: {
         type: Number,
         required: true

@@ -32,7 +32,11 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Role',
         autopopulate: { select: 'role' }
-    }
+    },
+    building: {
+        type: String,
+        required: true
+    },
 });
 
 // Enable library plugin to automatically populate ref fields

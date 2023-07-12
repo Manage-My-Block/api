@@ -16,7 +16,17 @@ const contactSchema = mongoose.Schema({
     createdAd: {
         type: Date,
         default: Date.now
-    }
+    },
+    building: {
+        type: String,
+        required: true
+    },
+    // building: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Building',
+    //     required: true,
+    //     autopopulate: { select: 'name' }
+    // },
 })
 
 // Create a new contact

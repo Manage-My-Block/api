@@ -2,7 +2,71 @@ const Role = require('../models/Role')
 const User = require('../models/User')
 const Todo = require('../models/Todo')
 const Notice = require('../models/Notice')
+const Building = require('../models/Building')
 const mongoose = require('mongoose')
+
+// // Seed roles and admin
+// const seedBuilding = async () => {
+//     try {
+//         const building = await Building.createBuilding({
+//             name: "Melbourne Tower Heights",
+//             address: "111 Big Street, Richmond, Melbourne",
+//             apartmentCount: 28
+//         })
+
+//         const { adminRole, committeeRole } = await seedRoles()
+
+//         // Create admin user
+//         const adminUser = await User.createUser({
+//             email: 'admin@admin.com',
+//             password: '123456',
+//             apartment: 0,
+//             name: 'Admin',
+//             building: building._id,
+//             role: adminRole._id,
+//         });
+
+//         // Create committee user
+//         const committeeUser = await User.createUser({
+//             email: 'committee@committee.com',
+//             password: '123456',
+//             apartment: 1,
+//             building: building._id,
+//             name: 'Committee',
+//             role: committeeRole._id,
+//         });
+
+//         // Generate a JWT token
+//         const adminToken = adminUser.createJWT()
+//         const committeeToken = committeeUser.createJWT()
+
+//         return { adminToken, committeeToken }
+
+//     } catch (error) {
+//         console.log("Error: " + error.message)
+//     }
+// };
+
+const seedRoles = async () => {
+    // Check if roles were already seeded
+    const roles = await Role.find()
+
+    if (roles.length > 0) {
+
+        const adminRole = roles.find(role => role.role === 'admin')
+        const committeeRole = roles.find(role => role.role === 'committee')
+        const userRole = roles.find(role => role.role === 'user')
+
+        return { adminRole, committeeRole, userRole }
+    }
+
+    // Create roles
+    const adminRole = await Role.create({ role: 'admin' });
+    const committeeRole = await Role.create({ role: 'committee' });
+    const userRole = await Role.create({ role: 'user' });
+
+    return { adminRole, committeeRole, userRole }
+}
 
 // Seed roles and admin
 const seedRolesAndAdmin = async () => {
@@ -35,7 +99,7 @@ const seedRolesAndAdmin = async () => {
             role: adminRole._id,
         });
 
-        // Create admin user
+        // Create committee user
         const committeeUser = await User.createUser({
             email: 'committee@committee.com',
             password: '123456',
@@ -157,4 +221,4 @@ const dropDatabase = async () => {
     await mongoose.connection.db.dropDatabase()
 };
 
-module.exports = { seedRolesAndAdmin, seedDatabase, deleteAllDocuments, dropDatabase }
+module.exports = { seedRolesAndAdmin, seedDatabase, deleteAllDocuments, dropDatabase, seedRoles }

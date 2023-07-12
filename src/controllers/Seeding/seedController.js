@@ -39,7 +39,7 @@ SeedRouter.get('/drop', async (req, res) => {
         await dropDatabase()
 
         // Seed db with roles and admin
-        await seedRolesAndAdmin()
+        // await seedRolesAndAdmin()
 
         res.status(200).json({ message: "Database dropped and rebuilt, roles and admin seeded" })
 

@@ -1,6 +1,14 @@
 const { app } = require('../app');
 const request = require('supertest');
 
+const createBuilding = async (data) => {
+    const response = await request(app)
+        .post('/building')
+        .send(data)
+
+    return { USER: response.body.newUser, JWT: response.body.token }
+}
+
 const createUser = async (data) => {
     const response = await request(app)
         .post('/register')
