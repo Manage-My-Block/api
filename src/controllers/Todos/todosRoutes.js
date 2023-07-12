@@ -31,6 +31,9 @@ router.put('/todos/:id/comment', authenticateUser, authoriseCommitteeAdmin, vali
 // Remove a comment from a todo
 router.put('/todos/:id/comment/:commentId', authenticateUser, authoriseCommitteeAdmin, validateComment, TodosController.removeCommentTodo);
 
+// Finalise a todo
+router.put('/todos/:id/finalise', authenticateUser, authoriseCommitteeAdmin, TodosController.finaliseTodo);
+
 // Delete a todo by ID
 router.delete('/todos/:id', authenticateUser, authoriseCommitteeAdmin, validateId, TodosController.deleteTodo);
 
