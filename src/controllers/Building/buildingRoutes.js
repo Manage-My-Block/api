@@ -6,7 +6,7 @@ const { validateId } = require('../../middleware/validateID')
 const BuildingsController = require('./buildingController');
 
 // Get all buildings
-router.get('/buildings', authenticateUser, BuildingsController.getAllBuildings);
+router.get('/buildings', BuildingsController.getAllBuildings);
 
 // Get building by ID
 router.get('/buildings/:id', authenticateUser, validateId, BuildingsController.getBuildingById);

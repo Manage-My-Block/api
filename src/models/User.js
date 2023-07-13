@@ -80,7 +80,7 @@ userSchema.set('toJSON', {
     transform: function (doc, ret, options) {
         // Remove the password and role fields to maintain security
         delete ret.password
-        delete ret.role
+        // delete ret.role
 
         return ret
     }
