@@ -37,13 +37,13 @@ const register = async (req, res) => {
     try {
 
         // Create a new user
-        const newUser = await User.createUser(req.body);
+        const user = await User.createUser(req.body);
 
         // Generate a JWT with User method
-        const token = newUser.createJWT()
+        const token = user.createJWT()
 
         // Return user info and JWT
-        res.status(201).json({ newUser, token });
+        res.status(201).json({ user, token });
 
     } catch (error) {
 
