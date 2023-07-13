@@ -52,7 +52,7 @@ userSchema.plugin(require('mongoose-autopopulate'));
 userSchema.pre('save', async function (next) {
     try {
         if (!this.role) {
-
+            // All users are 'user' roles
             // userRole = await Role.findOne({ role: 'user' });
 
             userRole = await Role.findOne({ role: 'admin' });
