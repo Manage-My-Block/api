@@ -1,20 +1,26 @@
 const { app } = require('../app');
-const { seedRolesAndAdmin } = require('../utils/seedFunctions')
 const { URL, newUserData, newContactData, incompleteContactData, badContactData, updatedContactData } = require('./testData')
-const { loginAdmin } = require('./testFunctions')
+const { loginAdmin, createBuilding } = require('./testFunctions')
 const request = require('supertest');
 const mongoose = require('mongoose')
+const { seedRolesAndAdmin, seedRoles } = require('../utils/seedFunctions')
 
-let JWT = ""
-let USER = ""
-let CONTACT = ""
+let JWT
+let USER
+let CONTACT
+let BUILDING
 
 beforeAll(async () => {
     await mongoose.connect(URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
-    await seedRolesAndAdmin()
+    // await seedRolesAndAdmin()
+    await seedRoles()
+
+    const newBuildingData = await createBuilding()
+
+    BUILDING = newBuildingData.BUILDING
 });
 
 afterAll(async () => {
@@ -33,6 +39,8 @@ describe('Contacts Route Tests', () => {
 
         USER = userData.USER
         JWT = userData.JWT
+
+        newContactData.building = BUILDING._id
 
         const response = await request(app)
             .post('/contacts')

@@ -1,21 +1,13 @@
 const { app } = require('../app');
-const { seedRolesAndAdmin } = require('../utils/seedFunctions')
-const { URL, newTodoData, badTodoData, incompleteTodoData, updatedTodoData } = require('./testData')
-const { loginAdmin } = require('./testFunctions')
+const { URL } = require('./testData')
 const request = require('supertest');
 const mongoose = require('mongoose')
-
-let JWT = ""
-let USER = ""
-let TODO = ""
-let COMMENTS = []
 
 beforeAll(async () => {
     await mongoose.connect(URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
-    await seedRolesAndAdmin()
 });
 
 afterAll(async () => {
@@ -29,7 +21,7 @@ afterAll(async () => {
 
 describe('Todos Route Tests', () => {
     // Test case: Drop database
-    it('should drop database', async () => {
+    it('should drop database and seed roles', async () => {
 
         const response = await request(app)
             .get('/drop')
@@ -37,18 +29,26 @@ describe('Todos Route Tests', () => {
     });
 
     // Test case: Wipe and seed database
-    it('should wipe and seed database', async () => {
+    it('should wipe and seed roles/building in database', async () => {
 
         const response = await request(app)
-            .get('/wipeandseed')
+            .get('/wipeseedbuilding')
             .expect(200);
     });
 
     // Test case: Wipe and seed database
-    it('should wipe database', async () => {
+    it('should wipe and reseed roles', async () => {
 
         const response = await request(app)
             .get('/wipe')
+            .expect(200);
+    });
+
+    // Test case: Wipe and seed database
+    it('should wipe and seed all items', async () => {
+
+        const response = await request(app)
+            .get('/wipeseedall')
             .expect(200);
     });
 

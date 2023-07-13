@@ -1,7 +1,7 @@
 const { app } = require('../app');
-const { seedRolesAndAdmin } = require('../utils/seedFunctions')
-const { URL, newTodoData, badTodoData, incompleteTodoData, updatedTodoData } = require('./testData')
-const { loginAdmin, loginCommittee } = require('./testFunctions')
+const { seedRolesAndAdmin, seedRoles } = require('../utils/seedFunctions')
+const { URL, newUserData, newTodoData, badTodoData, incompleteTodoData, updatedTodoData } = require('./testData')
+const { loginAdmin, loginCommittee, createBuilding, createUser } = require('./testFunctions')
 const request = require('supertest');
 const mongoose = require('mongoose')
 
@@ -9,13 +9,18 @@ let JWT = ""
 let USER = ""
 let TODO = ""
 let COMMENTS = []
+let BUILDING
 
 beforeAll(async () => {
     await mongoose.connect(URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
-    await seedRolesAndAdmin()
+    // await seedRolesAndAdmin()
+
+    await seedRoles()
+    const newBuildingData = await createBuilding()
+    BUILDING = newBuildingData.BUILDING
 });
 
 afterAll(async () => {
@@ -36,6 +41,7 @@ describe('Todos Route Tests', () => {
         JWT = userData.JWT
 
         newTodoData.author = USER._id
+        newTodoData.building = BUILDING._id
 
         const response = await request(app)
             .post('/todos')
@@ -152,7 +158,10 @@ describe('Todos Route Tests', () => {
     // Test case: Cast a vote to a todo
     it('should add a vote to a todo by ID', async () => {
 
-        const committeeData = await loginCommittee()
+        // const committeeData = await loginCommittee()
+        newUserData.building = BUILDING._id
+
+        const committeeData = await createUser(newUserData)
 
         const vote1 = { user: committeeData.USER._id, ballot: true }
         const vote2 = { user: committeeData.USER._id, ballot: false }

@@ -1,18 +1,24 @@
 const { app } = require('../app');
-const { seedRolesAndAdmin } = require('../utils/seedFunctions')
+const { seedRolesAndAdmin, seedRoles } = require('../utils/seedFunctions')
 const { URL, newUserData, incompleteUserData, updatedUserData } = require('./testData')
+const { createBuilding } = require('./testFunctions')
 const request = require('supertest');
 const mongoose = require('mongoose')
 
-let JWT = ""
-let USER = ""
+let JWT
+let USER
+let BUILDING
 
 beforeAll(async () => {
     await mongoose.connect(URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
-    await seedRolesAndAdmin()
+    // await seedRolesAndAdmin()
+
+    await seedRoles()
+    const newBuildingData = await createBuilding()
+    BUILDING = newBuildingData.BUILDING
 });
 
 afterAll(async () => {
@@ -27,6 +33,8 @@ afterAll(async () => {
 describe('User Routes Tests', () => {
     // Test case: Create a new user
     it('should create a new user', async () => {
+        newUserData.building = BUILDING._id
+
         const response = await request(app)
             .post('/register')
             .send(newUserData)
@@ -91,7 +99,7 @@ describe('User Routes Tests', () => {
             .put(`/users/${invalidId}`)
             .set("Authorization", `Bearer ${JWT}`)
             .send(updatedUserData)
-            .expect(401);
+            .expect(400);
 
     });
 
@@ -102,7 +110,7 @@ describe('User Routes Tests', () => {
         const response = await request(app)
             .delete(`/users/${invalidId}`)
             .set("Authorization", `Bearer ${JWT}`)
-            .expect(401);
+            .expect(400);
 
     });
 

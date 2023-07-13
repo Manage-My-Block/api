@@ -1,16 +1,21 @@
 const { app } = require('../app');
-const { seedRolesAndAdmin } = require('../utils/seedFunctions')
+const { seedRoles } = require('../utils/seedFunctions')
 const { URL } = require('./testData')
 const request = require('supertest');
 const mongoose = require('mongoose')
+const { createBuilding } = require('./testFunctions')
 
+let BUILDING
 
 beforeAll(async () => {
     await mongoose.connect(URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
-    await seedRolesAndAdmin()
+    // await seedRolesAndAdmin()
+    await seedRoles()
+    const newBuildingData = await createBuilding()
+    BUILDING = newBuildingData.BUILDING
 });
 
 afterAll(async () => {

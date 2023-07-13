@@ -37,7 +37,17 @@ const noticeSchema = new mongoose.Schema({
             },
         },
     ],
-    images: [String]
+    images: [String],
+    // building: {
+    //     type: String,
+    //     required: true
+    // },
+    building: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Building',
+        required: true,
+        autopopulate: { select: 'name' }
+    },
 });
 
 // Enable library plugin to automatically populate ref fields

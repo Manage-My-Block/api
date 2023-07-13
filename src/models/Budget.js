@@ -19,6 +19,10 @@ const budgetSchema = mongoose.Schema({
             },
         }
     ],
+    // building: {
+    //     type: String,
+    //     required: true
+    // },
     building: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Building',

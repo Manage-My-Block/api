@@ -31,6 +31,7 @@ const loginValidator = [
 const registerValidator = [
     // Validate email
     body('email')
+        .trim()
         .notEmpty()
         .withMessage('Email is required')
         .isEmail()
@@ -44,34 +45,11 @@ const registerValidator = [
         }),
     // Validate password
     body('password')
+        .trim()
         .notEmpty()
         .withMessage('Password is required')
         .isLength({ min: 6 })
         .withMessage('Password must be at least 6 characters long'),
-    // Validate name
-    body('name')
-        .trim()
-        .notEmpty()
-        .withMessage('Name is required')
-        .matches(/^[^0-9]+$/)
-        .withMessage('Name must not contain numbers'),
-    // Validate apartment
-    body('apartment')
-        .notEmpty()
-        .withMessage('Apartment number is required')
-        .isNumeric()
-        .custom(async (value) => {
-
-            // Find a user with the apartment value
-            const user = await User.findOne({ apartment: value });
-
-            // If a user exists then the apartment has already been registered
-            if (user) {
-                throw new Error('Apartment is already registered');
-            }
-
-            return true;
-        }),
     (req, res, next) => {
         // Check for errors
         const errors = validationResult(req);

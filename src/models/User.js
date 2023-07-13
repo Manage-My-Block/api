@@ -32,7 +32,17 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Role',
         autopopulate: { select: 'role' }
-    }
+    },
+    building: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Building',
+        required: true,
+        autopopulate: { select: 'name' }
+    },
+    // building: {
+    //     type: String,
+    //     required: true
+    // },
 });
 
 // Enable library plugin to automatically populate ref fields
@@ -45,11 +55,6 @@ userSchema.pre('save', async function (next) {
             // All users are 'user' roles
             // userRole = await Role.findOne({ role: 'user' });
 
-            // if (!userRole) {
-            //     throw new Error("Can't find role");
-            // }
-
-            // All users are admin roles
             userRole = await Role.findOne({ role: 'admin' });
 
             if (!userRole) {
@@ -75,7 +80,7 @@ userSchema.set('toJSON', {
     transform: function (doc, ret, options) {
         // Remove the password and role fields to maintain security
         delete ret.password
-        delete ret.role
+        // delete ret.role
 
         return ret
     }

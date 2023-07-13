@@ -76,6 +76,16 @@ const todoSchema = new mongoose.Schema({
             message: 'Cost must be a whole number in cents.'
         }
     },
+    // building: {
+    //     type: String,
+    //     required: true
+    // },
+    building: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Building',
+        required: true,
+        autopopulate: { select: 'name' }
+    },
 });
 
 // Enable library plugin to automatically populate ref fields

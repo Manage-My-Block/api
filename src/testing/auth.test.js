@@ -1,10 +1,11 @@
 const { app } = require('../app');
-const { seedRolesAndAdmin } = require('../utils/seedFunctions')
+const { seedRoles } = require('../utils/seedFunctions')
 const { URL, newUserData } = require('./testData')
-const { createUser, loginAdmin } = require('./testFunctions')
+const { createUser, loginAdmin, createBuilding } = require('./testFunctions')
 const request = require('supertest');
 const mongoose = require('mongoose')
 
+let BUILDING
 
 beforeAll(async () => {
     await mongoose.connect(URL, {
@@ -12,7 +13,9 @@ beforeAll(async () => {
         useUnifiedTopology: true,
     });
 
-    await seedRolesAndAdmin()
+    await seedRoles()
+    const newBuildingData = await createBuilding()
+    BUILDING = newBuildingData.BUILDING
 });
 
 
@@ -28,6 +31,8 @@ afterAll(async () => {
 describe('Login Route Tests', () => {
     // Test case for successful login
     it('should return a valid JWT token for a valid user', async () => {
+        newUserData.building = BUILDING._id
+
         await createUser(newUserData)
 
         const response = await request(app)
@@ -38,7 +43,7 @@ describe('Login Route Tests', () => {
         expect(response.body.token).toBeDefined();
     });
 
-    // Test case for logging in hard-coded admin
+    // Test case for logging in admin
     it('should return a valid JWT token for an admin user', async () => {
         const response = await loginAdmin()
 

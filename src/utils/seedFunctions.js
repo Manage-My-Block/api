@@ -2,29 +2,19 @@ const Role = require('../models/Role')
 const User = require('../models/User')
 const Todo = require('../models/Todo')
 const Notice = require('../models/Notice')
+const Building = require('../models/Building')
 const mongoose = require('mongoose')
 
-// Seed roles and admin
-const seedRolesAndAdmin = async () => {
+// Seed building, roles and admin
+const seedBuilding = async () => {
     try {
-        // Check if roles were already seeded
-        const roles = await Role.find()
+        const building = await Building.createBuilding({
+            name: "Melbourne Tower Heights",
+            address: "111 Big Street, Richmond, Melbourne",
+            apartmentCount: 28
+        })
 
-        // Check if admin was already created
-        const foundAdmin = (await User.find()).find(user => user.role.role === 'admin')
-        const foundCommittee = (await User.find()).find(user => user.role.role === 'committee')
-
-        if (roles.length > 0 || foundAdmin || foundCommittee) {
-            const adminToken = foundAdmin.createJWT()
-            const committeeToken = foundCommittee.createJWT()
-
-            return { adminToken, committeeToken }
-        }
-
-        // Create roles
-        const adminRole = await Role.create({ role: 'admin' });
-        const committeeRole = await Role.create({ role: 'committee' });
-        await Role.create({ role: 'user' });
+        const { adminRole, committeeRole } = await seedRoles()
 
         // Create admin user
         const adminUser = await User.createUser({
@@ -32,14 +22,16 @@ const seedRolesAndAdmin = async () => {
             password: '123456',
             apartment: 0,
             name: 'Admin',
+            building: building._id,
             role: adminRole._id,
         });
 
-        // Create admin user
+        // Create committee user
         const committeeUser = await User.createUser({
             email: 'committee@committee.com',
             password: '123456',
             apartment: 1,
+            building: building._id,
             name: 'Committee',
             role: committeeRole._id,
         });
@@ -48,17 +40,46 @@ const seedRolesAndAdmin = async () => {
         const adminToken = adminUser.createJWT()
         const committeeToken = committeeUser.createJWT()
 
-        return { adminToken, committeeToken }
+        return { adminToken, committeeToken, buildingId: building._id }
 
     } catch (error) {
         console.log("Error: " + error.message)
     }
 };
 
+// Seed just the roles
+const seedRoles = async () => {
+    // Check if roles were already seeded
+    const roles = await Role.find()
+    const buildings = await Role.find()
+
+    if (roles.length > 0) {
+
+        const adminRole = roles.find(role => role.role === 'admin')
+        const committeeRole = roles.find(role => role.role === 'committee')
+        const userRole = roles.find(role => role.role === 'user')
+
+        return { adminRole, committeeRole, userRole }
+    }
+    // Create building
+    const building = await Building.createBuilding({
+        name: "Developer Plaza",
+        address: "10 React Avenue, JavaScript Land",
+        apartmentCount: 28
+    })
+
+    // Create roles
+    const adminRole = await Role.create({ role: 'admin' });
+    const committeeRole = await Role.create({ role: 'committee' });
+    const userRole = await Role.create({ role: 'user' });
+
+    return { adminRole, committeeRole, userRole }
+}
+
 // Seed the database
-const seedDatabase = async () => {
+const seedRolesBuildingUsersTodosNotices = async () => {
     try {
-        await seedRolesAndAdmin()
+        const { buildingId } = await seedBuilding()
         const roles = await Role.find()
 
         const committeeRole = roles.find(role => role.role === 'committee')
@@ -71,6 +92,7 @@ const seedDatabase = async () => {
             apartment: 123,
             name: 'John Doe',
             role: committeeRole._id,
+            building: buildingId
         });
 
         const user2 = await User.createUser({
@@ -79,6 +101,7 @@ const seedDatabase = async () => {
             apartment: 456,
             name: 'Jane Smith',
             role: committeeRole._id,
+            building: buildingId
         });
 
         const user3 = await User.createUser({
@@ -87,6 +110,7 @@ const seedDatabase = async () => {
             apartment: 789,
             name: 'Beth June',
             role: userRole._id,
+            building: buildingId
         });
 
         // Create example todos
@@ -95,6 +119,7 @@ const seedDatabase = async () => {
             description: 'The north building front door handle is broken',
             dueDate: new Date('2023-07-15'),
             author: user1._id,
+            building: buildingId
         });
 
         await Todo.createTodo({
@@ -102,6 +127,7 @@ const seedDatabase = async () => {
             description: 'The level 2 bin room needs cleaning',
             dueDate: new Date('2023-07-10'),
             author: user2._id,
+            building: buildingId
         });
 
         await Todo.createTodo({
@@ -109,6 +135,7 @@ const seedDatabase = async () => {
             description: 'Can we discuss getting more security cameras',
             dueDate: new Date('2023-07-12'),
             author: user2._id,
+            building: buildingId,
             comments: [
                 { user: user1._id, comment: "I'm feeling unsafe." },
                 { user: user2._id, comment: "Will it cost a lot of money?" },
@@ -121,6 +148,7 @@ const seedDatabase = async () => {
             description: 'Application to hire a cleaner to powerwash the exterior walls',
             dueDate: new Date('2023-07-12'),
             author: user2._id,
+            building: buildingId,
             vote: [
                 { user: user1._id, ballot: true },
                 { user: user2._id, ballot: false },
@@ -132,6 +160,7 @@ const seedDatabase = async () => {
             author: user1._id,
             title: 'Block party',
             description: 'Anyone keen on throwing a block party?',
+            building: buildingId,
             comments: [
                 { user: user1._id, comment: "We can have it at my place." },
                 { user: user2._id, comment: "I love it!" },
@@ -157,4 +186,4 @@ const dropDatabase = async () => {
     await mongoose.connection.db.dropDatabase()
 };
 
-module.exports = { seedRolesAndAdmin, seedDatabase, deleteAllDocuments, dropDatabase }
+module.exports = { deleteAllDocuments, dropDatabase, seedRoles, seedBuilding, seedRolesBuildingUsersTodosNotices }
