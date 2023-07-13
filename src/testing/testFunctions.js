@@ -18,7 +18,7 @@ const createBuilding = async () => {
             }
         })
 
-    return { BUILDING: response.body.newBuilding, USER: response.body.newAdmin, TOKEN: response.body.token }
+    return { BUILDING: response.body.building, USER: response.body.user, TOKEN: response.body.token }
 }
 
 const createUser = async (data) => {
@@ -26,9 +26,7 @@ const createUser = async (data) => {
         .post('/register')
         .send(data)
 
-    // console.log(response.body)
-
-    return { USER: response.body.newUser, JWT: response.body.token }
+    return { USER: response.body.user, JWT: response.body.token }
 }
 
 const loginAdmin = async () => {

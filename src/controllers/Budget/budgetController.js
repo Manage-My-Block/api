@@ -20,9 +20,9 @@ const getBudgetById = async (req, res) => {
 const createBudget = async (req, res) => {
     try {
         // Create budget
-        const newBudget = await Budget.createBudget(req.body);
+        const budget = await Budget.createBudget(req.body);
 
-        res.status(201).json(newBudget);
+        res.status(201).json(budget);
 
     } catch (error) {
 
@@ -34,10 +34,10 @@ const createBudget = async (req, res) => {
 const updateBudget = async (req, res) => {
     try {
         // Update budget
-        const updatedBudget = await Budget.updateBudget(req.params.id, req.body);
+        const budget = await Budget.updateBudget(req.params.id, req.body);
 
         // Return updated Budget
-        res.json(updatedBudget);
+        res.json(budget);
 
     } catch (error) {
 
@@ -49,10 +49,10 @@ const updateBudget = async (req, res) => {
 const deleteBudget = async (req, res) => {
     try {
         // Delete Budget
-        const deletedBudget = await Budget.deleteBudget(req.params.id);
+        const budget = await Budget.deleteBudget(req.params.id);
 
         // Return deleted budget
-        res.json(deletedBudget);
+        res.json(budget);
 
     } catch (error) {
 

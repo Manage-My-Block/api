@@ -34,10 +34,10 @@ const getUserById = async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         // Update user
-        const updatedUser = await User.updateUser(req.params.id, req.body);
+        const user = await User.updateUser(req.params.id, req.body);
 
         // Return updated User
-        res.json(updatedUser);
+        res.json(user);
 
     } catch (error) {
 
@@ -49,10 +49,10 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
     try {
         // Delete User
-        const deletedUser = await User.deleteUser(req.params.id);
+        const user = await User.deleteUser(req.params.id);
 
         // Return deleted user
-        res.json(deletedUser);
+        res.json(user);
 
     } catch (error) {
 
