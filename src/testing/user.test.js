@@ -40,10 +40,10 @@ describe('User Routes Tests', () => {
             .send(newUserData)
             .expect(201);
 
-        expect(response.body.newUser).toBeDefined();
+        expect(response.body.user).toBeDefined();
         expect(response.body.token).toBeDefined();
 
-        USER = response.body.newUser
+        USER = response.body.user
         JWT = response.body.token
     });
 
@@ -99,7 +99,7 @@ describe('User Routes Tests', () => {
             .put(`/users/${invalidId}`)
             .set("Authorization", `Bearer ${JWT}`)
             .send(updatedUserData)
-            .expect(400);
+            .expect(401);
 
     });
 
@@ -110,7 +110,7 @@ describe('User Routes Tests', () => {
         const response = await request(app)
             .delete(`/users/${invalidId}`)
             .set("Authorization", `Bearer ${JWT}`)
-            .expect(400);
+            .expect(401);
 
     });
 

@@ -6,17 +6,17 @@ const createBuilding = async (req, res) => {
     try {
 
         // Create building using Building static method
-        const newBuilding = await Building.createBuilding(req.body.buildingData);
+        const building = await Building.createBuilding(req.body.buildingData);
 
         // Attach new building ID to userData
-        req.body.userData.building = newBuilding._id
+        req.body.userData.building = building._id
 
         // Create an admin for the building
-        const newAdmin = await User.createUser(req.body.userData)
+        const user = await User.createUser(req.body.userData)
 
-        const token = newAdmin.createJWT()
+        const token = user.createJWT()
 
-        res.status(201).json({ newBuilding, newAdmin, token });
+        res.status(201).json({ building, user, token });
 
     } catch (error) {
 
@@ -56,9 +56,9 @@ const getBuildingById = async (req, res) => {
 const updateBuilding = async (req, res) => {
     try {
         // Updated a building using Building static method
-        const updatedBuilding = await Building.updateBuilding(req.params.id, req.body);
+        const building = await Building.updateBuilding(req.params.id, req.body);
 
-        res.json(updatedBuilding);
+        res.json(building);
 
     } catch (error) {
 
@@ -70,9 +70,9 @@ const updateBuilding = async (req, res) => {
 const deleteBuilding = async (req, res) => {
     try {
 
-        const deletedBuilding = await Building.deleteBuilding(req.params.id);
+        const building = await Building.deleteBuilding(req.params.id);
 
-        res.json(deletedBuilding);
+        res.json(building);
 
     } catch (error) {
 

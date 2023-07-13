@@ -20,9 +20,9 @@ const getContacts = async (req, res) => {
 const createContact = async (req, res) => {
     try {
         // Create contact
-        const newContact = await Contact.createContact(req.body);
+        const contact = await Contact.createContact(req.body);
 
-        res.status(201).json(newContact);
+        res.status(201).json(contact);
 
     } catch (error) {
 
@@ -34,10 +34,10 @@ const createContact = async (req, res) => {
 const updateContact = async (req, res) => {
     try {
         // Update contact
-        const updatedContact = await Contact.updateContact(req.params.id, req.body);
+        const contact = await Contact.updateContact(req.params.id, req.body);
 
         // Return updated Contact
-        res.json(updatedContact);
+        res.json(contact);
 
     } catch (error) {
 
@@ -49,10 +49,10 @@ const updateContact = async (req, res) => {
 const deleteContact = async (req, res) => {
     try {
         // Delete Contact
-        const deletedContact = await Contact.deleteContact(req.params.id);
+        const contact = await Contact.deleteContact(req.params.id);
 
         // Return deleted contact
-        res.json(deletedContact);
+        res.json(contact);
 
     } catch (error) {
 

@@ -18,6 +18,7 @@ const validateCreateTodo = [
         .isMongoId()
         .withMessage('Invalid user ID'),
     body('isComplete')
+        .optional()
         .isBoolean()
         .withMessage('Complete must be boolean'),
     body('status')

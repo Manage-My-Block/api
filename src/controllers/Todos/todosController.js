@@ -5,9 +5,9 @@ const Budget = require('../../models/Budget')
 const createTodo = async (req, res) => {
     try {
         // Create todo using Todo static method
-        const newTodo = await Todo.createTodo(req.body);
+        const todo = await Todo.createTodo(req.body);
 
-        res.status(201).json(newTodo);
+        res.status(201).json(todo);
 
     } catch (error) {
 
@@ -47,9 +47,9 @@ const getTodoById = async (req, res) => {
 const updateTodo = async (req, res) => {
     try {
         // Updated a todo using Todo static method
-        const updatedTodo = await Todo.updateTodo(req.params.id, req.body);
+        const todo = await Todo.updateTodo(req.params.id, req.body);
 
-        res.json(updatedTodo);
+        res.json(todo);
 
     } catch (error) {
 
@@ -61,23 +61,23 @@ const updateTodo = async (req, res) => {
 const finaliseTodo = async (req, res) => {
     try {
         // Updated a todo using Todo static method
-        const updatedTodo = await Todo.updateTodo(req.params.id, req.body);
+        const todo = await Todo.updateTodo(req.params.id, req.body);
 
         const newTransaction = {
             amount: req.body.cost,
-            description: updatedTodo._id
+            description: todo._id
         }
 
-        const budget = await Budget.find({ building: req.body.building })
+        const foundBudget = await Budget.find({ building: req.body.building })
 
         // If todo not found throw error
-        if (!budget) {
+        if (!foundBudget) {
             throw new Error('Budget not found');
         }
 
-        const updatedBudget = await budget.addTransaction(newTransaction)
+        const budget = await budget.addTransaction(newTransaction)
 
-        res.json(updatedBudget);
+        res.json(todo, budget);
 
     } catch (error) {
 

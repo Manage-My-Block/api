@@ -28,7 +28,8 @@ const todoSchema = new mongoose.Schema({
         default: Date.now,
     },
     dueDate: {
-        type: Date
+        type: Date,
+        required: true
     },
     needsVote: {
         type: Boolean,
