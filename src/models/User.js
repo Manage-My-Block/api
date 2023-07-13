@@ -21,12 +21,10 @@ const userSchema = new mongoose.Schema({
     },
     apartment: {
         type: Number,
-        unique: true,
-        required: true
+        // unique: true,
     },
     name: {
         type: String,
-        required: true
     },
     role: {
         type: mongoose.Schema.Types.ObjectId,
