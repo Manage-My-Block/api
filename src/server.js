@@ -52,7 +52,8 @@ dbConnector(URL)
     })
     .then(() => {
         console.log(`
-    Roles seeded`)
+    Roles seeded
+    Building seeded`)
     })
     .catch(error => { console.log("Error connecting to db: " + error) })
 

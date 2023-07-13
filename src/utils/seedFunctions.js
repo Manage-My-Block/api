@@ -53,6 +53,15 @@ const seedRoles = async () => {
     const roles = await Role.find()
     const buildings = await Role.find()
 
+    if (buildings.length < 1) {
+
+        const building = await Building.createBuilding({
+            name: "Developer Plaza",
+            address: "10 React Avenue, JavaScript Land",
+            apartmentCount: 28
+        })
+    }
+
     if (roles.length > 0) {
 
         const adminRole = roles.find(role => role.role === 'admin')
@@ -61,12 +70,6 @@ const seedRoles = async () => {
 
         return { adminRole, committeeRole, userRole }
     }
-    // Create building
-    const building = await Building.createBuilding({
-        name: "Developer Plaza",
-        address: "10 React Avenue, JavaScript Land",
-        apartmentCount: 28
-    })
 
     // Create roles
     const adminRole = await Role.create({ role: 'admin' });

@@ -1,5 +1,6 @@
 const { body, validationResult } = require('express-validator');
 const User = require('../models/User');
+const Building = require('../models/Building');
 
 // Login validation middleware
 const loginValidator = [
@@ -50,6 +51,18 @@ const registerValidator = [
         .withMessage('Password is required')
         .isLength({ min: 6 })
         .withMessage('Password must be at least 6 characters long'),
+    body('building')
+        .isMongoId()
+        .withMessage('Invalid building ID')
+        .custom(async (value) => {
+            const building = await Building.findById(value);
+
+            if (!building) {
+                throw new Error("Building doesn't exist");
+            }
+
+            return true;
+        }),
     (req, res, next) => {
         // Check for errors
         const errors = validationResult(req);
