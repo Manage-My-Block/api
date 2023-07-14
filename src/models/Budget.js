@@ -29,6 +29,11 @@ const budgetSchema = mongoose.Schema({
         required: true,
         autopopulate: { select: 'name' }
     },
+    name: {
+        type: String,
+        required: true
+
+    },
     balance: {
         type: Number,
         required: true
