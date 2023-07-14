@@ -5,7 +5,7 @@ const todoSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
-        autopopulate: { select: 'name' }
+        autopopulate: true
     },
     title: {
         type: String,
@@ -41,7 +41,7 @@ const todoSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'User',
                 required: true,
-                autopopulate: { select: 'name' }
+                autopopulate: true
             },
             ballot: {
                 type: Boolean,
@@ -55,7 +55,7 @@ const todoSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'User',
                 required: true,
-                autopopulate: { select: 'name' }
+                autopopulate: true
             },
             comment: {
                 type: String,

@@ -182,7 +182,6 @@ const validateVoteTodo = [
         .isMongoId()
         .withMessage('Invalid user ID'),
     body('ballot')
-        .optional()
         .isBoolean()
         .withMessage('Ballot must be a boolean'),
     (req, res, next) => {
