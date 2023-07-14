@@ -1,6 +1,21 @@
 const Budget = require('../../models/Budget');
 
 // Get all budgets
+const getBudgets = async (req, res) => {
+    try {
+        // Get all Users
+        const budgets = await Budget.find();
+
+        // Return list of Users
+        res.status(200).json(budgets);
+
+    } catch (error) {
+
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Get budgets by ID
 const getBudgetById = async (req, res) => {
     try {
         // Get all Budgets
@@ -61,6 +76,7 @@ const deleteBudget = async (req, res) => {
 };
 
 module.exports = {
+    getBudgets,
     createBudget,
     getBudgetById,
     updateBudget,

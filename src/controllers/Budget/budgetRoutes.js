@@ -7,10 +7,13 @@ const BudgetsController = require('./budgetController');
 const { validateId } = require('../../middleware/validateID')
 
 // Get budget by ID
+router.get('/budgets', authenticateUser, BudgetsController.getBudgets);
+
+// Get budget by ID
 router.get('/budgets/:id', authenticateUser, validateId, BudgetsController.getBudgetById);
 
-// // Create a new budget
-// router.post('/budgets', authenticateUser, authoriseAdmin, validateBudget, BudgetsController.createBudget);
+// Create a new budget
+router.post('/budgets', authenticateUser, authoriseAdmin, validateBudget, BudgetsController.createBudget);
 
 // // Update a budget by ID
 router.put('/budgets/:id', authenticateUser, validateId, BudgetsController.updateBudget);

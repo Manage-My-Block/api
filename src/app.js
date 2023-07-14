@@ -13,6 +13,7 @@ const UserRouter = require('./controllers/Users/userRoutes')
 const TodoRouter = require('./controllers/Todos/todosRoutes')
 const NoticeRouter = require('./controllers/Notices/noticesRoutes')
 const ContactRouter = require('./controllers/Contacts/contactRoutes')
+const BudgetRouter = require('./controllers/Budget/budgetRoutes')
 
 // Express app instance
 const app = express()
@@ -55,6 +56,7 @@ app.use(UserRouter)     // User routes
 app.use(TodoRouter)     // Todo routes
 app.use(NoticeRouter)   // Notice routes
 app.use(ContactRouter)  // Contact routes
+app.use(BudgetRouter)  // Contact routes
 
 app.get('/dbhealth', (req, res) => {    // Gets database health information
     res.json({
