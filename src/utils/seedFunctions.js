@@ -1,9 +1,11 @@
+const mongoose = require('mongoose')
+
 const Role = require('../models/Role')
 const User = require('../models/User')
 const Todo = require('../models/Todo')
 const Notice = require('../models/Notice')
 const Building = require('../models/Building')
-const mongoose = require('mongoose')
+const Meeting = require('../models/Meeting')
 
 // Seed building, roles and admin
 const seedBuilding = async () => {
@@ -169,6 +171,27 @@ const seedRolesBuildingUsersTodosNotices = async () => {
                 { user: user2._id, comment: "I love it!" },
                 { user: user3._id, comment: "I'll bring the beers." }
             ]
+        })
+
+        await Meeting.createMeeting({
+            title: 'Building Security',
+            description: 'A meeting to discuss building security',
+            meetingDate: new Date('2023-07-12'),
+            zoomLink: 'https://www.google.com.au/'
+        })
+
+        await Meeting.createMeeting({
+            title: 'Financial Planning',
+            description: 'A meeting to discuss budgeting strategies',
+            meetingDate: new Date('2023-08-12'),
+            zoomLink: 'https://www.google.com.au/'
+        })
+        
+        await Meeting.createMeeting({
+            title: 'Sustainable Initiatives',
+            description: 'A meeting to discuss Innovative ideas for greener living',
+            meetingDate: new Date('2023-09-12'),
+            zoomLink: 'https://www.google.com.au/'
         })
 
     } catch (error) {

@@ -42,10 +42,10 @@ Contacts:
 
 Meetings:
     _id
-    name: String
-    date: Date
+    title: String
     description: String
-    link: String
+    meetingDate: Date
+    zoomLink: String
 
 Budgets:
     _id
