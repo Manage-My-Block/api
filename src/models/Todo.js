@@ -29,7 +29,7 @@ const todoSchema = new mongoose.Schema({
     },
     dueDate: {
         type: Date,
-        required: true
+        // required: true
     },
     needsVote: {
         type: Boolean,
