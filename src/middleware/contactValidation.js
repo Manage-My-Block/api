@@ -19,6 +19,12 @@ const validateNewContact = [
         .withMessage('Name is required')
         .matches(/^[^0-9]+$/)
         .withMessage('Name must not contain numbers'),
+    body('occupation')
+        .trim()
+        .notEmpty()
+        .withMessage('Occupation is required')
+        .matches(/^[^0-9]+$/)
+        .withMessage('Name must not contain numbers'),
     (req, res, next) => {
 
         // Check for errors
@@ -51,6 +57,11 @@ const validateUpdateContact = [
         .trim()
         .notEmpty()
         .withMessage('Phone number is required'),
+    body('occupation')
+        .optional()
+        .trim()
+        .notEmpty()
+        .withMessage('Occupation is required'),
     body('name')
         .optional()
         .trim()
