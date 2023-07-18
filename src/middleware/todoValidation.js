@@ -11,9 +11,17 @@ const validateCreateTodo = [
         .notEmpty()
         .withMessage('Description is required'),
     body('dueDate')
+        .optional()
         .isISO8601()
         .toDate()
-        .withMessage('Invalid due date'),
+        .withMessage('Invalid due date')
+        .custom((value) => {
+            if (new Date(value) >= new Date()) {
+                return true
+            } else {
+                throw new Error('Due date cannot be in the past')
+            }
+        }),
     body('author')
         .isMongoId()
         .withMessage('Invalid user ID'),
