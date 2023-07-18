@@ -36,6 +36,25 @@ buildingSchema.statics.createBuilding = async function (buildingData) {
     }
 };
 
+buildingSchema.statics.getBuildingById = async function (buildingId) {
+    try {
+        // Search for building
+        const building = await this.findById(buildingId)
+
+        // If building not found throw error
+        if (!building) {
+            throw new Error('Building not found');
+        }
+
+        return building;
+
+    } catch (error) {
+
+        throw new Error(error.message);
+
+    }
+}
+
 // Update a building by ID
 buildingSchema.statics.updateBuilding = async function (buildingId, buildingData) {
     try {
