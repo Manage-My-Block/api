@@ -5,13 +5,17 @@ const contactSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    occupation: {
+        type: String,
+        required: true
+    },
     phoneNumber: {
         type: String,
         required: true
     },
     email: {
         type: String,
-        required: true
+        // required: true
     },
     createdAd: {
         type: Date,
