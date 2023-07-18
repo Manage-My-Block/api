@@ -39,6 +39,21 @@ const validateUpdateUser = [
         .withMessage('Name is required')
         .matches(/^[^0-9]+$/)
         .withMessage('Name must not contain numbers'),
+    body('apartment')
+        .optional()
+        .isNumeric()
+        .withMessage('Apartment must be a number')
+        .custom(async (value) => {
+            // Search for user based on email field
+            const user = await User.findOne({ apartment: value });
+
+            // If user exists then email is already is use
+            if (user) {
+                throw new Error('Apartment is already registered');
+            }
+
+            return true;
+        }),
     (req, res, next) => {
 
         // Check for errors
