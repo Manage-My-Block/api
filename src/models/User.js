@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     },
     apartment: {
         type: Number,
-        // unique: true,
+        unique: true,
     },
     name: {
         type: String,
@@ -151,6 +151,11 @@ userSchema.statics.getUserById = async function (userId) {
 
 userSchema.statics.updateUser = async function (userId, updateData) {
     try {
+        if (updateData.password) {
+            const hashedPassword = await bcrypt.hash(updateData.password, 10)
+            updateData.password = hashedPassword
+        }
+
         // Search for user and update with data
         const user = await this.findByIdAndUpdate(userId, updateData, { new: true });
 
