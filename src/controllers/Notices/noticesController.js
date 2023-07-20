@@ -1,10 +1,43 @@
 const Notice = require('../../models/Notice')
 
+
+// Cloudinary config
+const cloudinary = require('cloudinary').v2
+          
+cloudinary.config({ 
+  cloud_name: 'dnd7nhycm', 
+  api_key: '922712135974564', 
+  api_secret: 'qUbk0eOvBNkI0uo6js5LcBppLsg'
+});
+
+
+
+
 // Create a notice
 const createNotice = async (req, res) => {
+    image = req.body.image
+    // console.log(image)
+    console.log('reached create notice route')
+    // console.log(req.body)
+
+    let imageUrl
     try {
+
+        savedImage = await cloudinary.uploader.upload(image, {folder: 'StrataSphere'}) 
+        // console.log(imageUrl)
+        console.log('successful image upload')
+    } catch(err) {
+        console.log(`Error uploading image: ${err}`)
+    }
+    
+    try {
+        const noticeData = {
+            ...req.body,
+            image: savedImage.url
+        }
+
         // Create a notice
-        const notice = await Notice.createNotice(req.body);
+        const notice = await Notice.createNotice(noticeData);
 
         // Return new notice data
         res.status(201).json(notice);

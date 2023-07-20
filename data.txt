@@ -10,7 +10,7 @@ Users:
     name: String
     role: ref to Roles collection
 
-Tickets:
+Todos:
     _id
     author: user_id
     title: String
@@ -31,7 +31,7 @@ Notices:
     message: String
     comments: [{user: _id, comment: String, createdAt: Date}]
     createdAt: Date
-    images: [Strings]
+    images: String
 
 Contacts:
     _id

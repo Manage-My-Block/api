@@ -44,7 +44,11 @@ app.use(cors({
 
 
 // Config request data formatting.
-app.use(express.json())
+
+// Set the maximum file size limit to 10 MB (adjust it as needed)
+const maxSize = '10mb' // 10 MB
+
+app.use(express.json({ limit: maxSize }));
 app.use(express.urlencoded({ extended: true }))
 
 

@@ -11,7 +11,7 @@ const noticeSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    description: {
+    message: {
         type: String,
         required: true,
     },
@@ -37,7 +37,7 @@ const noticeSchema = new mongoose.Schema({
             },
         },
     ],
-    images: [String],
+    image: String,
     // building: {
     //     type: String,
     //     required: true
