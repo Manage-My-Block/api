@@ -1,39 +1,25 @@
 const Notice = require('../../models/Notice')
 
-
-// Cloudinary config
-const cloudinary = require('cloudinary').v2
-          
-cloudinary.config({ 
-  cloud_name: 'dnd7nhycm', 
-  api_key: '922712135974564', 
-  api_secret: 'qUbk0eOvBNkI0uo6js5LcBppLsg'
-});
-
-
+const { cloudinary, uploadImage, deleteImage } = require('../../utils/cloudinary')
 
 
 // Create a notice
 const createNotice = async (req, res) => {
-    image = req.body.image
+    // Extract base64 image data from JSON 
+    imageData = req.body.image
+    
+    console.log('Reached create notice route')
     // console.log(image)
-    console.log('reached create notice route')
     // console.log(req.body)
 
-    let imageUrl
-    try {
-
-        savedImage = await cloudinary.uploader.upload(image, {folder: 'StrataSphere'}) 
-        // console.log(imageUrl)
-        console.log('successful image upload')
-    } catch(err) {
-        console.log(`Error uploading image: ${err}`)
-    }
+    const savedImage = await uploadImage(imageData)
     
+    // console.log(savedImage.url)
+
     try {
         const noticeData = {
             ...req.body,
-            image: savedImage.url
+            image: savedImage?.url // set image to URL of newly saved image or undefined if error saving image
         }
 
         // Create a notice
@@ -151,6 +137,9 @@ const deleteNotice = async (req, res) => {
         if ((req.user.role.role !== 'admin' || req.user.role.role !== 'committee') && req.user._id.toString() !== foundNotice.author._id.toString()) {
             throw new Error('Unauthorized');
         }
+
+        // Delete notice image
+        deleteImage(foundNotice.image)
 
         // Delete notice
         const notice = await Notice.deleteNotice(req.params.id);
