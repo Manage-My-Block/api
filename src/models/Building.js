@@ -14,6 +14,9 @@ const buildingSchema = mongoose.Schema({
         type: Number,
         min: [0, 'Must have at least one apartment in building.'],
         required: true
+    },
+    imageUrl: {
+        type: String,
     }
 })
 
