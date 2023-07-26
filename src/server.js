@@ -1,4 +1,4 @@
-const { app, PORT, HOST } = require('./app')
+const { app, PORT } = require('./app')
 const dotenv = require('dotenv')
 const { dbConnector, dbDisconnector } = require('./database')
 const { seedRolesAndAdmin, seedRoles } = require('./utils/seedFunctions')
@@ -70,6 +70,6 @@ dbConnector(URL)
 //     })
 //     .catch(error => { console.log("Error connecting to db: " + error) })
 
-app.listen(PORT, HOST, () => {
-    console.log(`Server started, listening at http://${HOST}:${PORT}`)
+app.listen(PORT, () => {
+    console.log(`Server started, listening on port ${PORT}`)
 })
