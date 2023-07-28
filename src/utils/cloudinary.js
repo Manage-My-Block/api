@@ -20,7 +20,7 @@ const uploadImage = async (imageData) => {
     } catch (err) {
         console.log(`Error uploading image: ${err}`)
     }
-	console.log('publicId' , savedImage.public_id)
+	// console.log('publicId' , savedImage.public_id)
     return savedImage
 }
 

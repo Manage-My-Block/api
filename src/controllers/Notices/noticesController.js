@@ -8,7 +8,7 @@ const createNotice = async (req, res) => {
     // Extract base64 image data from JSON 
     imageData = req.body.image
     
-    console.log('Reached create notice route')
+    // console.log('Reached create notice route')
     // console.log(image)
     // console.log(req.body)
 
@@ -138,8 +138,10 @@ const deleteNotice = async (req, res) => {
             throw new Error('Unauthorized');
         }
 
-        // Delete notice image
-        deleteImage(foundNotice.image)
+        // Delete notice image if it exists
+        if (foundNotice.image) {
+            deleteImage(foundNotice.image)
+        }
 
         // Delete notice
         const notice = await Notice.deleteNotice(req.params.id);

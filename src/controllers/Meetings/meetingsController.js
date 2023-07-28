@@ -75,23 +75,26 @@ const updateMeeting = async (req, res) => {
 
 // Delete a meeting by ID
 const deleteMeeting = async (req, res) => {
+
     try {
 
         // Search for meeting
         const foundMeeting = await Meeting.findById(req.params.id)
+
 
         // If meeting not found throw error
         if (!foundMeeting) {
             throw new Error('Meeting not found');
         }
 
-        // Only admin or committee or meeting owner can update a meeting
-        if ((req.user.role.role !== 'admin' || req.user.role.role !== 'committee') && req.user._id.toString() !== foundMeeting.author._id.toString()) {
+        // Only admin or committee member can delete a meeting
+        if ((req.user.role.role !== 'admin' && req.user.role.role !== 'committee')) {
             throw new Error('Unauthorized');
         }
 
         // Delete meeting
         const meeting = await Meeting.deleteMeeting(req.params.id);
+        // console.log(meeting)
 
         // Return deleted meeting
         res.json(meeting);
