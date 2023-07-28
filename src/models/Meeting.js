@@ -96,7 +96,6 @@ meetingSchema.statics.deleteMeeting = async function (meetingId) {
         return meeting;
 
     } catch (error) {
-
         throw new Error(error.message);
 
     }
