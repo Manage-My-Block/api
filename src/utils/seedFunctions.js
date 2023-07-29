@@ -201,7 +201,7 @@ const seedRolesBuildingUsersTodosNotices = async () => {
             meetingDate: new Date('2023-08-12'),
             zoomLink: 'https://www.google.com.au/'
         })
-        
+
         await Meeting.createMeeting({
             title: 'Sustainable Initiatives',
             description: 'A meeting to discuss Innovative ideas for greener living',
