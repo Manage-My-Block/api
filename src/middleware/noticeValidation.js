@@ -26,7 +26,6 @@ const validateCreateNotice = [
         .withMessage('Comment is required'),
     body('images')
         .optional()
-        .isString()
         .trim()
         .notEmpty()
         .withMessage('Image must be a string URL'),

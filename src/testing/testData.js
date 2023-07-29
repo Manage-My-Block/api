@@ -78,10 +78,11 @@ const newContactData = {
     name: "John's Plumbing",
     phoneNumber: "03 9873 1567",
     email: 'john@email.com',
+    occupation: "plumber"
 }
 
 const incompleteContactData = {
-    name: "Freds's Plumbing",
+    name: "Fred's Plumbing",
 }
 
 const badContactData = {
@@ -94,6 +95,7 @@ const updatedContactData = {
     name: "Freds's Plumbing",
     phoneNumber: "03 9261 1567",
     email: 'fredn@email.com',
+    occupation: "electrician"
 }
 
 
