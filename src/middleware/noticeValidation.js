@@ -26,13 +26,10 @@ const validateCreateNotice = [
         .withMessage('Comment is required'),
     body('images')
         .optional()
-        .isArray()
-        .withMessage('Images must be an array'),
-    body('images.*')
-        .optional()
+        .isString()
         .trim()
         .notEmpty()
-        .withMessage('Image link is required'),
+        .withMessage('Image must be a string URL'),
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
