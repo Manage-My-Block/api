@@ -13,10 +13,10 @@ router.get('/notices', authenticateUser, NoticesController.getAllNotices);
 router.get('/notices/:id', authenticateUser, validateId, NoticesController.getNoticeById);
 
 // Create a new notice
-// router.post('/notices', authenticateUser, validateCreateNotice, NoticesController.createNotice);
+router.post('/notices', authenticateUser, validateCreateNotice, NoticesController.createNotice);
 
 // bypassing auth/validation for now
-router.post('/notices',  NoticesController.createNotice);
+// router.post('/notices', authenticateUser, NoticesController.createNotice);
 
 // Update a notice by ID
 router.put('/notices/:id', authenticateUser, validateId, validateUpdateNotice, NoticesController.updateNotice);
