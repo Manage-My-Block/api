@@ -5,25 +5,18 @@ const { cloudinary, uploadImage, deleteImage } = require('../../utils/cloudinary
 
 // Create a notice
 const createNotice = async (req, res) => {
-    // Extract base64 image data from JSON 
-    imageData = req.body.image
-    
-    // console.log('Reached create notice route')
-    // console.log(image)
-    // console.log(req.body)
-
-    const savedImage = await uploadImage(imageData)
-    
-    // console.log(savedImage.url)
-
     try {
-        const noticeData = {
-            ...req.body,
-            image: savedImage?.url // set image to URL of newly saved image or undefined if error saving image
+        // Get image data if it exists
+        if (req.body.image) {
+            // Upload image to cloudinary
+            const savedImage = await uploadImage(req.body.image)
+
+            // Add image URL to request body
+            req.body.image = savedImage?.url
         }
 
         // Create a notice
-        const notice = await Notice.createNotice(noticeData);
+        const notice = await Notice.createNotice(req.body);
 
         // Return new notice data
         res.status(201).json(notice);
