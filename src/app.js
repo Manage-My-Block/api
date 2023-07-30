@@ -61,8 +61,8 @@ app.use(UserRouter)     // User routes
 app.use(TodoRouter)     // Todo routes
 app.use(NoticeRouter)   // Notice routes
 app.use(ContactRouter)  // Contact routes
-app.use(BudgetRouter)  // Contact routes
-app.use(MeetingRouter)
+app.use(BudgetRouter)   // Budget routes
+app.use(MeetingRouter)  // Meeting routes
 
 
 app.get('/dbhealth', (req, res) => {    // Gets database health information
