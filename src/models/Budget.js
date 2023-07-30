@@ -1,34 +1,6 @@
 const mongoose = require('mongoose')
 
 const budgetSchema = mongoose.Schema({
-    transactions: [
-        {
-            amount: {
-                type: Number,
-                required: true,
-            },
-            description: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Todo',
-                required: true,
-                autopopulate: { select: 'title' }
-            },
-            date: {
-                type: Date,
-                default: Date.now,
-            },
-        }
-    ],
-    // building: {
-    //     type: String,
-    //     required: true
-    // },
-    building: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Building',
-        required: true,
-        autopopulate: { select: 'name' }
-    },
     name: {
         type: String,
         required: true
@@ -38,6 +10,37 @@ const budgetSchema = mongoose.Schema({
         type: Number,
         required: true
     },
+    building: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Building',
+        required: true,
+        autopopulate: { select: '_id' }
+    },
+    transactions: [
+        {
+            amount: {
+                type: Number,
+                required: true,
+            },
+            description: {
+                type: String,
+                required: true,
+            },
+            // description: {
+            //     type: mongoose.Schema.Types.ObjectId,
+            //     ref: 'Todo',
+            //     required: true,
+            //     autopopulate: { select: 'title' }
+            // },
+            date: {
+                type: Date,
+                default: Date.now,
+            },
+            tally: {
+                type: Number,
+            },
+        }
+    ],
 })
 
 // Enable library plugin to automatically populate ref fields
@@ -102,7 +105,7 @@ budgetSchema.statics.getBudgetById = async function (budgetId) {
 };
 
 // Update a budget by ID
-budgetSchema.statics.updateBudget = async function (budgetId, newTransaction) {
+budgetSchema.statics.updateBudget = async function (budgetId, updatedBudgetData) {
     try {
 
         // Find the budget
@@ -113,12 +116,20 @@ budgetSchema.statics.updateBudget = async function (budgetId, newTransaction) {
             throw new Error('budget not found');
         }
 
-        // Update the balance and push new transaction to array
-        budget.balance -= newTransaction.amount
-        budget.transactions.push(newTransaction)
+        let cleanedUpdatedData = {}
+
+        if (updatedBudgetData.transaction) {
+            // Add the running tally to the transaction
+            updatedBudgetData.transaction.tally = budget.balance - updatedBudgetData.transaction.amount
+
+            // Update the balance from the transaction amount and push new transaction to array
+            cleanedUpdatedData.balance = budget.balance - updatedBudgetData.transaction.amount
+            cleanedUpdatedData.transactions = [...budget.transactions, updatedBudgetData.transaction]
+
+        }
 
         // Save the updated budget
-        const updatedBudget = await this.findByIdAndUpdate(todoId, budget, { new: true })
+        const updatedBudget = await this.findByIdAndUpdate(budgetId, cleanedUpdatedData, { new: true })
 
         return updatedBudget;
 

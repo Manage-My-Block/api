@@ -99,6 +99,26 @@ const updatedContactData = {
 }
 
 
+const newBudgetData = {
+    name: "Owners Corp 1 Budget",
+    balance: 1000000,
+}
+
+const incompleteBudgetData = {
+    name: "Test budget",
+}
+
+const badBudgetData = {
+    name: "   ",
+    balance: "1000000",
+    transactions: {}
+}
+
+const updatedBudgetData = {
+    name: "Owners Corp 2 Budget",
+}
+
+
 let URL = ""
 switch (process.env.NODE_ENV) {
     case "production":
@@ -133,5 +153,9 @@ module.exports = {
     newContactData,
     incompleteContactData,
     badContactData,
-    updatedContactData
+    updatedContactData,
+    newBudgetData,
+    incompleteBudgetData,
+    badBudgetData,
+    updatedBudgetData,
 }
