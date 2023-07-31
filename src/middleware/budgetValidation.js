@@ -1,6 +1,7 @@
 const { validationResult, body, check, param } = require('express-validator');
 const Budget = require('../models/Budget');
 const Building = require('../models/Building');
+const mongoose = require('mongoose')
 
 // Validate contact creation data
 const validateBudget = [
@@ -13,7 +14,11 @@ const validateBudget = [
     body('balance')
         .optional()
         .isNumeric()
-        .withMessage('Balance must be numeric'),
+        .withMessage('Balance must be numeric')
+        .customSanitizer((value) => {
+            // Covert balance to cents
+            return value * 100
+        }),
     body('building')
         .isMongoId()
         .withMessage('Invalid building ID')
@@ -79,8 +84,18 @@ const validateUpdateBudget = [
                 } else if (typeof value.description !== 'string' || !value.description.trim()) {
                     throw new Error('Transaction description must be a non-empty string.');
                 }
+
+                if ('todo' in value) {
+                    if (!mongoose.Types.ObjectId.isValid(value.todo)) {
+                        throw new Error('Transaction todo must be a valid ID.')
+                    }
+                }
             }
             return true;
+        })
+        .customSanitizer((value) => {
+            // Covert transaction amount to cents
+            return { ...value, amount: value.amount * 100 }
         }),
     (req, res, next) => {
 
