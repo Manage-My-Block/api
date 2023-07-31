@@ -77,10 +77,11 @@ const todoSchema = new mongoose.Schema({
             message: 'Cost must be a whole number in cents.'
         }
     },
-    // building: {
-    //     type: String,
-    //     required: true
-    // },
+    budget: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Budget',
+        required: false,
+    },
     building: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Building',

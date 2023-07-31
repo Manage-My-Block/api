@@ -32,14 +32,13 @@ const getBudgetById = async (req, res) => {
 };
 
 // Get budgets by ID
-const getBudgetByBuilding = async (req, res) => {
+const getBudgetsByBuilding = async (req, res) => {
     try {
         // Find budget for the provided building
-        const budget = await Budget.findOne({ building: req.params.id });
-
+        const budgets = await Budget.find({ building: req.params.id });
 
         // Return budget
-        res.status(200).json(budget);
+        res.status(200).json(budgets);
 
     } catch (error) {
 
@@ -72,7 +71,20 @@ const updateBudget = async (req, res) => {
         res.json(budget);
 
     } catch (error) {
-        console.log(error)
+        res.status(404).json({ error: error.message });
+    }
+};
+
+// Remove a transaction from a budget by ID
+const removeTransaction = async (req, res) => {
+    try {
+        // Update budget
+        const budget = await Budget.removeTransaction(req.params.id, req.params.todoId);
+
+        // Return updated Budget
+        res.json(budget);
+
+    } catch (error) {
         res.status(404).json({ error: error.message });
     }
 };
@@ -96,7 +108,8 @@ module.exports = {
     getBudgets,
     createBudget,
     getBudgetById,
-    getBudgetByBuilding,
+    getBudgetsByBuilding,
     updateBudget,
+    removeTransaction,
     deleteBudget
 }
