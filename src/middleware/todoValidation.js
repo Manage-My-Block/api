@@ -75,8 +75,11 @@ const validateCreateTodo = [
     body('cost')
         .optional()
         .isNumeric()
-        .withMessage('Cost must be a number'),
-
+        .withMessage('Cost must be a number')
+        .customSanitizer((value) => {
+            // Covert value to cents
+            return value * 100
+        }),
     (req, res, next) => {
 
         // Check for errors
@@ -165,7 +168,11 @@ const validateUpdateTodo = [
     body('cost')
         .optional()
         .isNumeric()
-        .withMessage('Cost must be a number'),
+        .withMessage('Cost must be a number')
+        .customSanitizer((value) => {
+            // Covert value to cents
+            return value * 100
+        }),
     (req, res, next) => {
 
         // Check for errors
