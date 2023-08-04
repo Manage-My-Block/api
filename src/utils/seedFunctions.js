@@ -61,7 +61,8 @@ const seedRoles = async () => {
         const building = await Building.createBuilding({
             name: "Developer Plaza",
             address: "10 React Avenue, JavaScript Land",
-            apartmentCount: 28
+            apartmentCount: 28,
+            imageUrl: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
         })
     }
 
