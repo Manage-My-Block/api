@@ -76,7 +76,7 @@ const updatedNoticeData = {
 
 const newContactData = {
     name: "John's Plumbing",
-    phoneNumber: "03 9873 1567",
+    phoneNumber: "0398731567",
     email: 'john@email.com',
     occupation: "plumber"
 }
@@ -93,7 +93,7 @@ const badContactData = {
 
 const updatedContactData = {
     name: "Freds's Plumbing",
-    phoneNumber: "03 9261 1567",
+    phoneNumber: "0392611567",
     email: 'fredn@email.com',
     occupation: "electrician"
 }

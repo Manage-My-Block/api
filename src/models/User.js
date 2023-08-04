@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     },
     apartment: {
         type: Number,
-        unique: true,
+        // unique: true,
     },
     name: {
         type: String,
@@ -37,10 +37,6 @@ const userSchema = new mongoose.Schema({
         required: true,
         autopopulate: { select: 'name' }
     },
-    // building: {
-    //     type: String,
-    //     required: true
-    // },
 });
 
 // Enable library plugin to automatically populate ref fields

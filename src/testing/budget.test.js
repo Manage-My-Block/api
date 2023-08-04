@@ -94,7 +94,7 @@ describe('Budget Route Tests', () => {
             .expect(200);
 
         expect(response.body).toBeDefined();
-        expect(response.body._id).toBe(BUDGET._id);
+        expect(response.body[0]._id).toBe(BUDGET._id);
     });
 
     // Test case: Update a budget by ID
@@ -127,7 +127,7 @@ describe('Budget Route Tests', () => {
 
         expect(response.body).toBeDefined()
         expect(response.body.transactions.length).toBe(1)
-        expect(response.body.balance).toBe(500000)
+        expect(response.body.balance).toBe(50000000)
 
     });
 

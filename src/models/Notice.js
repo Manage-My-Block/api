@@ -25,7 +25,7 @@ const noticeSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'User',
                 required: true,
-                autopopulate: { select: 'name' }
+                autopopulate: true
             },
             comment: {
                 type: String,
@@ -38,10 +38,6 @@ const noticeSchema = new mongoose.Schema({
         },
     ],
     image: String,
-    // building: {
-    //     type: String,
-    //     required: true
-    // },
     building: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Building',
