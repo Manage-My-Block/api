@@ -47,30 +47,6 @@ const validateNewBuilding = [
         .withMessage('Password is required')
         .isLength({ min: 6 })
         .withMessage('Password must be at least 6 characters long'),
-    // Validate name
-    body('userData.name')
-        .trim()
-        .notEmpty()
-        .withMessage('User name is required')
-        .matches(/^[^0-9]+$/)
-        .withMessage('User name must not contain numbers'),
-    // Validate apartment
-    body('userData.apartment')
-        .notEmpty()
-        .withMessage('User apartment number is required')
-        .isNumeric()
-        .custom(async (value) => {
-
-            // Find a user with the apartment value
-            const user = await User.findOne({ apartment: value });
-
-            // If a user exists then the apartment has already been registered
-            if (user) {
-                throw new Error('User apartment is already registered');
-            }
-
-            return true;
-        }),
     (req, res, next) => {
 
         // Check for errors
