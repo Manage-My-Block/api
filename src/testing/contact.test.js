@@ -74,6 +74,8 @@ describe('Contacts Route Tests', () => {
             .send(updatedContactData)
             .expect(200);
 
+        // console.log(response.body)
+
         expect(response.body).toBeDefined();
         expect(response.body.title).toBe(updatedContactData.title)
     });
