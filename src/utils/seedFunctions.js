@@ -166,7 +166,7 @@ const seedRolesBuildingUsersTodosNotices = async () => {
         await Notice.createNotice({
             author: user1._id,
             title: 'Block party',
-            message: 'Anyone keen on throwing a block party?',
+            description: 'Anyone keen on throwing a block party?',
             building: buildingId,
             image: "https://images.unsplash.com/photo-1534177616072-ef7dc120449d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
             comments: [
@@ -179,7 +179,7 @@ const seedRolesBuildingUsersTodosNotices = async () => {
         await Notice.createNotice({
             author: user1._id,
             title: 'Lounge for sale!',
-            message: 'Moving house. Contact Quentin on 0451-352-6232 for details.',
+            description: 'Moving house. Contact Quentin on 0451-352-6232 for details.',
             building: buildingId,
             image: "https://images.unsplash.com/photo-1484101403633-562f891dc89a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1474&q=80",
             comments: [
