@@ -12,6 +12,9 @@ router.get('/users', authenticateUser, UsersController.getUsers);
 // Get user by ID
 router.get('/users/:id', authenticateUser, UsersController.getUserById);
 
+// Get user by building ID
+router.get('/users/building/:id', authenticateUser, UsersController.getUserByBuilding);
+
 // Update a user by ID
 router.put('/users/:id', authenticateUser, authoriseOwner, validateUpdateUser, UsersController.updateUser);
 

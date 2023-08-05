@@ -1,22 +1,28 @@
 const mongoose = require('mongoose')
 
 const meetingSchema = mongoose.Schema({
-	title: {
-		type: String,
-		required: true
-	},
-	description: {
-		type: String,
-		required: true
-	},
-	meetingDate: {
-		type: Date,
-		required: true
-	},
-	zoomLink: {
-		type: String,
-		required: true
-	}
+    title: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    meetingDate: {
+        type: Date,
+        required: true
+    },
+    zoomLink: {
+        type: String,
+        required: true
+    },
+    building: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Building',
+        required: true,
+        autopopulate: { select: 'name' }
+    },
 })
 
 

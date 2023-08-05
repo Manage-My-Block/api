@@ -42,6 +42,21 @@ const getAllNotices = async (req, res) => {
     }
 };
 
+// Get all notices
+const getAllNoticesByBuilding = async (req, res) => {
+    try {
+        // Search for all notices
+        const notices = await Notice.find({ building: req.params.id });
+
+        // Return notice list
+        res.json(notices);
+
+    } catch (error) {
+
+        res.status(500).json({ error: error.message });
+    }
+};
+
 // Get a notice by ID
 const getNoticeById = async (req, res) => {
     try {
@@ -155,5 +170,6 @@ module.exports = {
     updateNotice,
     addCommentNotice,
     removeCommentNotice,
-    deleteNotice
+    deleteNotice,
+    getAllNoticesByBuilding
 }

@@ -30,6 +30,21 @@ const getAllMeetings = async (req, res) => {
     }
 };
 
+// Get all meetings
+const getAllMeetingsByBuilding = async (req, res) => {
+    try {
+        // Search for all meetings
+        const meetings = await Meeting.find({ building: req.params.id });
+
+        // Return meeting list
+        res.json(meetings);
+
+    } catch (error) {
+
+        res.status(500).json({ error: error.message });
+    }
+};
+
 // Get a meeting by ID
 const getMeetingById = async (req, res) => {
     try {
@@ -110,5 +125,6 @@ module.exports = {
     getAllMeetings,
     getMeetingById,
     updateMeeting,
-    deleteMeeting
+    deleteMeeting,
+    getAllMeetingsByBuilding
 }

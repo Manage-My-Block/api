@@ -29,6 +29,20 @@ const getAllTodos = async (req, res) => {
     }
 };
 
+// Get todos by buildingId
+const getTodosByBuilding = async (req, res) => {
+    try {
+        // Find all todos
+        const todos = await Todo.find({ building: req.params.id })
+
+        res.json(todos);
+
+    } catch (error) {
+
+        res.status(500).json({ error: error.message });
+    }
+};
+
 // Get a todo by ID
 const getTodoById = async (req, res) => {
     try {
@@ -158,6 +172,7 @@ const deleteTodo = async (req, res) => {
 module.exports = {
     createTodo,
     getAllTodos,
+    getTodosByBuilding,
     getTodoById,
     updateTodo,
     castVoteTodo,

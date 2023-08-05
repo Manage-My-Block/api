@@ -30,6 +30,21 @@ const getUserById = async (req, res) => {
     }
 };
 
+// Get users by building ID
+const getUserByBuilding = async (req, res) => {
+    try {
+        // Get a User by ID
+        const users = await User.find({ building: req.params.id });
+
+        // Return User
+        res.json(users);
+
+    } catch (error) {
+
+        res.status(404).json({ error: error.message });
+    }
+};
+
 // Update a user by ID
 const updateUser = async (req, res) => {
     try {
@@ -63,6 +78,7 @@ const deleteUser = async (req, res) => {
 module.exports = {
     getUsers,
     getUserById,
+    getUserByBuilding,
     updateUser,
-    deleteUser
+    deleteUser,
 }

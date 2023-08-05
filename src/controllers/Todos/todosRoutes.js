@@ -10,6 +10,9 @@ const TodosController = require('./todosController');
 // Get all todos
 router.get('/todos', authenticateUser, TodosController.getAllTodos);
 
+// Get all todos
+router.get('/todos/building/:id', authenticateUser, TodosController.getTodosByBuilding);
+
 // Get todo by ID
 router.get('/todos/:id', authenticateUser, TodosController.getTodoById);
 
