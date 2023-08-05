@@ -21,7 +21,6 @@ const userSchema = new mongoose.Schema({
     },
     apartment: {
         type: Number,
-        // unique: true,
     },
     name: {
         type: String,

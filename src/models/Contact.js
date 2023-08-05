@@ -21,10 +21,6 @@ const contactSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    // building: {
-    //     type: String,
-    //     required: true
-    // },
     building: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Building',
