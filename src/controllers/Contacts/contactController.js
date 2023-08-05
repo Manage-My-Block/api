@@ -16,6 +16,22 @@ const getContacts = async (req, res) => {
 
 };
 
+// Get all contacts by building Id
+const getContactsByBuilding = async (req, res) => {
+    try {
+        // Get all Contacts
+        const contacts = await Contact.find({ building: req.params.id });
+
+        // Return list of Contacts
+        res.status(200).json(contacts);
+
+    } catch (error) {
+
+        res.status(500).json({ error: error.message });
+    }
+
+};
+
 // Create new contact
 const createContact = async (req, res) => {
     try {
@@ -64,5 +80,6 @@ module.exports = {
     createContact,
     getContacts,
     updateContact,
-    deleteContact
+    deleteContact,
+    getContactsByBuilding
 }

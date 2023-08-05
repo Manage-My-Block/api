@@ -9,6 +9,9 @@ const { validateId } = require('../../middleware/validateID')
 // Get all contacts
 router.get('/contacts', authenticateUser, ContactsController.getContacts);
 
+// Get all contacts by buildingId
+router.get('/contacts/building/:id', authenticateUser, ContactsController.getContactsByBuilding);
+
 // Create a new contact
 router.post('/contacts', authenticateUser, validateNewContact, ContactsController.createContact);
 
