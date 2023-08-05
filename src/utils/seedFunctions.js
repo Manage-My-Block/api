@@ -58,7 +58,7 @@ const seedRoles = async () => {
 
     if (buildings.length < 1) {
 
-        const building = await Building.createBuilding({
+        await Building.createBuilding({
             name: "Developer Plaza",
             address: "10 React Avenue, JavaScript Land",
             apartmentCount: 28,

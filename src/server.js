@@ -57,19 +57,6 @@ dbConnector(URL)
     })
     .catch(error => { console.log("Error connecting to db: " + error) })
 
-// dbConnector(URL)
-//     .then(() => { console.log("Connected to database") })
-//     .then(() => {
-//         return seedRolesAndAdmin()
-//     })
-//     .then((data) => {
-//         console.log(`
-//     Roles seeded, admin created
-//     Admin token: ${data.adminToken}
-//     Committee token: ${data.committeeToken}\n`)
-//     })
-//     .catch(error => { console.log("Error connecting to db: " + error) })
-
 app.listen(PORT, () => {
     console.log(`Server started, listening on port ${PORT}`)
 })
