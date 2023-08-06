@@ -1,4 +1,4 @@
-# StrataSphere Back-end
+# StrataSphere App back-end
 
 This is the Mongo-Node-Express backend for **_StrataSphere_**, a building management tool that allows Owners Corporation Managers, Owners Committee Members, and Building Members to stay on top of everything happening in their building - from official capital works to who is throwing the next BBQ or block party.
 
